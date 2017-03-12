@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 
-  <html class="light page-archives">
+  <html class="light page-example">
 
 
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | hysunny&#39;s Blog</title>
+  <title>hysunny&#39;s Blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,12 +15,43 @@
     <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
   
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="两栏布局-左定宽，右自动
+    
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            margin: 10px;
+            position: relative;
+        }">
+<meta property="og:type" content="website">
 <meta property="og:title" content="hysunny's Blog">
-<meta property="og:url" content="http://hysunny.me/archives/index.html">
+<meta property="og:url" content="http://hysunny.me/demo/div-css-adaptive-layout/position-margin-2.html">
 <meta property="og:site_name" content="hysunny's Blog">
+<meta property="og:description" content="两栏布局-左定宽，右自动
+    
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            margin: 10px;
+            position: relative;
+        }">
+<meta property="og:updated_time" content="2017-03-11T14:14:51.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hysunny's Blog">
+<meta name="twitter:description" content="两栏布局-左定宽，右自动
+    
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            margin: 10px;
+            position: relative;
+        }">
 
   
 
@@ -82,176 +113,49 @@
     <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
   
 
-  <div class="content content-archive">
-  <div class="page-header">
-
   
-    <div class="breadcrumb">
-      <div class="location">博客</div>
-      <i class="icon-location"></i>
+<div>
+   <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>两栏布局-左定宽，右自动</title>
+    <style type="text/css">
+        html,body,div{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            margin: 10px;
+            position: relative;
+        }
+        .wrap_left{
+            position: absolute;
+            width: 200px;
+            background-color: red;
+        }
+        .wrap_right{
+            margin-left: 220px;
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="wrap_left">
+        我是左栏
     </div>
-  
-
-  
-  <div class="toolbox">
-    <a class="toolbox-entry" href="/">
-      <span class="toolbox-entry-text">盒子</span>
-      <i class="icon-angle-down"></i>
-      <i class="icon-home"></i>
-    </a>
-    <ul class="list-toolbox">
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/archives/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            博客
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/category/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            分类
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/tag/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            标签
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/link/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            友链
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/about/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            关于
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/search/"
-            rel="noopener noreferrer"
-            target="_self"
-            >
-            搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
-          </a>
-        </li>
-      
-    </ul>
-  </div>
-
-
-
-  <div class="box-blog-info">
-    <a class="avatar" href="/">
-      <img src="/images/avatar.jpg" alt="" />
-    </a>
-    <div class="info">
-      <h3 class="name" style="font-family: calligraffittiregular">
-        Hysunny
-      </h3>
-      <div class="slogan">
-        Find the bug of the world
-      </div>
+    <div class="wrap_right">
+        我是右栏
     </div>
-  </div>
-
+</div>
+</body>
+</html>
 </div>
 
-
-  <div class="post-list-box archive-body">
-    <ul class="list-post">  <li class="item-year item item-title item-title-2">
-    <a href="/archives/2017" class="text-year">
-      2017
-      <i class="icon-ji"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">03-08</span>
-
-  
-  <a class="post-title" href="/2017/03/08/hello-world/">Hello World</a>
-
-
-</li>
-  <li class="item-year item item-title item-title-0">
-    <a href="/archives/2015" class="text-year">
-      2015
-      <i class="icon-yang"></i>
-      
-    </a>
-  </li>
-<li class="item-post item">
-  <span class="post-date">09-24</span>
-
-  
-  <a class="post-title" href="/2015/09/24/div-css-adaptive-layout/">DIV + CSS 自适应布局</a>
-
-
-</li>
-</ul>
-  </div>
-
-  <div class="archive-footer">
-    
-
-  </div>
-</div>
-
-
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
 
 
 
@@ -363,6 +267,7 @@
 
 
 
+  
   
 
   <script type="text/javascript">
