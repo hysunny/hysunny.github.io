@@ -19,8 +19,9 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="DIV + CSS 自适应布局">
 <meta property="og:url" content="http://hysunny.me/2015/09/24/div-css-adaptive-layout/index.html">
-<meta property="og:site_name" content="hysunny's Blog">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
 <meta property="og:description" content="昨天面试时被问到一个布局的问题：   两栏布局，左边定宽200px，右边自适应。如何实现？我的第一个反应就是：用flex伸缩盒呀，然后balabala…说完之后，面试官说，还有没有别的方法？flex有些浏览器不支持嗯…我愣了一下，平常遇到这种问题貌似都是这么写的…别的方法？我又想了想。JS?对，JS肯定可以。然后就说，可以用JS获取当前窗口宽度，然后减去200px就是右边的宽度了面试官：嗯，这样的">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-03-12T05:22:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIV + CSS 自适应布局">
@@ -193,7 +194,7 @@
 
 
   <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
+    <strong class="toc-title">Posts List</strong>
     <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一-两栏布局（左定宽，右自动）"><span class="toc-text">一. 两栏布局（左定宽，右自动）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-float-margin"><span class="toc-text">1. float + margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-position-margin"><span class="toc-text">2. position + margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-float-负margin"><span class="toc-text">3. float + 负margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-用table布局实现"><span class="toc-text">4. 用table布局实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-触发BFC实现"><span class="toc-text">5. 触发BFC实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-flex伸缩盒方法"><span class="toc-text">6. flex伸缩盒方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、三栏布局（两侧定宽，中间自适应）"><span class="toc-text">二、三栏布局（两侧定宽，中间自适应）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-float-margin-1"><span class="toc-text">1. float + margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-position-margin-1"><span class="toc-text">2. position + margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-float-负margin-1"><span class="toc-text">3. float + 负margin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-table实现"><span class="toc-text">4. table实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-BFC方法"><span class="toc-text">5. BFC方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-flex伸缩盒方法-1"><span class="toc-text">6. flex伸缩盒方法</span></a></li></ol></li></ol>
   </div>
 
@@ -332,10 +333,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="hide pull-left" href="/">
+    <a class="show pull-left" href="/2015/08/12/css-selector/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2017/03/08/hello-world/">
+    <a class="show pull-right" href="/2015/12/05/the-difference-between-empty-link-ways/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -359,7 +360,7 @@
   <span id="cover" class="cover hide"></span>
   <div id="modal-dialog" class="modal-dialog hide-dialog">
     <div class="modal-header">
-      <span id="close" class="btn-close">关闭</span>
+      <span id="close" class="btn-close">Close</span>
     </div>
     <hr>
     <div class="modal-body">

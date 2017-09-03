@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 
 
-  <html class="light page-about">
+  <html class="light page-post">
 
 
 <head>
   <meta charset="utf-8">
   
-  <title>about | hysunny&#39;s Blog</title>
+  <title>href=&quot;#&quot;,javascript:;与javascript:void(0)的区别 | hysunny&#39;s Blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -15,14 +15,17 @@
     <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
   
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://hysunny.me/about/index.html">
+  <meta name="description" content="项目中，我们经常会使用&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;标签来代替&amp;lt;input type=&amp;quot;button&amp;quot; /&amp;gt; 这种情况下,很多时候href并不指定超链接目标的URL，而是使用href=&amp;quot;#&amp;quot;, javascript:;与javascript:void(0)。 那它们有什么区别呢？ 现在就来总结一下~">
+<meta property="og:type" content="article">
+<meta property="og:title" content="href=&quot;#&quot;,javascript:;与javascript:void(0)的区别">
+<meta property="og:url" content="http://hysunny.me/2015/12/05/the-difference-between-empty-link-ways/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="项目中，我们经常会使用&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;标签来代替&amp;lt;input type=&amp;quot;button&amp;quot; /&amp;gt; 这种情况下,很多时候href并不指定超链接目标的URL，而是使用href=&amp;quot;#&amp;quot;, javascript:;与javascript:void(0)。 那它们有什么区别呢？ 现在就来总结一下~">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-03-09T03:40:58.000Z">
+<meta property="og:updated_time" content="2017-09-03T10:26:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
+<meta name="twitter:title" content="href=&quot;#&quot;,javascript:;与javascript:void(0)的区别">
+<meta name="twitter:description" content="项目中，我们经常会使用&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;标签来代替&amp;lt;input type=&amp;quot;button&amp;quot; /&amp;gt; 这种情况下,很多时候href并不指定超链接目标的URL，而是使用href=&amp;quot;#&amp;quot;, javascript:;与javascript:void(0)。 那它们有什么区别呢？ 现在就来总结一下~">
 
   
 
@@ -84,17 +87,9 @@
     <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
   
 
-  <div class="content content-about">
-  <div class="page-header">
-
   
-    <div class="breadcrumb">
-      <div class="location">About</div>
-      <i class="icon-location"></i>
-    </div>
-  
-
-  
+<div class="post-header CENTER">
+   
   <div class="toolbox">
     <a class="toolbox-entry" href="/">
       <span class="toolbox-entry-text">盒子</span>
@@ -195,94 +190,117 @@
   </div>
 
 
+</div>
 
-  <div class="box-blog-info">
-    <a class="avatar" href="/">
-      <img src="/images/avatar.jpg" alt="" />
-    </a>
-    <div class="info">
-      <h3 class="name" style="font-family: calligraffittiregular">
-        Hysunny
-      </h3>
-      <div class="slogan">
-        stay hungry，stay foolish
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">Posts List</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-href-”-”"><span class="toc-text">1. href=”#”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-javascript"><span class="toc-text">2. javascript:;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-javascript-void-0"><span class="toc-text">3. javascript:void(0)</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-the-difference-between-empty-link-ways" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">href=&quot;#&quot;,javascript:;与javascript:void(0)的区别</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.12.05</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>项目中，我们经常会使用<code>&lt;a href=&quot;&quot;&gt;&lt;/a&gt;</code>标签来代替<code>&lt;input type=&quot;button&quot; /&gt;</code></p>
+<p>这种情况下,很多时候href并不指定超链接目标的URL，而是使用<code>href=&quot;#&quot;</code>, <code>javascript:;</code>与<code>javascript:void(0)</code>。</p>
+<p>那它们有什么区别呢？</p>
+<p>现在就来总结一下~</p>
+<hr>
+<h2 id="1-href-”-”"><a href="#1-href-”-”" class="headerlink" title="1. href=”#”"></a>1. href=”#”</h2><p>一个#表示锚点，默认为#top，点击之后会自动跳转到页面的顶部。</p>
+<p>缺点：当快速点击此链接时会导致浏览器很慢甚至崩溃。</p>
+<p>使用###（href=”###”）效果和javascript:void(0)一样，不会跳转到页面顶部。</p>
+<h2 id="2-javascript"><a href="#2-javascript" class="headerlink" title="2. javascript:;"></a>2. javascript:;</h2><p>javascript:;”直接返回undefined。</p>
+<h2 id="3-javascript-void-0"><a href="#3-javascript-void-0" class="headerlink" title="3. javascript:void(0)"></a>3. javascript:void(0)</h2><p>void是一个操作符，这个操作符指定要计算一个表达式但是不返回值。如果在void中写入0（void(0)）, 则要去执行一次表达式“0”，然后返回undefined</p>
+<hr>
+<p>注：原文章首发于：<a href="http://www.qdfuns.com/notes/15972/e29158a787f793eedbb00929dd77b2be.html" target="_blank" rel="external">href=”#”,javascript:;与javascript:void(0)的区别</a>，现迁移至此。</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
       </div>
     </div>
   </div>
 
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/09/24/div-css-adaptive-layout/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/12/12/the-solution-of-overflow-auto-or-scroll-not-work-under-ios7/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
 </div>
 
 
-  <ul class="about-list">
-    
-      <li class="about-item">
-        
-          <i class="icon icon-user dot dot-0"></i>
-        
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
 
-        
-          
-            <div class="text">Hysunny，1993.</div>
-          
-            <div class="text">二师妹，Web小前端，喜欢睡懒觉.</div>
-          
-            <div class="text">前端开发工程师，常用 HTML / CSS / JavaScript / Node.js.</div>
-          
-        
-
-      </li>
-    
-      <li class="about-item">
-        
-          <i class="icon icon-github dot dot-1"></i>
-        
-
-        
-          <div class="text">
-            <span>Github</span>
-            
-              <a rel="noopener noreferrer" target="_blank" class="text-value-url" href="https://github.com/hysunny">@hysunny</a>
-            
-          </div>
-        
-
-      </li>
-    
-      <li class="about-item">
-        
-          <i class="icon icon-mail dot dot-2"></i>
-        
-
-        
-          <div class="text">
-            <span>Gmail</span>
-            
-              <a rel="noopener noreferrer" target="_blank" class="text-value-url" href="">fehysunny@gmail.com</a>
-            
-          </div>
-        
-
-      </li>
-    
-      <li class="about-item">
-        
-          <i class="icon icon-location dot dot-3"></i>
-        
-
-        
-          <div class="text">
-            <span></span>
-            
-              <span>重庆</span>
-            
-          </div>
-        
-
-      </li>
-    
-  </ul>
-
-</div>
 
 
 
@@ -393,6 +411,38 @@
 </div>
 
 
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+  <section class="duoshuo-comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-the-difference-between-empty-link-ways" 
+      data-title="href=&quot;#&quot;,javascript:;与javascript:void(0)的区别" data-url="http://hysunny.me/2015/12/05/the-difference-between-empty-link-ways/index.html"></div>
+    <!-- 多说评论框 end -->
+  </section>
+
+
+
+
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"hysunny"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+
+
+    
+
+  </div>
 
   
 
