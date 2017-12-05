@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>document.execCommand(&#39;copy&#39; / &#39;cut&#39;) 异步调用一二事 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+  
+
+  <meta name="description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： 1234567891011121314&amp;lt;div class=&amp;quot;share-box&amp;quot;&amp;gt;  &amp;lt;input type=">
+<meta property="og:type" content="article">
+<meta property="og:title" content="document.execCommand(&#39;copy&#39; &#x2F; &#39;cut&#39;) 异步调用一二事">
+<meta property="og:url" content="http://hysunny.me/2017/12/04/document-execCommand-copy/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： 1234567891011121314&amp;lt;div class=&amp;quot;share-box&amp;quot;&amp;gt;  &amp;lt;input type=">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-05T14:10:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="document.execCommand(&#39;copy&#39; &#x2F; &#39;cut&#39;) 异步调用一二事">
+<meta name="twitter:description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： 1234567891011121314&amp;lt;div class=&amp;quot;share-box&amp;quot;&amp;gt;  &amp;lt;input type=">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/demo/"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            demo
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-document-execCommand-copy" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">document.execCommand(&#39;copy&#39; / &#39;cut&#39;) 异步调用一二事</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.12.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近的wap项目开发中有这样一个需求：</p>
+<p><strong>点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板</strong></p>
+<p>一开始以为很好做：</p>
+<p>点击按钮时调用生成分享链接的接口，然后在回调中执行<br><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand" target="_blank" rel="external">document.execCommand(‘copy’)</a> 就好啦</p>
+<p>简单示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;share-box&quot;&gt;</div><div class="line">  &lt;input type=&quot;text&quot; class=&quot;share-link&quot; value=&quot;分享链接&quot; /&gt;</div><div class="line">  &lt;button class=&quot;share-btn&quot;&gt;分享&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">$(&apos;.share-btn&apos;).on(&apos;click&apos;, function() &#123;</div><div class="line">  $.ajax(&#123;</div><div class="line">  	url: &apos;/echo/json/&apos;,</div><div class="line">    method: &apos;post&apos;</div><div class="line">  &#125;).then(rs =&gt; &#123;</div><div class="line">  	$(&apos;.share-link&apos;).val(&apos;https://xxx.xxx.com/share/xxx&apos;).select()</div><div class="line">   	document.execCommand(&apos;copy&apos;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然而，现实总会狠狠打脸</p>
+<p>回调中的<code>document.execCommand(&#39;copy&#39;)</code>并没有执行</p>
+<p>效果查看：</p>
+<script async src="//jsfiddle.net/hysunny/939upv6n/embed/"></script>
+
+<p>查看<a href="https://www.w3.org/TR/clipboard-apis/#clipboard-event-copy" target="_blank" rel="external">规范</a>后得知：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">These are the steps to follow when triggering copy, cut or paste actions through a scripting API:</div><div class="line"></div><div class="line">1. Execute the corresponding action synchronously.</div><div class="line">2. Use the action’s return value as the return value for the API call.</div><div class="line"></div><div class="line">Note: Copy and cut commands triggered through a scripting API will only affect the contents of the real clipboard if the event is dispatched from an event that is trusted and triggered by the user, or if the implementation is configured to allow this. Paste commands triggered through a scripting API will only fire paste events and give access to clipboard contents if the implementation is configured to allow this. How implementations can be configured to allow read or write access to the clipboard is outside the scope of this specification.</div></pre></td></tr></table></figure>
+<p>也就是说：<code>document.execCommand(&#39;copy&#39;)</code>必须是<strong>由用户触发，并且这个操作是同步地</strong>。</p>
+<p>所以，这个需求并不是我不想做，而是无能为力啊(´_ゝ`)</p>
+<p>最后，改成了<strong>点击“分享”生成链接后再弹出个弹窗，然后再点击“复制链接”按钮后复制链接</strong>，简单示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;share-box&quot;&gt;</div><div class="line">  &lt;input type=&quot;text&quot; class=&quot;share-link&quot; value=&quot;分享链接&quot; /&gt;</div><div class="line">  &lt;button class=&quot;share-btn&quot;&gt;分享&lt;/button&gt;</div><div class="line">  &lt;button class=&quot;copy-link&quot;&gt;复制链接&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">$(&apos;.share-btn&apos;).on(&apos;click&apos;, function() &#123;</div><div class="line">  $.ajax(&#123;</div><div class="line">  	url: &apos;/echo/json/&apos;,</div><div class="line">    method: &apos;post&apos;</div><div class="line">  &#125;).then(rs =&gt; &#123;</div><div class="line">  	 $(&apos;.share-link&apos;).val(&apos;https://xxx.xxx.com/share/xxx&apos;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">$(&apos;.copy-link&apos;).on(&apos;click&apos;, function() &#123;</div><div class="line">  $(&apos;.share-link&apos;).select()</div><div class="line">  document.execCommand(&apos;copy&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>效果可查看： </p>
+<script async src="//jsfiddle.net/hysunny/vzh37p9y/embed/"></script>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/11/25/insert-array-to-array/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/demo/"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              demo
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"hysunny"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
