@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vue 2.0 patch 原理分析 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+  
+
+  <meta name="description" content="本文基于vue-2.4.4源码进行分析  Vue 2.0开始，引入VirtualDOM。 使用VirtualDOM而不使用真实DOM是出于性能优化的考虑。 真实DOM使用document.createElement创建DOM元素，但是这个方法会带来性能上的损失。 举个例子： 123456let div = document.createElement(&amp;apos;div&amp;apos;);let c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue 2.0 patch 原理分析">
+<meta property="og:url" content="http://hysunny.me/2017/10/02/vue-compile/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="本文基于vue-2.4.4源码进行分析  Vue 2.0开始，引入VirtualDOM。 使用VirtualDOM而不使用真实DOM是出于性能优化的考虑。 真实DOM使用document.createElement创建DOM元素，但是这个方法会带来性能上的损失。 举个例子： 123456let div = document.createElement(&amp;apos;div&amp;apos;);let c">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hysunny.me/images/vue-render.png">
+<meta property="og:image" content="http://hysunny.me/images/vue-diff.png">
+<meta property="og:image" content="http://hysunny.me/images/vue-patch-flow.png">
+<meta property="og:updated_time" content="2017-12-08T13:29:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue 2.0 patch 原理分析">
+<meta name="twitter:description" content="本文基于vue-2.4.4源码进行分析  Vue 2.0开始，引入VirtualDOM。 使用VirtualDOM而不使用真实DOM是出于性能优化的考虑。 真实DOM使用document.createElement创建DOM元素，但是这个方法会带来性能上的损失。 举个例子： 123456let div = document.createElement(&amp;apos;div&amp;apos;);let c">
+<meta name="twitter:image" content="http://hysunny.me/images/vue-render.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/demo/"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            demo
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#VNode"><span class="toc-text">VNode</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#patch原理"><span class="toc-text">patch原理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#入参"><span class="toc-text">入参</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#流程"><span class="toc-text">流程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原理"><span class="toc-text">原理</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-vue-compile" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Vue 2.0 patch 原理分析</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.02</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>本文基于<a href="https://github.com/vuejs/vue/tree/v2.4.4" target="_blank" rel="external">vue-2.4.4</a>源码进行分析</p>
+</blockquote>
+<p>Vue 2.0开始，引入<code>VirtualDOM</code>。</p>
+<p>使用<code>VirtualDOM</code>而不使用真实<code>DOM</code>是出于性能优化的考虑。</p>
+<p>真实<code>DOM</code>使用<code>document.createElement</code>创建DOM元素，但是这个方法会带来性能上的损失。</p>
+<p>举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">let div = document.createElement(&apos;div&apos;);</div><div class="line">let count = 0</div><div class="line">for(let k in div) &#123;</div><div class="line">	count++</div><div class="line">&#125;</div><div class="line">console.log(count)	// 231</div></pre></td></tr></table></figure>
+<p>执行上面的代码，我们可以看到该方法创建的<code>DOM</code>元素的属性多达231个，但是我们真正需要的可能只有不到10%。</p>
+<p>为了解决这个问题，<code>VirtualDOM</code>应运而生。它和真实<code>DOM</code>保持映射关系，每个<code>VNode</code>节点都存储了对应真实<code>DOM</code>节点的一些重要参数，当数据发生改变时，在改变真实<code>DOM</code>节点之前，会先比较相应的VNode的的数据，如果需要改变，才更新真实<code>DOM</code>。这样就可以通过操作<code>VirtualDOM</code>来提高直接操作<code>DOM</code>的效率和性能。</p>
+<p>比较<code>VNode</code>数据这个操作就是我们今天要讨论的<code>patch</code>，在讨论之前，我们先简单说下<code>VNode</code>。</p>
+<h3 id="VNode"><a href="#VNode" class="headerlink" title="VNode"></a>VNode</h3><p>在上篇<a href="http://www.jianshu.com/p/761bca5b34a0" target="_blank" rel="external">Vue 2.0 模板编译源码分析</a>中我们得出模板编译的结果是<code>render function</code>。</p>
+<p><code>render function</code>的运行结果就是<code>VNode</code>， 参考<a href="https://github.com/vuejs/vue/blob/v2.4.4/src/core/instance/render.js" target="_blank" rel="external">src/core/instance/render.js</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Vue.prototype._render = function (): VNode &#123;</div><div class="line">  ...</div><div class="line">  const &#123;</div><div class="line">	render,</div><div class="line">	staticRenderFns,</div><div class="line">	_parentVnode</div><div class="line">  &#125; = vm.$options</div><div class="line">  ... </div><div class="line">  vnode = render.call(vm._renderProxy, vm.$createElement)</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Vue 2.0中的<a href="https://github.com/vuejs/vue/blob/v2.4.4/src/core/vdom/vnode.js" target="_blank" rel="external">VNode</a>(src/core/vdom/vnode.js)定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">export default class VNode &#123;</div><div class="line">constructor (</div><div class="line">    tag?: string,</div><div class="line">    data?: VNodeData,</div><div class="line">    children?: ?Array&lt;VNode&gt;,</div><div class="line">    text?: string,</div><div class="line">    elm?: Node,</div><div class="line">    context?: Component,</div><div class="line">    componentOptions?: VNodeComponentOptions,</div><div class="line">    asyncFactory?: Function</div><div class="line">  ) &#123;</div><div class="line">    this.tag = tag    // 元素标签</div><div class="line">    this.data = data    // 属性</div><div class="line">    this.children = children    // 子元素列表</div><div class="line">    this.text = text</div><div class="line">    this.elm = elm    //  对应的真实 DOM 元素</div><div class="line">    this.ns = undefined</div><div class="line">    this.context = context</div><div class="line">    this.functionalContext = undefined</div><div class="line">    this.key = data &amp;&amp; data.key</div><div class="line">    this.componentOptions = componentOptions</div><div class="line">    this.componentInstance = undefined</div><div class="line">    this.parent = undefined</div><div class="line">    this.raw = false</div><div class="line">    this.isStatic = false     // 是否被标记为静态节点</div><div class="line">    this.isRootInsert = true</div><div class="line">    this.isComment = false</div><div class="line">    this.isCloned = false</div><div class="line">    this.isOnce = false</div><div class="line">    this.asyncFactory = asyncFactory</div><div class="line">    this.asyncMeta = undefined</div><div class="line">    this.isAsyncPlaceholder = false</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它是真实<code>DOM</code>的简化版，与真实<code>DOM</code>一一对映。通过<code>new</code>实例化的<code>VNode</code>可以分为：<code>EmptyVNode</code>（注释节点）、<code>TextVNode</code>（文本节点）、<code>ElementVNode</code>（元素节点）、<code>ComponentVNode</code>（组件节点）、<code>CloneVNode</code>（克隆节点）等。</p>
+<h3 id="patch原理"><a href="#patch原理" class="headerlink" title="patch原理"></a>patch原理</h3><p>再拉通一下整个思路，目前我们晓得</p>
+<p><code>render function</code> 生成 <code>VNode</code>，是在 <code>vm._render</code> 里完成的。</p>
+<p>那么<code>vm._render</code>方法又是在什么时候调用的呢？</p>
+<p><code>debugger</code>一下代码，可以看到流程如下：</p>
+<p><img src="/images/vue-render.png" alt=""></p>
+<p>初始化时，通过<code>render function</code> 生成 <code>VNode</code>的同时进行<code>Watcher</code>的绑定。当数据发生会变化时，会执行<code>_update</code>方法，生成一个<strong>新的</strong><code>VNode</code>对象，然后调用<code>__patch__</code>方法，比较新生成的<code>VNode</code>和旧的<code>VNode</code>，最后将差异（变化的节点）更新到真实的<code>DOM</code>树上。</p>
+<p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/core/vdom/patch.js" target="_blank" rel="external">patch</a>(src/core/vdom/patch.js)所用的diff算法来源于<a href="https://github.com/snabbdom/snabbdom" target="_blank" rel="external">snabbdom</a>，只会在同层级进行比较，不会跨层级比较。图示如下：</p>
+<p><img src="/images/vue-diff.png" alt="diff algorithm (by Christopher Chedeau)"></p>
+<p>下面结合源码进行原理分析：</p>
+<h4 id="入参"><a href="#入参" class="headerlink" title="入参"></a>入参</h4><p>patch方法接收6个参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function patch (oldVnode, vnode, hydrating, removeOnly, parentElm, refElm) &#123;</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><code>oldVnode</code>: 旧的<code>VNode</code>或旧的真实<code>DOM</code>节点</li>
+<li><code>vnode</code>: 新的<code>VNode</code></li>
+<li><code>hydrating</code>: 是否要和真实<code>DOM</code>混合</li>
+<li><code>removeOnly</code>: 特殊的flag，用于<code>&lt;transition-group&gt;</code></li>
+<li><code>parentElm</code>: 父节点</li>
+<li><code>refElm</code>: 新节点将插入到<code>refElm</code>之前</li>
+</ul>
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><ol>
+<li><p>如果<code>vnode</code>不存在，但是<code>oldVnode</code>存在，说明是需要销毁旧节点，则调用<code>invokeDestroyHook(oldVnode)</code>来销毁<code>oldVnode</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if (isUndef(vnode)) &#123;</div><div class="line">  if (isDef(oldVnode)) invokeDestroyHook(oldVnode)</div><div class="line">  return</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>如果<code>vnode</code>存在，但是<code>oldVnode</code>不存在，说明是需要创建新节点，则调用<code>createElm</code>来创建新节点。 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">if (isUndef(oldVnode)) &#123;</div><div class="line">    isInitialPatch = true	// 用于做延迟插值处理</div><div class="line">    createElm(vnode, insertedVnodeQueue, parentElm, refElm)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>当<code>vnode</code>和<code>oldVnode</code>都存在时</p>
+<ul>
+<li>3.1 如果oldVnode不是真实节点，并且<code>vnode</code>和<code>oldVnode</code>是同一节点时，说明是需要比较新旧节点，则调用<code>patchVnode</code>进行<code>patch</code>。</li>
+<li>3.2 如果<code>oldVnode</code>是真实节点时<ul>
+<li>3.2.1 如果oldVnode是元素节点，且含有<code>data-server-rendered</code>属性时，移除该属性，并设置<code>hydrating</code>为<code>true</code>。</li>
+<li>3.2.2 如果<code>hydrating</code>为<code>true</code>时，调用<code>hydrate</code>方法，将<code>Virtural DOM</code>与真实<code>DOM</code>进行映射，然后将<code>oldVnode</code>设置为对应的<code>Virtual DOM</code>。</li>
+</ul>
+</li>
+<li><p>3.3 如果<code>oldVnode</code>是真实节点时或<code>vnode</code>和<code>oldVnode</code>不是同一节点时，找到<code>oldVnode.elm</code>的父节点，根据<code>vnode</code>创建一个真实的<code>DOM</code>节点，并插入到该父节点中的<code>oldVnode.elm</code>位置。如果组件根节点被替换，遍历更新父节点<code>element</code>。然后移除旧节点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">	// 3. 当vnode和oldVnode都存在时</div><div class="line">	const isRealElement = isDef(oldVnode.nodeType)</div><div class="line">     if (!isRealElement &amp;&amp; sameVnode(oldVnode, vnode)) &#123;</div><div class="line">     	 // 3.1 如果oldVnode不是真实节点，并且vnode和oldVnode是同一节点时</div><div class="line">       // patch existing root node</div><div class="line">       patchVnode(oldVnode, vnode, insertedVnodeQueue, removeOnly)</div><div class="line">     &#125; else &#123;</div><div class="line">       if (isRealElement) &#123;</div><div class="line">       	// 3.2 如果oldVnode是真实节点时</div><div class="line">         // mounting to a real element</div><div class="line">         // check if this is server-rendered content and if we can perform</div><div class="line">         // a successful hydration.</div><div class="line">         if (oldVnode.nodeType === 1 &amp;&amp; oldVnode.hasAttribute(SSR_ATTR)) &#123;</div><div class="line">           // 3.2.1 如果oldVnode是元素节点，且含有`data-server-rendered`属性时</div><div class="line">           oldVnode.removeAttribute(SSR_ATTR)</div><div class="line">           hydrating = true</div><div class="line">         &#125;</div><div class="line">         if (isTrue(hydrating)) &#123;</div><div class="line">           // 3.2.2 如果hydrating为true时</div><div class="line">           if (hydrate(oldVnode, vnode, insertedVnodeQueue)) &#123;</div><div class="line">             invokeInsertHook(vnode, insertedVnodeQueue, true)</div><div class="line">             return oldVnode</div><div class="line">           &#125; else if (process.env.NODE_ENV !== &apos;production&apos;) &#123;</div><div class="line">             warn(</div><div class="line">               &apos;The client-side rendered virtual DOM tree is not matching &apos; +</div><div class="line">               &apos;server-rendered content. This is likely caused by incorrect &apos; +</div><div class="line">               &apos;HTML markup, for example nesting block-level elements inside &apos; +</div><div class="line">               &apos;&lt;p&gt;, or missing &lt;tbody&gt;. Bailing hydration and performing &apos; +</div><div class="line">               &apos;full client-side render.&apos;</div><div class="line">             )</div><div class="line">           &#125;</div><div class="line">         &#125;</div><div class="line">         // either not server-rendered, or hydration failed.</div><div class="line">         // create an empty node and replace it</div><div class="line">         oldVnode = emptyNodeAt(oldVnode)</div><div class="line">       &#125;</div><div class="line">       // 3.3 </div><div class="line">       // replacing existing element</div><div class="line">       const oldElm = oldVnode.elm</div><div class="line">       const parentElm = nodeOps.parentNode(oldElm)</div><div class="line">       createElm(</div><div class="line">         vnode,</div><div class="line">         insertedVnodeQueue,</div><div class="line">         oldElm._leaveCb ? null : parentElm,</div><div class="line">         nodeOps.nextSibling(oldElm)</div><div class="line">       )</div><div class="line"></div><div class="line">       if (isDef(vnode.parent)) &#123;</div><div class="line">         // component root element replaced.</div><div class="line">         // update parent placeholder node element, recursively</div><div class="line">         let ancestor = vnode.parent</div><div class="line">         const patchable = isPatchable(vnode)</div><div class="line">         while (ancestor) &#123;</div><div class="line">           for (let i = 0; i &lt; cbs.destroy.length; ++i) &#123;</div><div class="line">             cbs.destroy[i](ancestor)</div><div class="line">           &#125;</div><div class="line">           ancestor.elm = vnode.elm</div><div class="line">           if (patchable) &#123;</div><div class="line">             for (let i = 0; i &lt; cbs.create.length; ++i) &#123;</div><div class="line">               cbs.create[i](emptyNode, ancestor)</div><div class="line">             &#125;</div><div class="line">             const insert = ancestor.data.hook.insert</div><div class="line">             if (insert.merged) &#123;</div><div class="line">               // start at index 1 to avoid re-invoking component mounted hook</div><div class="line">               for (let i = 1; i &lt; insert.fns.length; i++) &#123;</div><div class="line">                 insert.fns[i]()</div><div class="line">               &#125;</div><div class="line">             &#125;</div><div class="line">           &#125;</div><div class="line">           ancestor = ancestor.parent</div><div class="line">         &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       if (isDef(parentElm)) &#123;</div><div class="line">       	// 移除老节点</div><div class="line">         removeVnodes(parentElm, [oldVnode], 0, 0)</div><div class="line">       &#125; else if (isDef(oldVnode.tag)) &#123;</div><div class="line">         invokeDestroyHook(oldVnode)</div><div class="line">       &#125;</div><div class="line">     &#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>最后返回 <code>vnode.elm</code>。</p>
+</li>
+</ol>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>由上面的流程我们知道了当<code>vnode</code>和<code>oldVnode</code>都存在、<code>oldVnode</code>不是真实节点，并且<code>vnode</code>和<code>oldVnode</code>是同一节点时，才会调用<code>patchVnode</code>进行<code>patch</code>。</p>
+<p>下面根据<code>patchVnode</code>源码分析patch的原理：</p>
+<ol>
+<li>如果<code>oldVnode</code>和<code>vnode</code>完全一致，则可认为没有变化，<code>return</code>；</li>
+<li>如果<code>oldVnode</code>的<code>isAsyncPlaceholder</code>属性为<code>true</code>时，跳过检查异步组件，<code>return</code>；</li>
+<li>如果<code>oldVnode</code>跟<code>vnode</code>都是静态节点，且具有相同的<code>key</code>，并且当<code>vnode</code>是克隆节点或是<code>v-once</code>指令控制的节点时，只需要把<code>oldVnode.elm</code>和<code>oldVnode.child</code>都复制到<code>vnode</code>上，也不用再有其他操作，<code>return</code>；</li>
+<li><p>否则，如果vnode不是文本节点时</p>
+<ul>
+<li><p>4.1 如果<code>vnode</code>和<code>oldVnode</code>都有子节点并且两者的子节点不一致时，就调用<code>updateChildren</code>更新子节点。<code>updateChildren</code>方法详细的解析可参考<a href="https://github.com/aooy/blog/issues/2" target="_blank" rel="external">解析vue2.0的diff算法</a>，图示说明，很形象。</p>
+</li>
+<li><p>4.2 如果只有<code>vnode</code>有子节点，则调用<code>addVnodes</code>创建子节点；</p>
+</li>
+<li>4.3 如果只有<code>oldVnode</code>有子节点，则调用<code>removeVnodes</code>把这些节点都删除；     </li>
+<li>4.4 如果<code>oldVnode</code>和<code>vnode</code>都没有子节点，但是<code>oldVnode</code>是文本节点时，则把<code>vnode.elm</code>的文本设置为空字符串；</li>
+</ul>
+</li>
+<li><p>如果<code>vnode</code>是文本节点但是<code>vnode.text != oldVnode.text</code>时只需要更新<code>vnode.elm</code>的文本内容就可以。</p>
+</li>
+</ol>
+<p>原理流程图如下：</p>
+<p><img src="/images/vue-patch-flow.png" alt=""></p>
+<p>自此，Vue的patch原理就分析完了。</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/09/28/vue-render/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/29/the-difference-between-target-and-currentTarget/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/demo/"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              demo
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"hysunny"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
