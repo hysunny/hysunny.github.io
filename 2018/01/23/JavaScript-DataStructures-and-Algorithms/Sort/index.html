@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（10） —— 基本排序算法（Sort） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/b14c78e91571  1. 冒泡排序算法 是最慢的排序算法之一，但也是一种最容易实现的排序算法。按照升序排列：依次比较相邻的数据，较小的值冒泡到左侧，较大的值冒泡到右侧按照降序排列：依次比较相邻的数据，较小的值冒泡到右侧，较大的值冒泡到左侧  实现： function bubbleSort(data) &amp;#123;  cons">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（10） —— 基本排序算法（Sort）">
+<meta property="og:url" content="http://hysunny.me/2018/01/23/JavaScript-DataStructures-and-Algorithms/Sort/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/b14c78e91571  1. 冒泡排序算法 是最慢的排序算法之一，但也是一种最容易实现的排序算法。按照升序排列：依次比较相邻的数据，较小的值冒泡到左侧，较大的值冒泡到右侧按照降序排列：依次比较相邻的数据，较小的值冒泡到右侧，较大的值冒泡到左侧  实现： function bubbleSort(data) &amp;#123;  cons">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b1b0315e9a996c6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-c24fd6e85ee499f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-0080cfb3d8a9f109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T13:04:55.401Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（10） —— 基本排序算法（Sort）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/b14c78e91571  1. 冒泡排序算法 是最慢的排序算法之一，但也是一种最容易实现的排序算法。按照升序排列：依次比较相邻的数据，较小的值冒泡到左侧，较大的值冒泡到右侧按照降序排列：依次比较相邻的数据，较小的值冒泡到右侧，较大的值冒泡到左侧  实现： function bubbleSort(data) &amp;#123;  cons">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-b1b0315e9a996c6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/Sort" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（10） —— 基本排序算法（Sort）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.23</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/b14c78e91571" target="_blank" rel="external">https://www.jianshu.com/p/b14c78e91571</a></p>
+</blockquote>
+<h3 id="1-冒泡排序算法"><a href="#1-冒泡排序算法" class="headerlink" title="1. 冒泡排序算法"></a>1. 冒泡排序算法</h3><blockquote>
+<p>是<strong>最慢</strong>的排序算法之一，但也是一种最容易实现的排序算法。<br>按照升序排列：依次比较相邻的数据，较小的值冒泡到左侧，较大的值冒泡到右侧<br>按照降序排列：依次比较相邻的数据，较小的值冒泡到右侧，较大的值冒泡到左侧</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = len; outer &gt;= <span class="number">2</span>; outer--) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> inner = <span class="number">0</span>; inner &lt;= outer - <span class="number">1</span>; inner++) &#123;</div><div class="line">      <span class="keyword">if</span> (data[inner] &gt; data[inner + <span class="number">1</span>]) &#123;</div><div class="line">        <span class="comment">// 若前一个值大于后一个值，则交换两个值</span></div><div class="line">        [data[inner], data[inner + <span class="number">1</span>]] = [data[inner + <span class="number">1</span>], data[inner]]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> a = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">bubbleSort(a)</div><div class="line"><span class="built_in">console</span>.log(a)	<span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>下图展示了上例中的数据进行冒泡排序的过程（红框里的数据为我们为了观察冒泡过程而设定的两个特定值）</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-b1b0315e9a996c6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+<h3 id="2-选择排序"><a href="#2-选择排序" class="headerlink" title="2. 选择排序"></a>2. 选择排序</h3><blockquote>
+<p>从数组的开头开始，将第一个元素和其他元素进行比较。检查完所有元素后，<strong>最小</strong>的元素会被放到数组的<strong>第一个位置</strong>，然后算法会从第二个位置继续。这个过程一直进行，当进行到数组的倒数第二个位置时，所有的数据便完成了排序。</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">let</span> min </div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = <span class="number">0</span>; outer &lt; len - <span class="number">1</span>; outer++) &#123;</div><div class="line">    min = outer</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> inner = outer + <span class="number">1</span>; inner &lt; len; inner++) &#123;</div><div class="line">      <span class="keyword">if</span> (data[inner] &lt; data[min]) &#123;</div><div class="line">        min = inner</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    [data[outer], data[min]] = [data[min], data[outer]]</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> b = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">selectionSort(b)</div><div class="line"><span class="built_in">console</span>.log(b)	<span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>下图展示了上例中的数据进行选择排序的过程（红框里的数据为每次循环中最小的元素）</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-c24fd6e85ee499f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><blockquote>
+<p><code>插入排序</code>类似于人类按数字或字母顺序对数据进行排序。<br><code>插入排序</code>有两个循环。<code>外循环</code>将数组元素挨个移动，而<code>内循环</code>则对外循环选中的元素及它后面的那个元素进行比较。如果外循环中选中的元素比内循环中的元素<strong>小</strong>，那么数组元素会<strong>向右</strong>移动，为内循环中的这个元素腾出位置。</p>
+<p>步骤：<br>（1）从第一个元素开始，该元素可以认为已经被排序<br>（2）取出下一个元素，在已经排序的元素序列中从后向前扫描<br>（3）如果该元素（已排序）大于新元素，将该元素移到下一位置<br>（4）重复步骤3，直到找到已排序的元素小于或者等于新元素的位置<br>（5）将新元素插入到该位置后<br>（6）重复步骤2~5</p>
+</blockquote>
+<p>实现：</p>
+<p>方法一：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">let</span> temp, inner</div><div class="line">  <span class="comment">// 外循环：待排序的数据</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = <span class="number">1</span>; outer &lt; len; outer++) &#123;</div><div class="line">    temp = data[outer]</div><div class="line">    inner = outer</div><div class="line">    <span class="keyword">while</span>(inner &gt; <span class="number">0</span> &amp;&amp; data[inner - <span class="number">1</span>] &gt;= temp) &#123;</div><div class="line">      <span class="comment">// 内循环：已完成排序的数据</span></div><div class="line">      <span class="comment">// 比较待排序和已完成排序数据（从右至左），如果已排序的数据大于temp，则已排序数据向右移一位</span></div><div class="line">      data[inner] = data[inner - <span class="number">1</span>]</div><div class="line">      inner--</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 空出来的 原已排序的位置 放置待排序的数据</span></div><div class="line">    data[inner] = temp</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> c = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">insertSort(c)</div><div class="line"><span class="built_in">console</span>.log(c)	<span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>方法二：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="comment">// 外循环：待排序的数据</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = <span class="number">1</span>; outer &lt; len; outer++) &#123;</div><div class="line">    <span class="comment">// 内循环：已完成排序的数据</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> inner = <span class="number">0</span>; inner &lt; outer; inner++) &#123;</div><div class="line">      <span class="comment">// 如果外循环小于内循环（待排序小于已排序），则数组元素将会向右移动</span></div><div class="line">      <span class="keyword">if</span> (data[inner] &gt; data[outer]) &#123;</div><div class="line">        <span class="comment">// 将待排序数据插入到已排序的位置</span></div><div class="line">        data.splice(inner, <span class="number">0</span>, data[outer])</div><div class="line">        <span class="comment">// 删除原先待排序的数据</span></div><div class="line">        data.splice(outer + <span class="number">1</span>, <span class="number">1</span>)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> d = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">insertSort(d)</div><div class="line"><span class="built_in">console</span>.log(d)	<span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>下图展示了上例中的数据进行插入排序的过程（红框里的数据为每次外循环执行完后被插入的元素）</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-0080cfb3d8a9f109.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+<h3 id="4-三种基本排序的效率"><a href="#4-三种基本排序的效率" class="headerlink" title="4. 三种基本排序的效率"></a>4. 三种基本排序的效率</h3><p>（1）首先，实现一个测试平台，进行测试数据的生成。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 测试平台</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CArray</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>(count) &#123;</div><div class="line">    <span class="keyword">this</span>.data = []</div><div class="line">    <span class="keyword">this</span>.count = count</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  setData() &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.count; i++) &#123;</div><div class="line">      <span class="keyword">this</span>.data[i] = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (<span class="keyword">this</span>.count + <span class="number">1</span>))</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>（2）声明排序算法</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 冒泡排序</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = len; outer &gt;= <span class="number">2</span>; outer--) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> inner = <span class="number">0</span>; inner &lt;= outer - <span class="number">1</span>; inner++) &#123;</div><div class="line">      <span class="keyword">if</span> (data[inner] &gt; data[inner + <span class="number">1</span>]) &#123;</div><div class="line">        <span class="comment">// 若前一个值大于后一个值，则交换两个值</span></div><div class="line">        [data[inner], data[inner + <span class="number">1</span>]] = [data[inner + <span class="number">1</span>], data[inner]]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 选择排序</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">let</span> min </div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = <span class="number">0</span>; outer &lt; len - <span class="number">1</span>; outer++) &#123;</div><div class="line">    min = outer</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> inner = outer + <span class="number">1</span>; inner &lt; len; inner++) &#123;</div><div class="line">      <span class="keyword">if</span> (data[inner] &lt; data[min]) &#123;</div><div class="line">        min = inner</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    [data[outer], data[min]] = [data[min], data[outer]]</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 插入排序</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">let</span> temp, inner</div><div class="line">  <span class="comment">// 外循环：待排序的数据</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> outer = <span class="number">1</span>; outer &lt; len; outer++) &#123;</div><div class="line">    temp = data[outer]</div><div class="line">    inner = outer</div><div class="line">    <span class="keyword">while</span>(inner &gt; <span class="number">0</span> &amp;&amp; data[inner - <span class="number">1</span>] &gt;= temp) &#123;</div><div class="line">      <span class="comment">// 内循环：已完成排序的数据</span></div><div class="line">      <span class="comment">// 比较待排序和已完成排序数据（从右至左），如果已排序的数据大于temp，则已排序数据向右移一位</span></div><div class="line">      data[inner] = data[inner - <span class="number">1</span>]</div><div class="line">      inner--</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 空出来的 原已排序的位置 放置待排序的数据</span></div><div class="line">    data[inner] = temp</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>（3）进行测试</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> CArray(<span class="number">1000</span>)</div><div class="line">arr.setData()</div><div class="line"><span class="keyword">var</span> data1 = arr.data</div><div class="line"><span class="keyword">var</span> data2 = data1.concat()</div><div class="line"><span class="keyword">var</span> data3 = data1.concat()</div><div class="line"><span class="comment">// 冒泡排序</span></div><div class="line"><span class="built_in">console</span>.time(<span class="string">'bubbleSort'</span>)</div><div class="line">bubbleSort(data1)</div><div class="line"><span class="built_in">console</span>.log(data1)</div><div class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'bubbleSort'</span>) </div><div class="line">&nbsp</div><div class="line"><span class="comment">// 选择排序</span></div><div class="line"><span class="built_in">console</span>.time(<span class="string">'selectionSort'</span>)</div><div class="line">bubbleSort(data2)</div><div class="line"><span class="built_in">console</span>.log(data2)</div><div class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'selectionSort'</span>)</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 插入排序</span></div><div class="line"><span class="built_in">console</span>.time(<span class="string">'insertSort'</span>)</div><div class="line">bubbleSort(data3)</div><div class="line"><span class="built_in">console</span>.log(data3)</div><div class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'insertSort'</span>)</div></pre></td></tr></table></figure>
+<p>多执行几次测试代码，我们可以看到测试结果<br><figure class="highlight http"><table><tr><td class="code"><pre><div class="line"><span class="attribute">bubbleSort</span>: 29.56201171875ms</div><div class="line"><span class="attribute">selectionSort</span>: 24.248046875ms</div><div class="line"><span class="attribute">insertSort</span>: 15.97119140625ms</div><div class="line">&nbsp</div><div class="line"><span class="attribute">bubbleSort</span>: 25.317138671875ms</div><div class="line"><span class="attribute">selectionSort</span>: 20.39404296875ms</div><div class="line"><span class="attribute">insertSort</span>: 13.625ms</div><div class="line">&nbsp</div><div class="line"><span class="attribute">bubbleSort</span>: 28.112060546875ms</div><div class="line"><span class="attribute">selectionSort</span>: 21.611083984375ms</div><div class="line"><span class="attribute">insertSort</span>: 16.8720703125ms</div></pre></td></tr></table></figure></p>
+<p>我们可以得出如下结论：</p>
+<p>效率： <code>插入排序</code> &gt; <code>选择排序</code> &gt; <code>冒泡排序</code></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/19/JavaScript-DataStructures-and-Algorithms/Graph/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/24/JavaScript-DataStructures-and-Algorithms/advanced-Sort/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

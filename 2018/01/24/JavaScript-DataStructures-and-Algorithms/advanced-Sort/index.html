@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（11） —— 高级排序算法（Sort） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/d99183687cf1  1. 希尔排序 希尔排序的核心理念与插入排序不同，它会首先比较距离较远的元素，而非相邻的元素。和简单地比较相邻元素相比，使用这种方案可以使离正确位置很远的元素更快地回到合适的位置。当开始用这个算法遍历数据集时，所有元素之间的距离会不断减小，直到处理到数据集的末尾，这时算法比较的就是相邻元素了。  间隔序列">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（11） —— 高级排序算法（Sort）">
+<meta property="og:url" content="http://hysunny.me/2018/01/24/JavaScript-DataStructures-and-Algorithms/advanced-Sort/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/d99183687cf1  1. 希尔排序 希尔排序的核心理念与插入排序不同，它会首先比较距离较远的元素，而非相邻的元素。和简单地比较相邻元素相比，使用这种方案可以使离正确位置很远的元素更快地回到合适的位置。当开始用这个算法遍历数据集时，所有元素之间的距离会不断减小，直到处理到数据集的末尾，这时算法比较的就是相邻元素了。  间隔序列">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-86175b3403be7551.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-28d4358ff69c7e5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-3d2157ae01299c56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T13:05:47.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（11） —— 高级排序算法（Sort）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/d99183687cf1  1. 希尔排序 希尔排序的核心理念与插入排序不同，它会首先比较距离较远的元素，而非相邻的元素。和简单地比较相邻元素相比，使用这种方案可以使离正确位置很远的元素更快地回到合适的位置。当开始用这个算法遍历数据集时，所有元素之间的距离会不断减小，直到处理到数据集的末尾，这时算法比较的就是相邻元素了。  间隔序列">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-86175b3403be7551.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/advanced-Sort" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（11） —— 高级排序算法（Sort）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/d99183687cf1" target="_blank" rel="external">https://www.jianshu.com/p/d99183687cf1</a></p>
+</blockquote>
+<h3 id="1-希尔排序"><a href="#1-希尔排序" class="headerlink" title="1. 希尔排序"></a>1. 希尔排序</h3><blockquote>
+<p><code>希尔排序</code>的核心理念与<code>插入排序</code>不同，它会首先比较距离<strong>较远</strong>的元素，而非相邻的元素。<br>和简单地比较相邻元素相比，使用这种方案可以<strong>使离正确位置很远的元素更快地回到合适的位置</strong>。<br>当开始用这个算法遍历数据集时，所有元素之间的距离会不断减小，直到处理到数据集的末尾，这时算法比较的就是相邻元素了。</p>
+</blockquote>
+<p>间隔序列：701, 301, 132, 57, 23, 10, 4, 1<br>参照：<a href="http://sun.aei.polsl.pl/~mciura/publikacje/shellsort.pdf" target="_blank" rel="external">Best Increments for the Average Case of Shell Sort</a></p>
+<p>（1）自定义间隔值（硬编码间隔序列）</p>
+<p> 实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">shellSort</span>(<span class="params">data, gaps</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> dLen = data.length</div><div class="line">  <span class="keyword">const</span> gLen = gaps.length</div><div class="line">  <span class="comment">// 根据间隔序列循环数组数据</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> g = <span class="number">0</span>; g &lt; gLen; g++) &#123;</div><div class="line">    <span class="comment">// 循环间隔下的分组数据，从每个分组的第二个数开始</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = gaps[g]; i &lt; dLen; i++) &#123;</div><div class="line">      <span class="keyword">let</span> temp = data[i]</div><div class="line">      <span class="keyword">let</span> j = i</div><div class="line">      <span class="comment">// 将 data[j] 和 data[j - gaps[g]] 进行比较，也就是比较间隔 gaps[g] 的两个数字的大小向右移 gaps[g] 位</span></div><div class="line">      <span class="comment">// 从右至左，如果 data[j - gaps[g]] 大于temp，则已排序数据</span></div><div class="line">      <span class="keyword">while</span> ((j &gt;= gaps[g]) &amp;&amp; (data[j - gaps[g]] &gt; temp)) &#123;</div><div class="line">        data[j] = data[j - gaps[g]]</div><div class="line">        j -= gaps[g]</div><div class="line">      &#125;</div><div class="line">      <span class="comment">// 空出来的位置放置 temp</span></div><div class="line">      data[j] = temp</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> a = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">shellSort(a, [<span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>])</div><div class="line"><span class="built_in">console</span>.log(a)  <span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>下图展示了上例中的数据进行<code>硬编码间隔序列希尔排序</code>的过程</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-86175b3403be7551.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+<p>（2）动态计算间隔值（动态间隔序列）</p>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">dShellSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">let</span> gap = <span class="number">1</span></div><div class="line">  <span class="comment">// 计算间隔最大值</span></div><div class="line">  <span class="keyword">while</span> (gap &lt; len / <span class="number">3</span>) &#123;</div><div class="line">    gap = <span class="number">3</span> * gap + <span class="number">1</span></div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 循环间隔值</span></div><div class="line">  <span class="keyword">while</span> (gap &gt;= <span class="number">1</span>) &#123;</div><div class="line">    <span class="comment">// 循环间隔下的分组数据，从每个分组的第二个数开始</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = gap; i &lt; len; i++) &#123;</div><div class="line">      <span class="comment">// 从右至左，如果 data[j - gap] 大于 data[j] 并且 j &gt; gap，则交换两值</span></div><div class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> j = i; j &gt;= gap &amp;&amp; data[j] &lt; data[j - gap]; j -= gap) &#123;</div><div class="line">        [data[j], data[j - gap]] = [data[j - gap], data[j]]</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    gap = (gap - <span class="number">1</span>) / <span class="number">3</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> b = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">dShellSort(b)</div><div class="line"><span class="built_in">console</span>.log(b) <span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>（3）测试两种希尔排序效率</p>
+<p>a. 实现一个测试平台</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CArray</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>(count) &#123;</div><div class="line">    <span class="keyword">this</span>.data = []</div><div class="line">    <span class="keyword">this</span>.count = count</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  setData() &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.count; i++) &#123;</div><div class="line">      <span class="keyword">this</span>.data[i] = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (<span class="keyword">this</span>.count + <span class="number">1</span>))</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>b. 进行测试</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> CArray(<span class="number">1000</span>)</div><div class="line">arr.setData()</div><div class="line"><span class="keyword">var</span> data1 = arr.data</div><div class="line"><span class="keyword">var</span> data2 = data1.concat()</div><div class="line"><span class="built_in">console</span>.time(<span class="string">'硬编码间隔序列shellSort'</span>)</div><div class="line">shellSort(data1, [<span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>])</div><div class="line"><span class="built_in">console</span>.log(data1)</div><div class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'硬编码间隔序列shellSort'</span>)</div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.time(<span class="string">'动态间隔序列shellSort'</span>)</div><div class="line">dShellSort(data2)</div><div class="line"><span class="built_in">console</span>.log(data2)</div><div class="line"><span class="built_in">console</span>.timeEnd(<span class="string">'动态间隔序列shellSort'</span>)</div></pre></td></tr></table></figure>
+<p>多执行几次，得出测试结果：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line">硬编码间隔序列<span class="selector-tag">shellSort</span>: 2<span class="selector-class">.715087890625ms</span></div><div class="line">动态间隔序列<span class="selector-tag">shellSort</span>: 2<span class="selector-class">.251220703125ms</span></div><div class="line">&nbsp</div><div class="line">硬编码间隔序列<span class="selector-tag">shellSort</span>: 3<span class="selector-class">.259765625ms</span></div><div class="line">动态间隔序列<span class="selector-tag">shellSort</span>: 3<span class="selector-class">.214111328125ms</span></div><div class="line">&nbsp</div><div class="line">硬编码间隔序列<span class="selector-tag">shellSort</span>: 2<span class="selector-class">.001953125ms</span></div><div class="line">动态间隔序列<span class="selector-tag">shellSort</span>: 2<span class="selector-class">.109130859375ms</span></div><div class="line">&nbsp</div><div class="line">硬编码间隔序列<span class="selector-tag">shellSort</span>: 1<span class="selector-class">.935791015625ms</span></div><div class="line">动态间隔序列<span class="selector-tag">shellSort</span>: 3<span class="selector-class">.258056640625ms</span></div><div class="line">&nbsp</div><div class="line">硬编码间隔序列<span class="selector-tag">shellSort</span>: 2<span class="selector-class">.023193359375ms</span></div><div class="line">动态间隔序列<span class="selector-tag">shellSort</span>: 2<span class="selector-class">.18994140625ms</span></div></pre></td></tr></table></figure>
+<p>可以看出：<code>硬编码间隔序列shellSort</code>和<code>动态间隔序列shellSort</code>效率差不多。</p>
+<h3 id="2-归并排序"><a href="#2-归并排序" class="headerlink" title="2. 归并排序"></a>2. 归并排序</h3><blockquote>
+<p>原理：把一系列排好序的子序列<strong>合并</strong>成一个大的完整有序序列 —— <strong>自底向上</strong>的<code>归并排序</code>。</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">if</span> (len &lt; <span class="number">2</span>) &#123;</div><div class="line">    <span class="keyword">return</span></div><div class="line">  &#125;</div><div class="line">  <span class="keyword">let</span> step = <span class="number">1</span></div><div class="line">  <span class="keyword">let</span> left, right</div><div class="line">  <span class="comment">// 从 step = 1开始，分割 2 * step 个子序列</span></div><div class="line">  <span class="keyword">while</span> (step &lt; len) &#123;</div><div class="line">    left = <span class="number">0</span></div><div class="line">    right = step</div><div class="line">    <span class="comment">// 循环数据</span></div><div class="line">    <span class="keyword">while</span> (right + step &lt;= len) &#123;</div><div class="line">      <span class="comment">// 合并左右子序列</span></div><div class="line">      mergeArrays(data, left, left + step, right, right + step)</div><div class="line">      left = right + step</div><div class="line">      right = left + step</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (right &lt; len) &#123;</div><div class="line">      mergeArrays(data, left, left + step, right, len)</div><div class="line">    &#125;</div><div class="line">  </div><div class="line">    step *= <span class="number">2</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 合并数组</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeArrays</span>(<span class="params">arr, startLeft, stopLeft, startRight, stopRight</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> leftArr = []</div><div class="line">  <span class="keyword">const</span> rightArr = []</div><div class="line">  <span class="comment">// 生成左子序列数组</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = startLeft; i &lt; stopLeft; i++) &#123;</div><div class="line">    leftArr.push(arr[i])</div><div class="line">  &#125;</div><div class="line">  <span class="comment">// 生成右子序列数组</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> j = startRight; j &lt; stopRight; j++) &#123;</div><div class="line">    rightArr.push(arr[j])</div><div class="line">  &#125;</div><div class="line">  leftArr.push(<span class="literal">Infinity</span>) <span class="comment">// 添加哨兵值</span></div><div class="line">  rightArr.push(<span class="literal">Infinity</span>) <span class="comment">// 添加哨兵值</span></div><div class="line">  </div><div class="line">  <span class="comment">// 合并两个子序列数组并替换原数组序列</span></div><div class="line">  <span class="keyword">let</span> m = <span class="number">0</span></div><div class="line">  <span class="keyword">let</span> n = <span class="number">0</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> k = startLeft; k &lt; stopRight; k++) &#123;</div><div class="line">    <span class="keyword">if</span> (leftArr[m] &lt;= rightArr[n]) &#123;</div><div class="line">      arr[k] = leftArr[m]</div><div class="line">      m++</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      arr[k] = rightArr[n]</div><div class="line">      n++</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> e = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line">mergeSort(e)</div><div class="line"><span class="built_in">console</span>.log(e)	<span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>下图展示了上例中的数据进行<code>归并排序</code>的过程</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-28d4358ff69c7e5a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+<h3 id="3-快速排序"><a href="#3-快速排序" class="headerlink" title="3. 快速排序"></a>3. 快速排序</h3><blockquote>
+<p><code>快速排序</code>是处理大数据集<strong>最快</strong>的排序算法之一。<br>它是一种<strong>分而治之</strong>的算法，通过递归的方法将数据依次分解为包含较小元素和较大元素的不同子序列。<br>该算法不断重复这个步骤直到所有数据都是有序的。</p>
+<p>步骤：<br>（1）选择一个元素作为<strong>基准值</strong>(pivot)，将列表分割成两个子序列。<br>（2）将列表重新排序，将所有<strong>小于基准值的元素放在基准值的前面，所有大于基准值的元素放在基准值的后面</strong>；<br>（3）分别对较小元素的子序列和较大元素的子序列重复步骤1和2</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">qSort</span>(<span class="params">data</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = data.length</div><div class="line">  <span class="keyword">if</span> (len &lt; <span class="number">2</span>) <span class="keyword">return</span> data</div><div class="line">  <span class="keyword">const</span> leftArr = []</div><div class="line">  <span class="keyword">const</span> rightArr = []</div><div class="line">  <span class="comment">// 设数组第一个元素为基准值(pivot)</span></div><div class="line">  <span class="keyword">let</span> pivot = data[<span class="number">0</span>]</div><div class="line">  <span class="comment">// 将列表重新排序，将所有小于基准值的元素放在基准值的前面。所有大于基准值的元素放在基准值的后面</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (data[i] &lt; pivot) &#123;</div><div class="line">      leftArr.push(data[i])</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      rightArr.push(data[i])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="built_in">console</span>.log(data)</div><div class="line">  <span class="keyword">return</span> qSort(leftArr).concat(pivot, qSort(rightArr))</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test </span></div><div class="line"><span class="keyword">const</span> f = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">const</span> g = qSort(f)</div><div class="line"><span class="built_in">console</span>.log(g)	<span class="comment">// [2, 30, 31, 54, 59, 72, 72, 77, 78, 82]</span></div></pre></td></tr></table></figure>
+<p>下图展示了上例中的数据进行<code>快速排序</code>的过程</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-3d2157ae01299c56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</blockquote>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/23/JavaScript-DataStructures-and-Algorithms/Sort/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/24/JavaScript-DataStructures-and-Algorithms/Search/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

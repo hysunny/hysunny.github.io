@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（3） —— 队列（Queue） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/6785a6a1c30a  顺序队列 一种遵循先进先出的(FIFO，first-in-first-out)的有序列表。队列只能在队尾插入元素（入队），在队首删除元素（出队）。  应用：舞伴问题、基数排序等 实现： class Queue &amp;#123;&amp;nbsp  constructor() &amp;#123;    this.elemen">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（3） —— 队列（Queue）">
+<meta property="og:url" content="http://hysunny.me/2018/01/01/JavaScript-DataStructures-and-Algorithms/Queue/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/6785a6a1c30a  顺序队列 一种遵循先进先出的(FIFO，first-in-first-out)的有序列表。队列只能在队尾插入元素（入队），在队首删除元素（出队）。  应用：舞伴问题、基数排序等 实现： class Queue &amp;#123;&amp;nbsp  constructor() &amp;#123;    this.elemen">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-29T12:56:45.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（3） —— 队列（Queue）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/6785a6a1c30a  顺序队列 一种遵循先进先出的(FIFO，first-in-first-out)的有序列表。队列只能在队尾插入元素（入队），在队首删除元素（出队）。  应用：舞伴问题、基数排序等 实现： class Queue &amp;#123;&amp;nbsp  constructor() &amp;#123;    this.elemen">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/Queue" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（3） —— 队列（Queue）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/6785a6a1c30a" target="_blank" rel="external">https://www.jianshu.com/p/6785a6a1c30a</a></p>
+</blockquote>
+<h3 id="顺序队列"><a href="#顺序队列" class="headerlink" title="顺序队列"></a>顺序队列</h3><blockquote>
+<p>一种遵循<strong>先进先出</strong>的(FIFO，first-in-first-out)的有序列表。队列只能在<strong>队尾</strong>插入元素（<code>入队</code>），在队首删除元素（<code>出队</code>）。</p>
+</blockquote>
+<p>应用：舞伴问题、基数排序等</p>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Queue</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.elements = []</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  get length() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  get isEmpty() &#123;</div><div class="line">    <span class="keyword">return</span> !<span class="keyword">this</span>.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 入队</span></div><div class="line">  enqueue(ele) &#123;</div><div class="line">    <span class="keyword">this</span>.elements.push(ele)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 出队</span></div><div class="line">  dequeue() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.shift()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 获取队首元素</span></div><div class="line">  front() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="number">0</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 获取队尾元素</span></div><div class="line">  back() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="keyword">this</span>.length - <span class="number">1</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  toString() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.toString()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例：基数排序</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"><span class="comment"> * @param &#123; Array &#125; arr</span></div><div class="line"><span class="comment"> * @param &#123; Number &#125; maxDigit	// 数组中最大数的位数</span></div><div class="line"><span class="comment"> * @return &#123; Array &#125;</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">radixSort</span>(<span class="params">arr, maxDigit</span>) </span>&#123;</div><div class="line">  <span class="keyword">let</span> mod = <span class="number">10</span>	</div><div class="line">  <span class="keyword">let</span> base = <span class="number">1</span></div><div class="line">  <span class="comment">// init queue</span></div><div class="line">  <span class="keyword">const</span> queues = []</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">    queues.push(<span class="keyword">new</span> Queue())</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; maxDigit; i++, base *= <span class="number">10</span>, mod *= <span class="number">10</span>) &#123;</div><div class="line">    <span class="comment">// distribute —— 分配数字到相应队列</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; arr.length; j++) &#123;</div><div class="line">      <span class="keyword">const</span> index = <span class="built_in">Math</span>.floor((arr[j] % mod) / base)</div><div class="line">      queues[index].enqueue(arr[j])</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// collect —— 从队列中收集数字</span></div><div class="line">    <span class="keyword">let</span> k = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</div><div class="line">      <span class="keyword">while</span>(!queues[j].isEmpty) &#123;</div><div class="line">        arr[k++] = queues[j].dequeue()</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> arr</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">4</span>, <span class="number">7</span>, <span class="number">3</span>, <span class="number">9</span>, <span class="number">10</span>, <span class="number">2</span>, <span class="number">324</span>, <span class="number">100</span>]</div><div class="line">radixSort(arr, <span class="number">3</span>)</div><div class="line"><span class="built_in">console</span>.log(arr)</div></pre></td></tr></table></figure>
+<h3 id="优先队列"><a href="#优先队列" class="headerlink" title="优先队列"></a>优先队列</h3><blockquote>
+<p>元素的添加和删除基于优先级。如急诊室中会根据患者病情的严重程度放号。</p>
+</blockquote>
+<p>实现：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PriorityQueue</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.elements = []</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  get length() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  get isEmpty() &#123;</div><div class="line">    <span class="keyword">return</span> !<span class="keyword">this</span>.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 入队</span></div><div class="line">  enqueue(ele, priority) &#123;</div><div class="line">    <span class="keyword">const</span> queueEle = &#123; ele, priority &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isEmpty) &#123;</div><div class="line">      <span class="keyword">this</span>.elements.push(queueEle)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">const</span> preIndex = <span class="keyword">this</span>.elements.findIndex(<span class="function"><span class="params">item</span> =&gt;</span> queueEle.priority &lt; item.priority)</div><div class="line">      <span class="keyword">if</span> (preIndex &gt; <span class="number">-1</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.elements.splice(preIndex, <span class="number">0</span>, queueEle)</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">this</span>.elements.push(queueEle)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 出队</span></div><div class="line">  dequeue() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.shift()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 获取队首元素</span></div><div class="line">  front() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="number">0</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 获取队尾元素</span></div><div class="line">  back() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="keyword">this</span>.length - <span class="number">1</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  toString() &#123;</div><div class="line">    <span class="built_in">console</span>.table(<span class="keyword">this</span>.elements)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>示例：急诊室排号</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> patient = <span class="keyword">new</span> PriorityQueue()</div><div class="line">patient.enqueue(<span class="string">'Clayton'</span>, <span class="number">3</span>)</div><div class="line">patient.enqueue(<span class="string">'Raymond'</span>, <span class="number">2</span>)</div><div class="line">patient.enqueue(<span class="string">'Cynthia'</span>, <span class="number">3</span>)</div><div class="line">patient.enqueue(<span class="string">'Jennifer'</span>, <span class="number">1</span>)</div><div class="line">patient.enqueue(<span class="string">'Danny'</span>, <span class="number">4</span>)</div><div class="line">&nbsp</div><div class="line">patient.toString()</div></pre></td></tr></table></figure>
+<h3 id="双向队列"><a href="#双向队列" class="headerlink" title="双向队列"></a>双向队列</h3><blockquote>
+<p>和队列类似的数据结构，允许从队列<strong>两端</strong>添加和删除元素。</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Deque</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.elements = []</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  get length() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  get isEmpty() &#123;</div><div class="line">    <span class="keyword">return</span> !<span class="keyword">this</span>.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 队首入队</span></div><div class="line">  enqueueFront(ele) &#123;</div><div class="line">    <span class="keyword">this</span>.elements.unshift(ele)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 队尾出队</span></div><div class="line">  dequeueBack() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.pop()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 队尾入队</span></div><div class="line">  enqueueBack(ele) &#123;</div><div class="line">    <span class="keyword">this</span>.elements.push(ele)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 队首出队</span></div><div class="line">  dequeueFront() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.shift()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 获取队首元素</span></div><div class="line">  front() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="number">0</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 获取队尾元素</span></div><div class="line">  back() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="keyword">this</span>.length - <span class="number">1</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  toString() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.toString()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例：回文检测</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPalindrome</span>(<span class="params">str</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> dqueue = <span class="keyword">new</span> Deque()</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</div><div class="line">    dqueue.enqueueBack(str[i])</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">while</span>(!dqueue.isEmpty) &#123;</div><div class="line">    <span class="keyword">if</span> (dqueue.front() !== dqueue.back()) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      dqueue.dequeueFront()</div><div class="line">      dqueue.dequeueBack()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> str1 = isPalindrome(<span class="string">'hello'</span>)</div><div class="line"><span class="built_in">console</span>.log(str1)		<span class="comment">// false</span></div><div class="line">&nbsp</div><div class="line"><span class="keyword">const</span> str2 = isPalindrome(<span class="string">'racecar'</span>)</div><div class="line"><span class="built_in">console</span>.log(str2)		<span class="comment">// true</span></div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/01/JavaScript-DataStructures-and-Algorithms/Stack/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/03/JavaScript-DataStructures-and-Algorithms/LinkedList/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

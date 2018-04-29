@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（6） —— 散列（Hash） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/d5d7fb58bf5f  散列 散列是一种常用的数据存储技术，散列后的数据可以快速地插入或取用。散列使用的数据结构叫做散列表。在散列表上插入、删除和取用数据都非常快，但是对于查找操作来说却效率低下，比如查找一组数据中的最大值和最小值。  散列表的实现基于数组，键为整型时，一般使用除留余数法（以数组的长度对键取值）来实现散列函数，数">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（6） —— 散列（Hash）">
+<meta property="og:url" content="http://hysunny.me/2018/01/04/JavaScript-DataStructures-and-Algorithms/Hash/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/d5d7fb58bf5f  散列 散列是一种常用的数据存储技术，散列后的数据可以快速地插入或取用。散列使用的数据结构叫做散列表。在散列表上插入、删除和取用数据都非常快，但是对于查找操作来说却效率低下，比如查找一组数据中的最大值和最小值。  散列表的实现基于数组，键为整型时，一般使用除留余数法（以数组的长度对键取值）来实现散列函数，数">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-29T13:00:53.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（6） —— 散列（Hash）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/d5d7fb58bf5f  散列 散列是一种常用的数据存储技术，散列后的数据可以快速地插入或取用。散列使用的数据结构叫做散列表。在散列表上插入、删除和取用数据都非常快，但是对于查找操作来说却效率低下，比如查找一组数据中的最大值和最小值。  散列表的实现基于数组，键为整型时，一般使用除留余数法（以数组的长度对键取值）来实现散列函数，数">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/Hash" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（6） —— 散列（Hash）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.04</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/d5d7fb58bf5f" target="_blank" rel="external">https://www.jianshu.com/p/d5d7fb58bf5f</a></p>
+</blockquote>
+<h3 id="散列"><a href="#散列" class="headerlink" title="散列"></a>散列</h3><blockquote>
+<p>散列是一种常用的数据存储技术，散列后的数据可以快速地插入或取用。散列使用的数据结构叫做<code>散列表</code>。在散列表上插入、删除和取用数据都非常快，但是对于查找操作来说却效率低下，比如查找一组数据中的最大值和最小值。</p>
+</blockquote>
+<p>散列表的实现基于数组，键为整型时，一般使用<strong>除留余数法</strong>（以数组的长度对键取值）来实现散列函数，数组的大小一般为<strong>质数</strong>。尽量避免键为字符串或其他类型。</p>
+<p> 散列表中两个键映射成同一个值的情况，叫作碰撞（collision）。</p>
+<p> 碰撞处理的方法：</p>
+<ol>
+<li>开链法（使用多维数组）</li>
+<li>线性检测法（开放寻址散列）<br> 当发生碰撞时，线性探测法检查散列表中的下一个位置是否为空。如果为空，就将数据存入该位置；如果不为空，则继续检查下一个位置，直到找到一个空的位置为止。</li>
+</ol>
+<p>如何选择？<br>如果数组的大小是待存储数据的1.5倍，那么使用开链法；如果数组大小是待存储数据的两倍及两倍以上时，那么使用线性探测法。</p>
+<h4 id="开链法实现HashTable"><a href="#开链法实现HashTable" class="headerlink" title="开链法实现HashTable"></a>开链法实现HashTable</h4><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HashTable</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.table = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">137</span>)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 除留余数（简单方法）：当发生碰撞时，后面的值会覆盖之前的值</span></div><div class="line">  simpleHash(data) &#123;</div><div class="line">    <span class="keyword">let</span> total = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</div><div class="line">      total += data.charCodeAt(i)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> total % <span class="keyword">this</span>.table.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 除留余数（霍纳算法）</span></div><div class="line">  <span class="comment">// 数组的长度最好在100以上，这样会让数据在散列表中分布得更加均匀</span></div><div class="line">  <span class="comment">// 为了避免碰撞，在给散列表一个合适的大小后，新的散列函数仍然先计算字符串中各字符的 ASCII 码值，不过求和时每次要乘以一个质数</span></div><div class="line">  betterHash(data) &#123;</div><div class="line">    <span class="keyword">const</span> H = <span class="number">37</span></div><div class="line">    <span class="keyword">let</span> total = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</div><div class="line">      total += H * total + data.charCodeAt(i)</div><div class="line">    &#125;</div><div class="line">    total = total % <span class="keyword">this</span>.table.length</div><div class="line">    <span class="keyword">if</span> (total &lt; <span class="number">0</span>) &#123;</div><div class="line">      total += <span class="keyword">this</span>.table.length - <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> total</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 显示散列表中的数据</span></div><div class="line">  showDistro() &#123;</div><div class="line">    <span class="built_in">console</span>.table(<span class="keyword">this</span>.table)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将数据存入散列表</span></div><div class="line">  put(data) &#123;</div><div class="line">    <span class="keyword">const</span> pos = <span class="keyword">this</span>.betterHash(data)</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.table[pos]) &#123;</div><div class="line">      <span class="keyword">this</span>.table[pos].push(data)</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">this</span>.table[pos] = []</div><div class="line">      <span class="keyword">this</span>.table[pos].push(data)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> names = [<span class="string">'David'</span>, <span class="string">'Jennifer'</span>, <span class="string">'Donnie'</span>, <span class="string">'Hysunny'</span>, <span class="string">'Raymond'</span>, <span class="string">'Cynthia'</span>, <span class="string">'Mike'</span>, <span class="string">'Clayton'</span>, <span class="string">'Danny'</span>, <span class="string">'Jonathan'</span>]</div><div class="line"><span class="keyword">const</span> table = <span class="keyword">new</span> HashTable()</div><div class="line">names.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</div><div class="line">	table.put(item)</div><div class="line">&#125;)</div><div class="line">table.showDistro()</div></pre></td></tr></table></figure>
+<h4 id="线性检测法实现HashTable"><a href="#线性检测法实现HashTable" class="headerlink" title="线性检测法实现HashTable"></a>线性检测法实现HashTable</h4><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">HashTable</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.table = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">137</span>)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 除留余数（简单方法）：当发生碰撞时，后面的值会覆盖之前的值</span></div><div class="line">  simpleHash(data) &#123;</div><div class="line">    <span class="keyword">let</span> total = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</div><div class="line">      total += data.charCodeAt(i)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> total % <span class="keyword">this</span>.table.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 除留余数（霍纳算法）</span></div><div class="line">  <span class="comment">// 数组的长度最好在100以上，这样会让数据在散列表中分布得更加均匀</span></div><div class="line">  <span class="comment">// 为了避免碰撞，在给散列表一个合适的大小后，新的散列函数仍然先计算字符串中各字符的 ASCII 码值，不过求和时每次要乘以一个质数</span></div><div class="line">  betterHash(data) &#123;</div><div class="line">    <span class="keyword">const</span> H = <span class="number">37</span></div><div class="line">    <span class="keyword">let</span> total = <span class="number">0</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; data.length; i++) &#123;</div><div class="line">      total += H * total + data.charCodeAt(i)</div><div class="line">    &#125;</div><div class="line">    total = total % <span class="keyword">this</span>.table.length</div><div class="line">    <span class="keyword">if</span> (total &lt; <span class="number">0</span>) &#123;</div><div class="line">      total += <span class="keyword">this</span>.table.length - <span class="number">1</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> total</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 显示散列表中的数据</span></div><div class="line">  showDistro() &#123;</div><div class="line">    <span class="built_in">console</span>.table(<span class="keyword">this</span>.table)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将数据存入散列表</span></div><div class="line">  put(data) &#123;</div><div class="line">    <span class="keyword">let</span> pos = <span class="keyword">this</span>.betterHash(data)</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.table[pos]) &#123;</div><div class="line">      <span class="keyword">while</span>(<span class="keyword">this</span>.table[pos] !== <span class="literal">undefined</span>) &#123;</div><div class="line">        pos++</div><div class="line">      &#125;</div><div class="line">    &#125; </div><div class="line">    <span class="keyword">this</span>.table[pos] = data</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> names = [<span class="string">'David'</span>, <span class="string">'Jennifer'</span>, <span class="string">'Donnie'</span>, <span class="string">'Hysunny'</span>, <span class="string">'Raymond'</span>, <span class="string">'Cynthia'</span>, <span class="string">'Mike'</span>, <span class="string">'Clayton'</span>, <span class="string">'Danny'</span>, <span class="string">'Jonathan'</span>]</div><div class="line"><span class="keyword">const</span> table = <span class="keyword">new</span> HashTable()</div><div class="line">names.forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</div><div class="line">  table.put(item)</div><div class="line">&#125;)</div><div class="line">table.showDistro()</div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/03/JavaScript-DataStructures-and-Algorithms/Dictionary/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/10/JavaScript-DataStructures-and-Algorithms/Set/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（12） —— 检索算法（Search） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/45445f69e5fa  1. 顺序查找（1）查找某值function seqSearch(arr, target) &amp;#123;  const len = arr &amp;amp;&amp;amp; arr.length  if (!len) return -1  for (let i = 0; i &amp;lt; len; i++) &amp;#123;">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（12） —— 检索算法（Search）">
+<meta property="og:url" content="http://hysunny.me/2018/01/24/JavaScript-DataStructures-and-Algorithms/Search/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/45445f69e5fa  1. 顺序查找（1）查找某值function seqSearch(arr, target) &amp;#123;  const len = arr &amp;amp;&amp;amp; arr.length  if (!len) return -1  for (let i = 0; i &amp;lt; len; i++) &amp;#123;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-29T13:06:47.361Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（12） —— 检索算法（Search）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/45445f69e5fa  1. 顺序查找（1）查找某值function seqSearch(arr, target) &amp;#123;  const len = arr &amp;amp;&amp;amp; arr.length  if (!len) return -1  for (let i = 0; i &amp;lt; len; i++) &amp;#123;">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/Search" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（12） —— 检索算法（Search）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/45445f69e5fa" target="_blank" rel="external">https://www.jianshu.com/p/45445f69e5fa</a></p>
+</blockquote>
+<h3 id="1-顺序查找"><a href="#1-顺序查找" class="headerlink" title="1. 顺序查找"></a>1. 顺序查找</h3><p>（1）查找某值<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">seqSearch</span>(<span class="params">arr, target</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr &amp;&amp; arr.length</div><div class="line">  <span class="keyword">if</span> (!len) <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (arr[i] === target) &#123;</div><div class="line">      <span class="keyword">return</span> i</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr1 = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">const</span> result1 = seqSearch(arr1, <span class="number">82</span>)</div><div class="line"><span class="built_in">console</span>.log(result1)	<span class="comment">// 8</span></div></pre></td></tr></table></figure></p>
+<p>（2）查找最小值</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">findMin</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr &amp;&amp; arr.length</div><div class="line">  <span class="keyword">if</span> (!len) <span class="keyword">return</span> <span class="literal">null</span></div><div class="line">  <span class="keyword">let</span> min = arr[<span class="number">0</span>]</div><div class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (arr[i] &lt; min) &#123;</div><div class="line">      min = arr[i]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> min</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr2 = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">const</span> result2 = findMin(arr2)</div><div class="line"><span class="built_in">console</span>.log(result2)	<span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p>（3）查找最大值</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">findMax</span>(<span class="params">arr</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr &amp;&amp; arr.length</div><div class="line">  <span class="keyword">if</span> (!len) <span class="keyword">return</span> <span class="literal">null</span></div><div class="line">  <span class="keyword">let</span> max = arr[<span class="number">0</span>]</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (arr[i] &gt; max) &#123;</div><div class="line">      max = arr[i]</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> max</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr3 = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">const</span> result3 = findMax(arr3)</div><div class="line"><span class="built_in">console</span>.log(result3)	<span class="comment">// 82</span></div></pre></td></tr></table></figure>
+<p>（4）包含<strong>自组织方式</strong>的顺序查找</p>
+<blockquote>
+<p>使用自组织（数据的位置并非由程序员在执行之前就组织好，而是<strong>在程序运行过程中由程序自动组织的</strong>）数据<br>通过将频繁查找到的元素置于数据集的起始位置来<strong>最小化查找次数</strong>。</p>
+</blockquote>
+<p>a. 包含自组织方式的seqSearch（1）：不断检查确认已找到的数据是否已经排在最前面。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">seqSearch</span>(<span class="params">arr, target</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr.length</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (arr[i] === target) &#123;</div><div class="line">      <span class="keyword">if</span> (i &gt; <span class="number">0</span>) &#123;</div><div class="line">        [arr[i - <span class="number">1</span>], arr[i]] = [arr[i], arr[i - <span class="number">1</span>]]</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr4 =  [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= <span class="number">4</span>; i++) &#123;</div><div class="line">    <span class="keyword">const</span> result4 =  seqSearch(arr4, <span class="number">77</span>)</div><div class="line">    <span class="built_in">console</span>.log(arr4)</div><div class="line">    <span class="comment">// [72, 54, 59, 30, 31, 78, 77, 2, 82, 72]</span></div><div class="line">    <span class="comment">// [72, 54, 59, 30, 31, 77, 78, 2, 82, 72]</span></div><div class="line">    <span class="comment">// [72, 54, 59, 30, 77, 31, 78, 2, 82, 72]</span></div><div class="line">    <span class="comment">// [72, 54, 59, 77, 30, 31, 78, 2, 82, 72]</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>b. 包含自组织方式的seqSearch（2）：将找到的元素移动到数据集的<strong>起始</strong>位置，但是如果这个元素已经很接近起始位置，则不会对它的位置进行交换。</p>
+<blockquote>
+<p>80-20原则：对某一数据集执行的80%的查找操作都是对其中20%的数据元素进行查找。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">seqSearch</span>(<span class="params">arr, target</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr.length</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">    <span class="keyword">if</span> (arr[i] === target) &#123;</div><div class="line">      <span class="keyword">if</span> (i &gt; (arr.length * <span class="number">0.2</span>)) &#123;</div><div class="line">        <span class="comment">// 仅当数据位于数据集的前20%元素之外时，该数据才需要被重新移动到数据集的起始位置。</span></div><div class="line">        [arr[<span class="number">0</span>], arr[i]] = [arr[i], arr[<span class="number">0</span>]]</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr5 =  [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= <span class="number">4</span>; i++) &#123;</div><div class="line">    <span class="keyword">const</span> result5 =  seqSearch(arr5, <span class="number">77</span>)</div><div class="line">    <span class="built_in">console</span>.log(arr5)</div><div class="line">    <span class="comment">// [77, 54, 59, 30, 31, 78, 2, 72, 82, 72]</span></div><div class="line">    <span class="comment">// [77, 54, 59, 30, 31, 78, 2, 72, 82, 72]</span></div><div class="line">    <span class="comment">// [77, 54, 59, 30, 31, 78, 2, 72, 82, 72]</span></div><div class="line">    <span class="comment">// [77, 54, 59, 30, 31, 78, 2, 72, 82, 72]</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="2-二分查找算法【已排序数据】"><a href="#2-二分查找算法【已排序数据】" class="headerlink" title="2. 二分查找算法【已排序数据】"></a>2. 二分查找算法【已排序数据】</h3><blockquote>
+<p>算法描述：<br>（1）将数组的第一个位置设置为下边界（0）<br>（2）将数组最后一个元素所在的位置设置为上边界（数组的长度减1）<br>（3）若下边界等于或小于上边界，则做如下操作：<br>a. 将中点设置为（上边界加上下边界）除以2<br>b. 如果中点的元素小于查询的值，则将下边界设置为中点元素所在下标加1<br>c. 如果中点的元素大于查询的值，则将上边界设置为中点元素所在下标减1<br>d. 否则中点元素即为要查找的数据，可以进行返回</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">binSearch</span>(<span class="params">arr, target</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr.length</div><div class="line">  <span class="keyword">let</span> upperBound = len - <span class="number">1</span></div><div class="line">  <span class="keyword">let</span> lowBound = <span class="number">0</span></div><div class="line">  <span class="keyword">while</span> (lowBound &lt;= upperBound) &#123;</div><div class="line">    <span class="comment">// 将中点设置为 (上边界 + 下边界) / 2</span></div><div class="line">    <span class="keyword">let</span> mid = <span class="built_in">Math</span>.floor((lowBound + upperBound) / <span class="number">2</span>)</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">`当前的中点值：<span class="subst">$&#123;arr[mid]&#125;</span>`</span>)</div><div class="line">    <span class="keyword">if</span> (arr[mid] &lt; target) &#123;</div><div class="line">      <span class="comment">// 如果中点的元素小于查询的值，则将下边界设置为中点元素所在的下标加一</span></div><div class="line">      lowBound = mid + <span class="number">1</span></div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (arr[mid] &gt; target) &#123;</div><div class="line">      <span class="comment">// 如果中点的元素大于查询的值，则将上边界设置为中点元素所在的下标减一</span></div><div class="line">      upperBound = mid - <span class="number">1</span></div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="comment">// 否则中点元素即为要查找的数据，可以进行返回</span></div><div class="line">      <span class="keyword">return</span> mid</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> <span class="number">-1</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr6 = [<span class="number">2</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">72</span>, <span class="number">72</span>, <span class="number">77</span>, <span class="number">78</span>, <span class="number">82</span>]</div><div class="line"><span class="keyword">const</span> result6 = binSearch(arr6, <span class="number">78</span>)</div><div class="line"><span class="built_in">console</span>.log(result6)</div><div class="line"><span class="comment">// 当前的中点值：59</span></div><div class="line"><span class="comment">// 当前的中点值：77</span></div><div class="line"><span class="comment">// 当前的中点值：78</span></div><div class="line"><span class="comment">// 8</span></div></pre></td></tr></table></figure>
+<p>示例：计算一个数组中某个数的重复次数</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params">arr, target</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> len = arr.length</div><div class="line">  <span class="keyword">let</span> count = <span class="number">0</span></div><div class="line">  arr.sort(<span class="function">(<span class="params">a, b</span>) =&gt;</span> &#123; <span class="keyword">return</span> a - b &#125;)</div><div class="line">  <span class="keyword">let</span> pos = binSearch(arr, target)</div><div class="line">  <span class="keyword">if</span> (pos &gt; <span class="number">-1</span>) &#123;</div><div class="line">    count++</div><div class="line">    <span class="comment">// 向下（左）遍历数组，统计找到的值出现的次数，当下一个值与要查找的值不匹配时停止计数</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = pos - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) &#123;</div><div class="line">      <span class="keyword">if</span> (arr[i] === target) &#123;</div><div class="line">        count++</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">break</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 向上(右)遍历数组，统计找到的值出现的次数，当下一个值与要查找的值不匹配时停止计数</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = pos + <span class="number">1</span>; j &lt; len; j++) &#123;</div><div class="line">      <span class="keyword">if</span> (arr[j] === target) &#123;</div><div class="line">        count++</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">break</span></div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> count</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> arr7 = [<span class="number">72</span>, <span class="number">54</span>, <span class="number">59</span>, <span class="number">30</span>, <span class="number">31</span>, <span class="number">78</span>, <span class="number">2</span>, <span class="number">77</span>, <span class="number">82</span>, <span class="number">72</span>]</div><div class="line"><span class="keyword">const</span> result7 = count(arr7, <span class="number">72</span>)</div><div class="line"><span class="built_in">console</span>.log(<span class="string">`重复次数为：<span class="subst">$&#123;result7&#125;</span>次`</span>)</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 当前的中点值：59</span></div><div class="line"><span class="comment">// 当前的中点值：77</span></div><div class="line"><span class="comment">// 当前的中点值：72</span></div><div class="line"><span class="comment">// 重复次数为：2次</span></div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/24/JavaScript-DataStructures-and-Algorithms/advanced-Sort/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/02/05/JavaScript-DataStructures-and-Algorithms/Algorithm/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

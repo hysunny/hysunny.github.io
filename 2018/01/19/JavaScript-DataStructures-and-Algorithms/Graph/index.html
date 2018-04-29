@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（9） —— 图（Graph） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/9d9a16019859  1. 图的定义 图由边的集合及顶点的集合组成。边由顶点对(v1, v2)定义，v1和v2分别是图中的两个顶点。顶点也有权重，也称为成本。图中的一系列顶点构成路径，路径中所有的顶点都由边连接。路径的长度用路径中第一个顶点到最后一个顶点之间边的数量表示。 如果一个图的顶点对是有序的，则可以称之为有向图。有向图">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（9） —— 图（Graph）">
+<meta property="og:url" content="http://hysunny.me/2018/01/19/JavaScript-DataStructures-and-Algorithms/Graph/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/9d9a16019859  1. 图的定义 图由边的集合及顶点的集合组成。边由顶点对(v1, v2)定义，v1和v2分别是图中的两个顶点。顶点也有权重，也称为成本。图中的一系列顶点构成路径，路径中所有的顶点都由边连接。路径的长度用路径中第一个顶点到最后一个顶点之间边的数量表示。 如果一个图的顶点对是有序的，则可以称之为有向图。有向图">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-93462eaf87298b7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-4a6fa78fc35a7a31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-fa8aee35eb7e7baa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-2265f83922065e63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-89f084546a7d0453.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T13:03:09.316Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（9） —— 图（Graph）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/9d9a16019859  1. 图的定义 图由边的集合及顶点的集合组成。边由顶点对(v1, v2)定义，v1和v2分别是图中的两个顶点。顶点也有权重，也称为成本。图中的一系列顶点构成路径，路径中所有的顶点都由边连接。路径的长度用路径中第一个顶点到最后一个顶点之间边的数量表示。 如果一个图的顶点对是有序的，则可以称之为有向图。有向图">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-93462eaf87298b7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/Graph" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（9） —— 图（Graph）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/9d9a16019859" target="_blank" rel="external">https://www.jianshu.com/p/9d9a16019859</a></p>
+</blockquote>
+<h3 id="1-图的定义"><a href="#1-图的定义" class="headerlink" title="1. 图的定义"></a>1. 图的定义</h3><blockquote>
+<p>图由<code>边</code>的集合及<code>顶点</code>的集合组成。<br>边由<code>顶点对</code>(v1, v2)定义，v1和v2分别是图中的两个顶点。<br>顶点也有<code>权重</code>，也称为成本。<br>图中的一系列顶点构成<code>路径</code>，路径中所有的顶点都由边连接。<br>路径的长度用路径中<strong>第一个顶点</strong>到<strong>最后一个顶点</strong>之间边的数量表示。</p>
+<p>如果一个图的顶点对是有序的，则可以称之为有向图。有向图表明了顶点的流向。<br><img src="http://upload-images.jianshu.io/upload_images/3779867-93462eaf87298b7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="有向图.png"></p>
+<p>如果图是无序的，则称之为无序图，或无向图：<br><img src="http://upload-images.jianshu.io/upload_images/3779867-4a6fa78fc35a7a31.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="无序图.png"></p>
+</blockquote>
+<p>本篇主要讨论无序图。</p>
+<blockquote>
+<p>表示图的边的方法称为<code>邻接表</code>或者<code>邻接数组</code>。<br>这种方法将边存储为由顶点的相邻顶点列表构成的数组，并以此顶点作为索引。<br><img src="http://upload-images.jianshu.io/upload_images/3779867-fa8aee35eb7e7baa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="邻接表.png"></p>
+</blockquote>
+<h3 id="2-图算法-——-搜索图"><a href="#2-图算法-——-搜索图" class="headerlink" title="2. 图算法 —— 搜索图"></a>2. 图算法 —— 搜索图</h3><p>（1）深度优先搜索<br>深度优先搜索包括从一条路径的起始顶点开始追溯，直到到达最后一个顶点，然后回溯，继续追溯下一条路径，直到到达最后的顶点，如此往复，直到没有路径为止。这不是在搜索特定的路径，而是通过搜索来查看在图中有哪些路径可以选择。</p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-2265f83922065e63.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="深度优先搜索.png"></p>
+</blockquote>
+<p>（2）广度优先搜索<br>广度优先搜索从第一个顶点开始，尝试尽可能靠近它的顶点。本质上，这种搜索在图上是<strong>逐层</strong>移动的，首先检查最靠近第一个顶点的层，再逐渐向下移动到离起始顶点最远的层。<br>广度优先算法使用了抽象队列来对已访问过的顶点进行排序。原理如下：<br><figure class="highlight stylus"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">a</span>. 查找与当前顶点相邻的未访问顶点，将其添加到已访问顶点列表及队列中；</div><div class="line"><span class="selector-tag">b</span>. 从图中取出下一个顶点v，添加到已访问的顶点列表</div><div class="line">c. 将所有与v相邻的未访问顶点添加到队列</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-89f084546a7d0453.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="广度优先搜索.png"></p>
+</blockquote>
+<h3 id="3-实现一个图类"><a href="#3-实现一个图类" class="headerlink" title="3. 实现一个图类"></a>3. 实现一个图类</h3><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>(v = 0, vertexList = []) &#123;</div><div class="line">    <span class="keyword">this</span>.vertices = v <span class="comment">// 顶点数</span></div><div class="line">    <span class="keyword">this</span>.edges = <span class="number">0</span>	<span class="comment">// 边数</span></div><div class="line">    <span class="keyword">this</span>.adj = []		<span class="comment">// 邻接数组</span></div><div class="line">    <span class="keyword">this</span>.marked = []	<span class="comment">// 存储已访问的节点</span></div><div class="line">    <span class="keyword">this</span>.edgeTo = []	<span class="comment">// 保存一个顶点到下一个顶点的所有边</span></div><div class="line">    <span class="keyword">this</span>.vertexList = vertexList	<span class="comment">// 将各个顶点关联到一个符号</span></div><div class="line">    <span class="comment">// 为每个顶点初始化一个数组用来存储与他相连的节点</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.vertices; i++) &#123;</div><div class="line">      <span class="keyword">this</span>.adj[i] = []</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 初始化所有顶点为未访问过</span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.vertices; i++) &#123;</div><div class="line">      <span class="keyword">this</span>.marked[i] = <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 添加一条边</span></div><div class="line">  addEdge(v, w) &#123;</div><div class="line">    <span class="keyword">this</span>.adj[v].push(w)</div><div class="line">    <span class="keyword">this</span>.adj[w].push(v)</div><div class="line">    <span class="keyword">this</span>.edges++</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 深度优先搜索</span></div><div class="line">  <span class="comment">// 访问一个没有被访问过的顶点，将它标记为已访问，再递归地去访问在初始顶点的邻接表中其他没有被访问顶点</span></div><div class="line">  dfs(v = <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">this</span>.marked[v] = <span class="literal">true</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.adj[v] !== <span class="literal">undefined</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`Visited vertex: <span class="subst">$&#123;v&#125;</span>`</span>)</div><div class="line">        <span class="keyword">this</span>.adj[v].forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</div><div class="line">            <span class="keyword">if</span> (!<span class="keyword">this</span>.marked[item]) &#123;</div><div class="line">                <span class="keyword">this</span>.dfs(item)</div><div class="line">            &#125;</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 广度优先搜索</span></div><div class="line">  <span class="comment">// (1) 查找与当前顶点相邻的未访问顶点，将其添加到已访问顶点列表及队列中</span></div><div class="line">  <span class="comment">// (2) 从图中取出下一个顶点v，添加到已访问的顶点列表中</span></div><div class="line">  <span class="comment">// (3) 将所有与v相邻的未访问顶点添加到队列中</span></div><div class="line">  bfs(s = <span class="number">0</span>) &#123;</div><div class="line">    <span class="keyword">this</span>.resetMarked()</div><div class="line">    <span class="keyword">const</span> queue = []</div><div class="line">    <span class="keyword">this</span>.marked[s] = <span class="literal">true</span></div><div class="line">    queue.push(s) <span class="comment">// 添加到队尾</span></div><div class="line">    <span class="keyword">while</span>(queue.length &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">const</span> v = queue.shift() <span class="comment">// 从队首移除</span></div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.adj[v] !== <span class="literal">undefined</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`Visited vertex: <span class="subst">$&#123;v&#125;</span>`</span>)</div><div class="line">        <span class="comment">// 遍历访问与v的邻接表中其他没有被访问的顶点</span></div><div class="line">        <span class="keyword">this</span>.adj[v].forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</div><div class="line">          <span class="keyword">if</span> (!<span class="keyword">this</span>.marked[item]) &#123;</div><div class="line">            <span class="comment">// 保存 item =&gt; v 的边</span></div><div class="line">            <span class="keyword">this</span>.edgeTo[item] = v</div><div class="line">            <span class="comment">// 将 item 标记为已访问</span></div><div class="line">            <span class="keyword">this</span>.marked[item] = <span class="literal">true</span></div><div class="line">            queue.push(item)</div><div class="line">          &#125;</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.resetMarked()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 存储与指定顶点有共同边的所有顶点</span></div><div class="line">  pathTo(v) &#123;</div><div class="line">    <span class="keyword">this</span>.dfs()</div><div class="line">    <span class="keyword">let</span> source = <span class="number">0</span></div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.marked[v]) <span class="keyword">return</span> <span class="literal">undefined</span></div><div class="line">    <span class="keyword">const</span> path = []</div><div class="line">    <span class="keyword">let</span> i = v</div><div class="line">    <span class="keyword">while</span>  (i !== source) &#123;</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.edgeTo[i] !== <span class="literal">undefined</span>) &#123;</div><div class="line">        path.push(i)</div><div class="line">        i = <span class="keyword">this</span>.edgeTo[i]</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        i = source</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    path.push(source)</div><div class="line">    <span class="keyword">this</span>.resetMarked()</div><div class="line">    <span class="keyword">return</span> path.reverse()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 拓扑排序</span></div><div class="line">  <span class="comment">// 设置排序进程并调用一个辅助函数 topSortHelper()</span></div><div class="line">  <span class="comment">// 然后显示排序好的顶点列表</span></div><div class="line">  topSort() &#123;</div><div class="line">    <span class="keyword">const</span> stack = []</div><div class="line">    <span class="keyword">const</span> visited = []</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.vertices; i++) &#123;</div><div class="line">      visited[i] = <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.vertices; i++) &#123;</div><div class="line">      <span class="keyword">if</span> (!visited[i]) &#123;</div><div class="line">        <span class="keyword">this</span>.topSortHelper(i, visited, stack)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = stack.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</div><div class="line">      <span class="keyword">if</span> (stack[i] !== <span class="literal">undefined</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="keyword">this</span>.vertexList[stack[i]])</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 拓扑排序辅助函数</span></div><div class="line">  <span class="comment">// 将当前顶点标记为已访问，然后递归地访问当前顶点邻接表中每个相邻顶点，标记这些顶点为已访问。</span></div><div class="line">  <span class="comment">// 最后将当前顶点压入栈</span></div><div class="line">  topSortHelper(v, visited, stack) &#123;</div><div class="line">    visited[v] = <span class="literal">true</span></div><div class="line">    <span class="keyword">this</span>.adj[v].forEach(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (!visited[item]) &#123;</div><div class="line">        <span class="keyword">this</span>.topSortHelper(item, visited, stack)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">    stack.push(v)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  showGraph() &#123;</div><div class="line">    <span class="keyword">const</span> visited = []</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.vertices; i++) &#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">' '</span>)</div><div class="line">      visited.push(<span class="keyword">this</span>.vertexList[i])</div><div class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="keyword">this</span>.vertices; j++) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.adj[i][j] !== <span class="literal">undefined</span> &amp;&amp; visited.indexOf(<span class="keyword">this</span>.vertexList[j] === <span class="number">-1</span>)) &#123;</div><div class="line">          <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.vertexList[i]&#125;</span> -&gt; <span class="subst">$&#123;<span class="keyword">this</span>.adj[i][j]&#125;</span>`</span>)</div><div class="line">        &#125;</div><div class="line">        visited.pop()</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 重置所有顶点为未访问过</span></div><div class="line">  resetMarked() &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>.vertices; i++) &#123;</div><div class="line">      <span class="keyword">this</span>.marked[i] = <span class="literal">false</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line">&nbsp</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> lessons = [<span class="string">'CS1'</span>, <span class="string">'CS2'</span>, <span class="string">'Data Structures'</span>,</div><div class="line">                     <span class="string">'Assembly Language'</span>, <span class="string">'Operating Systems'</span>,</div><div class="line">                     <span class="string">'Algorithms'</span>]</div><div class="line"><span class="keyword">const</span> g = <span class="keyword">new</span> Graph(<span class="number">6</span>, lessons)</div><div class="line">g.addEdge(<span class="number">1</span>, <span class="number">2</span>)</div><div class="line">g.addEdge(<span class="number">2</span>, <span class="number">5</span>)</div><div class="line">g.addEdge(<span class="number">1</span>, <span class="number">3</span>)</div><div class="line">g.addEdge(<span class="number">1</span>, <span class="number">4</span>)</div><div class="line">g.addEdge(<span class="number">0</span>, <span class="number">1</span>)</div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'======= showGraph ======='</span>)</div><div class="line">g.showGraph()</div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'======= 深度优先 ======='</span>)</div><div class="line">g.dfs()</div><div class="line"><span class="comment">// Visited vertex: 0</span></div><div class="line"><span class="comment">// Visited vertex: 1</span></div><div class="line"><span class="comment">// Visited vertex: 2</span></div><div class="line"><span class="comment">// Visited vertex: 5</span></div><div class="line"><span class="comment">// Visited vertex: 3</span></div><div class="line"><span class="comment">// Visited vertex: 4</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'======= 广度优先 ======='</span>)</div><div class="line">g.bfs() </div><div class="line"><span class="comment">// Visited vertex: 0</span></div><div class="line"><span class="comment">// Visited vertex: 1</span></div><div class="line"><span class="comment">// Visited vertex: 2</span></div><div class="line"><span class="comment">// Visited vertex: 3</span></div><div class="line"><span class="comment">// Visited vertex: 4</span></div><div class="line"><span class="comment">// Visited vertex: 5</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'拓扑排序 ======='</span>)</div><div class="line">g.topSort() </div><div class="line"><span class="comment">// CS1</span></div><div class="line"><span class="comment">// CS2 </span></div><div class="line"><span class="comment">// Operating Systems</span></div><div class="line"><span class="comment">// Assembly Language</span></div><div class="line"><span class="comment">// Data Structures</span></div><div class="line"><span class="comment">// Algorithms </span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'最短路径 ======='</span>)</div><div class="line"><span class="keyword">const</span> path = g.pathTo(<span class="number">4</span>)</div><div class="line"><span class="built_in">console</span>.log(path) <span class="comment">// [0, 1, 4]</span></div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/15/JavaScript-DataStructures-and-Algorithms/BST/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/23/JavaScript-DataStructures-and-Algorithms/Sort/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

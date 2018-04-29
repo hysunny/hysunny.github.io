@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（8） —— 二叉查找树（BST） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/45952104878a  二叉查找树 二叉查找树（BST）：一种特殊的二叉树，相对较小的值保存在左节点中，较大的值保存在右节点中。  实现： class Node &amp;#123;&amp;nbsp  constructor(data) &amp;#123;    // Node既保存数据也保存和其他节点的链接    this.data = data">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（8） —— 二叉查找树（BST）">
+<meta property="og:url" content="http://hysunny.me/2018/01/15/JavaScript-DataStructures-and-Algorithms/BST/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/45952104878a  二叉查找树 二叉查找树（BST）：一种特殊的二叉树，相对较小的值保存在左节点中，较大的值保存在右节点中。  实现： class Node &amp;#123;&amp;nbsp  constructor(data) &amp;#123;    // Node既保存数据也保存和其他节点的链接    this.data = data">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-29T13:02:15.585Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（8） —— 二叉查找树（BST）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/45952104878a  二叉查找树 二叉查找树（BST）：一种特殊的二叉树，相对较小的值保存在左节点中，较大的值保存在右节点中。  实现： class Node &amp;#123;&amp;nbsp  constructor(data) &amp;#123;    // Node既保存数据也保存和其他节点的链接    this.data = data">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/BST" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（8） —— 二叉查找树（BST）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.15</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/45952104878a" target="_blank" rel="external">https://www.jianshu.com/p/45952104878a</a></p>
+</blockquote>
+<h3 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h3><blockquote>
+<p>二叉查找树（BST）：一种特殊的二叉树，相对较小的值保存在左节点中，较大的值保存在右节点中。</p>
+</blockquote>
+<p>实现：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>(data) &#123;</div><div class="line">    <span class="comment">// Node既保存数据也保存和其他节点的链接</span></div><div class="line">    <span class="keyword">this</span>.data = data</div><div class="line">    <span class="keyword">this</span>.left = <span class="literal">null</span></div><div class="line">    <span class="keyword">this</span>.right = <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  toString() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.data.toString()</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BST</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.root = <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 向树中加入新节点</span></div><div class="line">  insert(...datalist) &#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> data <span class="keyword">of</span> datalist) &#123;</div><div class="line">      <span class="keyword">const</span> node = <span class="keyword">new</span> Node(data)</div><div class="line">      <span class="keyword">if</span> (<span class="keyword">this</span>.root === <span class="literal">null</span>) &#123;</div><div class="line">        <span class="keyword">this</span>.root = node</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">let</span> current = <span class="keyword">this</span>.root</div><div class="line">        <span class="keyword">let</span> parent</div><div class="line">        <span class="keyword">while</span>(<span class="literal">true</span>) &#123;</div><div class="line">          parent = current</div><div class="line">          <span class="keyword">if</span> (data &lt; current.data) &#123;</div><div class="line">            current = current.left</div><div class="line">            <span class="keyword">if</span> (current === <span class="literal">null</span>) &#123;</div><div class="line">              parent.left = node</div><div class="line">              <span class="keyword">break</span></div><div class="line">            &#125;</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">            current = current.right</div><div class="line">            <span class="keyword">if</span> (current === <span class="literal">null</span>) &#123;</div><div class="line">              parent.right = node</div><div class="line">              <span class="keyword">break</span></div><div class="line">            &#125;</div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 前序遍历：根节点 -&gt; 左子树 -&gt; 右子树</span></div><div class="line">  preOrder() &#123;</div><div class="line">    <span class="keyword">const</span> order = <span class="function"><span class="params">node</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;node.data&#125;</span> `</span>)</div><div class="line">        order(node.left)</div><div class="line">        order(node.right)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    order(<span class="keyword">this</span>.root)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 中序遍历：左子树 -&gt; 根节点 -&gt; 右子树</span></div><div class="line">  inOrder() &#123;</div><div class="line">    <span class="keyword">const</span> order = <span class="function"><span class="params">node</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</div><div class="line">        order(node.left)</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;node.data&#125;</span> `</span>)</div><div class="line">        order(node.right)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    order(<span class="keyword">this</span>.root)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 后序遍历：左子树 -&gt; 右子树 -&gt; 根节点</span></div><div class="line">  postOrder() &#123;</div><div class="line">    <span class="keyword">const</span> order = <span class="function"><span class="params">node</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</div><div class="line">        order(node.left)</div><div class="line">        order(node.right)</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;node.data&#125;</span> `</span>)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    order(<span class="keyword">this</span>.root)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 找到最小值</span></div><div class="line">  findMin() &#123;</div><div class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.root</div><div class="line">    <span class="keyword">while</span>(current.left !== <span class="literal">null</span>) &#123;</div><div class="line">      current = current.left</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> current.data</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 找到最大值</span></div><div class="line">  findMax() &#123;</div><div class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.root</div><div class="line">    <span class="keyword">while</span>(current.right !== <span class="literal">null</span>) &#123;</div><div class="line">      current = current.right</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> current.data</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 找到指定值</span></div><div class="line">  find(data) &#123;</div><div class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.root</div><div class="line">    <span class="keyword">while</span>(current !== <span class="literal">null</span>) &#123;</div><div class="line">      <span class="keyword">if</span> (data === current.data) &#123;</div><div class="line">        <span class="keyword">return</span> current</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data &lt; current.data) &#123;</div><div class="line">        current = current.left</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data &gt; current.data) &#123;</div><div class="line">        current = current.right</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 找到指定值</span></div><div class="line">  find(data) &#123;</div><div class="line">    <span class="keyword">let</span> current = <span class="keyword">this</span>.root</div><div class="line">    <span class="keyword">while</span>(current !== <span class="literal">null</span>) &#123;</div><div class="line">      <span class="keyword">if</span> (data === current.data) &#123;</div><div class="line">        <span class="keyword">return</span> current</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data &lt; current.data) &#123;</div><div class="line">        current = current.left</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data &gt; current.data) &#123;</div><div class="line">        current = current.right</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">null</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 删除指定值</span></div><div class="line">  remove(data) &#123;</div><div class="line">    <span class="keyword">const</span> findMin = <span class="function"><span class="params">node</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">let</span> current = node</div><div class="line">      <span class="keyword">while</span>(current.left !== <span class="literal">null</span>) &#123;</div><div class="line">        current = current.left</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> current</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">const</span> removeNode = <span class="function">(<span class="params">node, data</span>) =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (node === <span class="literal">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">null</span></div><div class="line">      &#125;</div><div class="line">      <span class="keyword">if</span> (data === node.data) &#123;</div><div class="line">        <span class="comment">// 没有子节点的节点</span></div><div class="line">        <span class="keyword">if</span> (node.left === <span class="literal">null</span> &amp;&amp;</div><div class="line">            node.right === <span class="literal">null</span>) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="literal">null</span></div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 没有左子节点的节点</span></div><div class="line">        <span class="keyword">if</span> (node.left === <span class="literal">null</span>) &#123;</div><div class="line">          <span class="keyword">return</span> node.right</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 没有右子节点的节点</span></div><div class="line">        <span class="keyword">if</span> (node.right === <span class="literal">null</span>) &#123;</div><div class="line">          <span class="keyword">return</span> node.left</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 有两个子节点的节点</span></div><div class="line">        <span class="comment">// 找到右子树上的最小值，并用该值创建一个临时节点</span></div><div class="line">        <span class="keyword">const</span> tempNode = findMin(node.right)</div><div class="line">        <span class="comment">// 将临时节点上的值复制到待删除节点</span></div><div class="line">        node.data = tempNode.data</div><div class="line">        <span class="comment">// 然后再删除临时节点</span></div><div class="line">        node.right = removeNode(node.right, tempNode.data)</div><div class="line">        <span class="keyword">return</span> node</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (data &lt; node.data) &#123;</div><div class="line">        <span class="comment">// 移至当前节点的左子节点进行比较</span></div><div class="line">        node.left = removeNode(node.left, data)</div><div class="line">        <span class="keyword">return</span> node</div><div class="line">      &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">// 移至当前节点的右子节点进行比较</span></div><div class="line">        node.right = removeNode(node.right, data)</div><div class="line">        <span class="keyword">return</span> node</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">this</span>.root = removeNode(<span class="keyword">this</span>.root, data)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回BST中节点的个数</span></div><div class="line">  count() &#123;</div><div class="line">    <span class="keyword">let</span> arr = []</div><div class="line">    <span class="keyword">const</span> order = <span class="function"><span class="params">node</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (node !== <span class="literal">null</span>) &#123;</div><div class="line">        order(node.left, arr)</div><div class="line">        order(node.right, arr)</div><div class="line">        arr.push(node.data)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    order(<span class="keyword">this</span>.root)</div><div class="line">    <span class="keyword">return</span> arr.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回BST中边的个数</span></div><div class="line">  edgesCount() &#123;</div><div class="line">    <span class="keyword">let</span> count = <span class="number">0</span></div><div class="line">    <span class="keyword">const</span> edgesCount = <span class="function"><span class="params">node</span> =&gt;</span> &#123;</div><div class="line">      <span class="keyword">if</span> (node.left !== <span class="literal">null</span> &amp;&amp; node.right !== <span class="literal">null</span>) &#123;</div><div class="line">        count++</div><div class="line">        edgesCount(node.left)</div><div class="line">        count++</div><div class="line">        edgesCount(node.right)</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.left !== <span class="literal">null</span>) &#123;</div><div class="line">        count++</div><div class="line">        edgesCount(node.left)</div><div class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (node.right !== <span class="literal">null</span>) &#123;</div><div class="line">        count++</div><div class="line">        edgesCount(node.right)</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">    edgesCount(<span class="keyword">this</span>.root)</div><div class="line">    <span class="keyword">return</span> count</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> bst = <span class="keyword">new</span> BST()</div><div class="line">bst.insert(<span class="number">23</span>,<span class="number">16</span>,<span class="number">99</span>,<span class="number">30</span>,<span class="number">18</span>,<span class="number">3</span>,<span class="number">120</span>,<span class="number">45</span>)</div><div class="line"><span class="built_in">console</span>.log(bst.count())	<span class="comment">// 8</span></div><div class="line">bst.preOrder() <span class="comment">// 23 16 3 18 99 30 45 120</span></div><div class="line">bst.inOrder() <span class="comment">// 3 16 18 23 30 45 99 120</span></div><div class="line">bst.postOrder()	<span class="comment">// 3 18 16 45 30 120 99 23</span></div><div class="line">bst.remove(<span class="number">99</span>)</div><div class="line"><span class="built_in">console</span>.log(bst.count())	<span class="comment">// 7</span></div><div class="line"><span class="built_in">console</span>.log(bst.findMin())	<span class="comment">// 3</span></div><div class="line"><span class="built_in">console</span>.log(bst.findMax())	<span class="comment">// 120</span></div><div class="line"><span class="built_in">console</span>.log(bst.find(<span class="number">30</span>))		<span class="comment">// Node &#123;data: 30, left: null, right: Node&#125;</span></div><div class="line"><span class="built_in">console</span>.log(bst.edgesCount())	<span class="comment">// 6</span></div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/01/10/JavaScript-DataStructures-and-Algorithms/Set/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/19/JavaScript-DataStructures-and-Algorithms/Graph/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

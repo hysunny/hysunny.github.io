@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vue实现StickyTop效果 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Vue.js," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/07330174e51d  最近的wap项目开发中有这么一个需求： 1. 初始情况下页面布局如下图所示： 2. 当页面滚动距离大于header时，switch-bar将固定在顶部 3. 3个列表可以来回切换4. 切换列表时保持switch-bar状态，即当switch-bar固定在顶部时，切换列表后switch-bar仍然固定在顶部">
+<meta name="keywords" content="Vue.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue实现StickyTop效果">
+<meta property="og:url" content="http://hysunny.me/2017/12/10/Vue/vue-stickyTop-effects/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/07330174e51d  最近的wap项目开发中有这么一个需求： 1. 初始情况下页面布局如下图所示： 2. 当页面滚动距离大于header时，switch-bar将固定在顶部 3. 3个列表可以来回切换4. 切换列表时保持switch-bar状态，即当switch-bar固定在顶部时，切换列表后switch-bar仍然固定在顶部">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-7d16c7762376b24e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-4f3cf6930482c742.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-8f8afb6b3d63b613.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-00679a723225e979.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T13:22:50.243Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue实现StickyTop效果">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/07330174e51d  最近的wap项目开发中有这么一个需求： 1. 初始情况下页面布局如下图所示： 2. 当页面滚动距离大于header时，switch-bar将固定在顶部 3. 3个列表可以来回切换4. 切换列表时保持switch-bar状态，即当switch-bar固定在顶部时，切换列表后switch-bar仍然固定在顶部">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-7d16c7762376b24e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Vue/vue-stickyTop-effects" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Vue实现StickyTop效果</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.12.10</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Vue-js/">Vue.js</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/07330174e51d" target="_blank" rel="external">https://www.jianshu.com/p/07330174e51d</a></p>
+</blockquote>
+<p>最近的wap项目开发中有这么一个需求：</p>
+<h4 id="1-初始情况下页面布局如下图所示："><a href="#1-初始情况下页面布局如下图所示：" class="headerlink" title="1. 初始情况下页面布局如下图所示："></a>1. 初始情况下页面布局如下图所示：</h4><p><img src="http://upload-images.jianshu.io/upload_images/3779867-7d16c7762376b24e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="2-当页面滚动距离大于header时，switch-bar将固定在顶部"><a href="#2-当页面滚动距离大于header时，switch-bar将固定在顶部" class="headerlink" title="2. 当页面滚动距离大于header时，switch-bar将固定在顶部"></a>2. 当页面滚动距离大于<code>header</code>时，<code>switch-bar</code>将固定在顶部</h4><p><img src="http://upload-images.jianshu.io/upload_images/3779867-4f3cf6930482c742.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="3-3个列表可以来回切换"><a href="#3-3个列表可以来回切换" class="headerlink" title="3. 3个列表可以来回切换"></a>3. 3个列表可以来回切换</h4><h4 id="4-切换列表时保持switch-bar状态，即当switch-bar固定在顶部时，切换列表后switch-bar仍然固定在顶部，当switch-bar不固定在顶部时，切换列表后页面回跳到顶部。"><a href="#4-切换列表时保持switch-bar状态，即当switch-bar固定在顶部时，切换列表后switch-bar仍然固定在顶部，当switch-bar不固定在顶部时，切换列表后页面回跳到顶部。" class="headerlink" title="4. 切换列表时保持switch-bar状态，即当switch-bar固定在顶部时，切换列表后switch-bar仍然固定在顶部，当switch-bar不固定在顶部时，切换列表后页面回跳到顶部。"></a>4. 切换列表时保持<code>switch-bar</code>状态，即当<code>switch-bar</code>固定在顶部时，切换列表后<code>switch-bar</code>仍然固定在顶部，当<code>switch-bar</code>不固定在顶部时，切换列表后页面回跳到顶部。</h4><h4 id="5-3个列表数据均为异步获取"><a href="#5-3个列表数据均为异步获取" class="headerlink" title="5. 3个列表数据均为异步获取"></a>5. 3个列表数据均为异步获取</h4><p>最后的实现效果（简单示例）如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-8f8afb6b3d63b613.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>下面我们来看下如果实现这个<code>stickyTop</code>效果。</p>
+<p>首先说一下这个示例使用的技术栈：<code>Vue</code> + <code>Vue-router</code> + <code>lodash</code> + <code>axios</code></p>
+<p>   (1) 使用<code>Vue-router</code>: 实现嵌套路由<br>   (2) 使用<code>lodash</code>的<code>throttle</code>: 节流监听滚动事件，降低性能消耗<br>   (3) 使用<code>axios</code>: 发起异步请求</p>
+<p>实现思路：</p>
+<h4 id="1-页面使用流式布局，整个页面可分为4个组件（Home-Products-Orders-Docs"><a href="#1-页面使用流式布局，整个页面可分为4个组件（Home-Products-Orders-Docs" class="headerlink" title="1. 页面使用流式布局，整个页面可分为4个组件（Home, Products, Orders, Docs"></a>1. 页面使用流式布局，整个页面可分为4个组件（Home, Products, Orders, Docs</h4><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> Home = &#123;</div><div class="line">  template: <span class="string">`</span></div><div class="line"><span class="string">    &lt;div class="home"&gt;</span></div><div class="line"><span class="string">      &lt;header class="header"&gt;header&lt;/header&gt;</span></div><div class="line"><span class="string">      &lt;div class="switch-bar"&gt;</span></div><div class="line"><span class="string">        &lt;router-link to="/products"&gt;产品&lt;/router-link&gt;</span></div><div class="line"><span class="string">        &lt;router-link to="/orders"&gt;订单&lt;/router-link&gt;</span></div><div class="line"><span class="string">        &lt;router-link to="/docs"&gt;文档&lt;/router-link&gt;</span></div><div class="line"><span class="string">      &lt;/div&gt;</span></div><div class="line"><span class="string">      &lt;div class="content"&gt;</span></div><div class="line"><span class="string">        &lt;router-view&gt;&lt;/router-view&gt;</span></div><div class="line"><span class="string">      &lt;/div&gt;</span></div><div class="line"><span class="string">    &lt;/div&gt;`</span></div><div class="line">&#125;  </div><div class="line">&nbsp</div><div class="line"><span class="keyword">const</span> Products = &#123;</div><div class="line">  template: </div><div class="line">  <span class="string">`</span></div><div class="line"><span class="string">  &lt;ul class="list products"&gt;</span></div><div class="line"><span class="string">    &lt;li v-for="item in list" :key="item.id"&gt;</span></div><div class="line"><span class="string">      &#123;&#123; item.name &#125;&#125;</span></div><div class="line"><span class="string">    &lt;/li&gt;</span></div><div class="line"><span class="string">  &lt;/ul&gt;</span></div><div class="line"><span class="string">  `</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="keyword">const</span> Orders = &#123;</div><div class="line">  template: </div><div class="line">  <span class="string">`</span></div><div class="line"><span class="string">  &lt;ul class="list products"&gt;</span></div><div class="line"><span class="string">    &lt;li v-for="item in list" :key="item.id"&gt;</span></div><div class="line"><span class="string">      &#123;&#123; item.name &#125;&#125;</span></div><div class="line"><span class="string">    &lt;/li&gt;</span></div><div class="line"><span class="string">  &lt;/ul&gt;</span></div><div class="line"><span class="string">  `</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="keyword">const</span> Docs = &#123;</div><div class="line">  template: </div><div class="line">  <span class="string">`</span></div><div class="line"><span class="string">  &lt;ul class="list products"&gt;</span></div><div class="line"><span class="string">    &lt;li v-for="item in list" :key="item.id"&gt;</span></div><div class="line"><span class="string">      &#123;&#123; item.name &#125;&#125;</span></div><div class="line"><span class="string">    &lt;/li&gt;</span></div><div class="line"><span class="string">  &lt;/ul&gt;</span></div><div class="line"><span class="string">  `</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="2-使用嵌套路由"><a href="#2-使用嵌套路由" class="headerlink" title="2. 使用嵌套路由"></a>2. 使用嵌套路由</h4><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> routes = [&#123;</div><div class="line">  path: <span class="string">'/'</span>,</div><div class="line">  component: Home,</div><div class="line">  children: [&#123;</div><div class="line">    path: <span class="string">''</span>,</div><div class="line">    component: Products</div><div class="line">  &#125;, &#123;</div><div class="line">    path: <span class="string">'products'</span>,</div><div class="line">    component: Products</div><div class="line">  &#125;, &#123;</div><div class="line">    path: <span class="string">'orders'</span>,</div><div class="line">    component: Orders</div><div class="line">  &#125;, &#123;</div><div class="line">    path: <span class="string">'docs'</span>,</div><div class="line">    component: Docs</div><div class="line">  &#125;]</div><div class="line">&#125;]</div></pre></td></tr></table></figure>
+<h4 id="3-节流监听window滚动事件，当页面滚动高度-gt-header高度时，设置switch-bar的position属性为fixd，反之取消-实际通过一个变量isFix来控制样式-。"><a href="#3-节流监听window滚动事件，当页面滚动高度-gt-header高度时，设置switch-bar的position属性为fixd，反之取消-实际通过一个变量isFix来控制样式-。" class="headerlink" title="3. 节流监听window滚动事件，当页面滚动高度 &gt;= header高度时，设置switch-bar的position属性为fixd，反之取消(实际通过一个变量isFix来控制样式)。"></a>3. 节流监听<code>window</code>滚动事件，当<strong>页面滚动高度 &gt;= header</strong>高度时，设置<code>switch-bar</code>的<code>position</code>属性为<code>fixd</code>，反之取消(实际通过一个变量<code>isFix</code>来控制样式)。</h4><figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css"><span class="selector-class">.home</span><span class="selector-class">.fix</span> <span class="selector-class">.switch-bar</span> &#123;</span></div><div class="line"><span class="undefined">  position: fixed;</span></div><div class="line"><span class="undefined">  left: 0;</span></div><div class="line"><span class="undefined">  top: 0;</span></div><div class="line"><span class="undefined">  z-index: 10;</span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"home"</span> <span class="attr">:class</span>=<span class="string">"&#123;'fix': isFix&#125;"</span>&gt;</span></div><div class="line">  ...</div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"switch-bar"</span>&gt;</span></div><div class="line">    ...</div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  ...</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="actionscript"><span class="comment">// 判断是否吸顶效果</span></span></div><div class="line"><span class="actionscript"><span class="keyword">if</span> (<span class="keyword">this</span>.scrollTop &gt;= <span class="keyword">this</span>.headerHeight) &#123;</span></div><div class="line"><span class="actionscript">  <span class="keyword">this</span>.isFix = <span class="literal">true</span></span></div><div class="line"><span class="actionscript">&#125; <span class="keyword">else</span> &#123;</span></div><div class="line"><span class="actionscript">  <span class="keyword">this</span>.isFix = <span class="literal">false</span></span></div><div class="line"><span class="undefined">&#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>做完以上3点其实大部分工作就完成了，这时的运行效果如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-00679a723225e979.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>有两个问题：</p>
+<ol>
+<li>切换列表时并没有保持<code>switch-bar</code>状态，因为示例中<code>Products</code>列表数比较少，导致<strong>页面的高度 &lt;= 屏幕的高度</strong>，没有滚动条，所以当<code>switch-bar</code>固定在顶部并且从订单或文档切换过来时，由于<strong>document.body.scrollTop = 0</strong>，页面将跳到顶部</li>
+<li>当<code>switch-bar</code>固定在顶部时，切换列表，列表数据第一条并没有显示到正确的位置。</li>
+</ol>
+<p>为了解决第一个问题，给<code>content</code>加了两个计算属性：<code>contentMinHeight</code>和<code>contentMarginTop</code>，动态计算<code>content</code>的<code>height</code>和<code>margin-top</code></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"content"</span> <span class="attr">:style</span>=<span class="string">"&#123;</span></span></div><div class="line"><span class="tag"><span class="string">  'minHeight': contentMinHeight + 'px',</span></span></div><div class="line"><span class="tag"><span class="string">  'marginTop': contentMarginTop + 'px'</span></span></div><div class="line"><span class="tag"><span class="string">  &#125;"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">router-view</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">&nbsp</div><div class="line">computed: &#123;</div><div class="line">  contentMinHeight() &#123;</div><div class="line">    const windowHeight = document.documentElement.clientHeight</div><div class="line">    return this.isFix ? windowHeight - this.switchBarHeight : windowHeight - this.headerHeight - this.switchBarHeight</div><div class="line">  &#125;,</div><div class="line">  contentMarginTop() &#123;</div><div class="line">    return this.isFix ? this.switchBarHeight : 0</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>为了解决第二个问题，watch <code>$route</code>的变化，手动将滚动条滚动至正确的位置</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">watch: &#123;</div><div class="line">  <span class="string">'$route'</span>(to, <span class="keyword">from</span>) &#123;</div><div class="line">    <span class="keyword">this</span>.$nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">       <span class="keyword">if</span> (<span class="keyword">this</span>.isFix) &#123;</div><div class="line">          <span class="built_in">window</span>.scrollTo(<span class="number">0</span>, <span class="number">0</span>)  <span class="comment">// 兼容chrome</span></div><div class="line">          <span class="built_in">window</span>.scrollTo(<span class="number">0</span>, <span class="keyword">this</span>.headerHeight)</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="built_in">window</span>.scrollTo(<span class="number">0</span>, <span class="number">0</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到这里，整个示例就完成啦~</p>
+<p>想要查看完整代码可前往：<a href="https://github.com/hysunny/Vue-dev-note/blob/master/vue-stickyTop/index.html" target="_blank" rel="external">https://github.com/hysunny/Vue-dev-note/blob/master/vue-stickyTop/index.html</a></p>
+<p>或查看在线示例：</p>
+<script async src="//jsfiddle.net/hysunny/yvzyp4kk/2/embed/"></script>
+
+
+
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/04/document-execCommand-copy/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/12/30/JavaScript-DataStructures-and-Algorithms/List/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

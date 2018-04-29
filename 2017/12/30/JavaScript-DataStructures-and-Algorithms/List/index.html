@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（1） —— 列表（List ） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/e7d1ec7b2999  List 一组有序的数据集合，集合中的每个数据项叫做元素，可对这些数据项进行增删改查操作。   应用：存储数据，进行数据的简单查找和排序 实现：class List &amp;#123;&amp;nbsp  constructor() &amp;#123;    this.elements = []    this.pos =">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（1） —— 列表（List ）">
+<meta property="og:url" content="http://hysunny.me/2017/12/30/JavaScript-DataStructures-and-Algorithms/List/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/e7d1ec7b2999  List 一组有序的数据集合，集合中的每个数据项叫做元素，可对这些数据项进行增删改查操作。   应用：存储数据，进行数据的简单查找和排序 实现：class List &amp;#123;&amp;nbsp  constructor() &amp;#123;    this.elements = []    this.pos =">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-29T12:53:10.474Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（1） —— 列表（List ）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/e7d1ec7b2999  List 一组有序的数据集合，集合中的每个数据项叫做元素，可对这些数据项进行增删改查操作。   应用：存储数据，进行数据的简单查找和排序 实现：class List &amp;#123;&amp;nbsp  constructor() &amp;#123;    this.elements = []    this.pos =">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/List" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（1） —— 列表（List ）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.12.30</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/e7d1ec7b2999" target="_blank" rel="external">https://www.jianshu.com/p/e7d1ec7b2999</a></p>
+</blockquote>
+<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><blockquote>
+<p>一组有序的数据集合，集合中的每个数据项叫做元素，可对这些数据项进行增删改查操作。 </p>
+</blockquote>
+<p>应用：存储数据，进行数据的简单查找和排序</p>
+<p>实现：<br><figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">List</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.elements = []</div><div class="line">    <span class="keyword">this</span>.pos = <span class="number">0</span>			<span class="comment">// 列表的当前位置</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回列表中元素的个数</span></div><div class="line">  get length() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 清空列表中的所有元素</span></div><div class="line">  clear() &#123;</div><div class="line">    <span class="keyword">this</span>.elements = []</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 在列表中查找某一元素</span></div><div class="line">  find(ele) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.indexOf(ele)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回列表的字符串形式</span></div><div class="line">  toString() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.toString()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 在现有元素后插入新元素</span></div><div class="line">  insert(after, ele) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.find(after) &gt; <span class="number">-1</span>) &#123;</div><div class="line">      <span class="keyword">const</span> index = <span class="keyword">this</span>.find(after) + <span class="number">1</span></div><div class="line">      <span class="keyword">this</span>.elements.splice(index, <span class="number">0</span>, ele)</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 给列表添加元素</span></div><div class="line">  append(ele) &#123;</div><div class="line">    <span class="keyword">this</span>.elements.push(ele)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 从列表中删除元素</span></div><div class="line">  remove(ele) &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.find(ele) &gt; <span class="number">-1</span>) &#123;</div><div class="line">      <span class="keyword">this</span>.elements.splice(<span class="keyword">this</span>.find(ele), <span class="number">1</span>)</div><div class="line">      <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回列表的当前位置</span></div><div class="line">  currPos() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.pos</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回当前位置的元素</span></div><div class="line">  getElement() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="keyword">this</span>.pos]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将列表的当前位置设移动到第一个元素</span></div><div class="line">  front() &#123;</div><div class="line">    <span class="keyword">this</span>.pos = <span class="number">0</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将列表的当前位置移动到最后一个元素</span></div><div class="line">  end() &#123;</div><div class="line">    <span class="keyword">this</span>.pos = <span class="keyword">this</span>.length - <span class="number">1</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将当前位置前移一位</span></div><div class="line">  prev() &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.pos &gt; <span class="number">0</span>) &#123;</div><div class="line">      <span class="keyword">this</span>.pos--</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.getElement()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将当前位置后移一位</span></div><div class="line">  next() &#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.pos &lt; <span class="keyword">this</span>.length - <span class="number">1</span>) &#123;</div><div class="line">      <span class="keyword">this</span>.pos++</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.getElement()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 将当前位置移动到指定位置</span></div><div class="line">  moveTo(pos) &#123;</div><div class="line">    <span class="keyword">if</span> (pos &gt;= <span class="number">0</span> &amp;&amp; pos &lt; <span class="keyword">this</span>.length) &#123;</div><div class="line">      <span class="keyword">this</span>.pos = pos</div><div class="line">      <span class="keyword">return</span> <span class="keyword">this</span>.getElement()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 实现一个迭代器（Iterator），可以使用for...of...循环</span></div><div class="line">  <span class="comment">/**</span></div><div class="line"><span class="comment">   * next(): 返回 &#123; value: all_type, done: Boolean &#125;</span></div><div class="line"><span class="comment">   * value: 列表中的某个值</span></div><div class="line"><span class="comment">   * done: 标明迭代是否结束</span></div><div class="line"><span class="comment">   */</span></div><div class="line">  [<span class="built_in">Symbol</span>.iterator]() &#123;</div><div class="line">    <span class="keyword">this</span>.pos = <span class="number">0</span></div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      next: <span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">        <span class="keyword">this</span>.pos++</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.pos &gt; <span class="keyword">this</span>.length) &#123;</div><div class="line">          <span class="keyword">return</span> &#123;</div><div class="line">            value: <span class="literal">null</span>,</div><div class="line">            done: <span class="literal">true</span></div><div class="line">          &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">          <span class="keyword">return</span> &#123;</div><div class="line">            value: <span class="keyword">this</span>.elements[<span class="keyword">this</span>.pos - <span class="number">1</span>],</div><div class="line">            done: <span class="literal">false</span></div><div class="line">          &#125;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&nbsp</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// test </span></div><div class="line"><span class="keyword">var</span> names = <span class="keyword">new</span> List()</div><div class="line">names.append(<span class="string">'Clayton'</span>)</div><div class="line">names.append(<span class="string">'Raymond'</span>)</div><div class="line">names.append(<span class="string">'Cynthia'</span>)</div><div class="line">names.append(<span class="string">'Jennifer'</span>)</div><div class="line">names.append(<span class="string">'Bryan'</span>)</div><div class="line">names.append(<span class="string">'Danny'</span>)</div><div class="line">names.insert(<span class="string">'Cynthia'</span>, <span class="string">'Hysunny'</span>)</div><div class="line"><span class="built_in">console</span>.log(names.toString())			<span class="comment">// Clayton,Raymond,Cynthia,Hysunny,Jennifer,Bryan,Danny</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(names.currPos())			<span class="comment">// 0</span></div><div class="line">names.front()</div><div class="line"><span class="built_in">console</span>.log(names.getElement()) 	<span class="comment">// Clayton</span></div><div class="line">names.next()</div><div class="line"><span class="built_in">console</span>.log(names.getElement()) 	<span class="comment">// Raymond</span></div><div class="line">names.moveTo(<span class="number">4</span>)										</div><div class="line"><span class="built_in">console</span>.log(names.getElement())		<span class="comment">// Bryan</span></div><div class="line">&nbsp</div><div class="line">names.remove(<span class="string">'Bryan'</span>)</div><div class="line"><span class="built_in">console</span>.log(names.toString())			<span class="comment">// Clayton,Raymond,Cynthia,Hysunny,Jennifer,Danny</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">// 使用迭代器</span></div><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> name <span class="keyword">of</span> names) &#123;</div><div class="line">  <span class="built_in">console</span>.log(name)</div><div class="line">&#125;</div><div class="line"><span class="comment">// Clayton,Raymond,Cynthia,Hysunny,Jennifer,Danny</span></div><div class="line">&nbsp</div><div class="line">names.clear()</div><div class="line"><span class="built_in">console</span>.log(names.length)					<span class="comment">// 0</span></div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/10/Vue/vue-stickyTop-effects/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/01/JavaScript-DataStructures-and-Algorithms/Stack/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

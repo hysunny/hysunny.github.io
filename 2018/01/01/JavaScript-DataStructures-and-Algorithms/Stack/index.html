@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>数据结构与算法JavaScript描述（2） —— 栈（Stack） | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Algorithm," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/791af5e3a74a  Stack 一种遵循后进先出(LIFO，last-in-first-out)的有序列表。仅允许在表的一端进行插入和删除操作，这一端称为栈顶，把另一端称为栈底。 向一个栈中插入新元素叫作入栈，它将新元素放在栈顶。从一个栈中删除一个元素叫作出栈，它是把栈顶元素删除掉，使其相邻的元素称为新的栈顶元素。   应用">
+<meta name="keywords" content="Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法JavaScript描述（2） —— 栈（Stack）">
+<meta property="og:url" content="http://hysunny.me/2018/01/01/JavaScript-DataStructures-and-Algorithms/Stack/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/791af5e3a74a  Stack 一种遵循后进先出(LIFO，last-in-first-out)的有序列表。仅允许在表的一端进行插入和删除操作，这一端称为栈顶，把另一端称为栈底。 向一个栈中插入新元素叫作入栈，它将新元素放在栈顶。从一个栈中删除一个元素叫作出栈，它是把栈顶元素删除掉，使其相邻的元素称为新的栈顶元素。   应用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f38cb48a029b79eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T12:54:55.452Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构与算法JavaScript描述（2） —— 栈（Stack）">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/791af5e3a74a  Stack 一种遵循后进先出(LIFO，last-in-first-out)的有序列表。仅允许在表的一端进行插入和删除操作，这一端称为栈顶，把另一端称为栈底。 向一个栈中插入新元素叫作入栈，它将新元素放在栈顶。从一个栈中删除一个元素叫作出栈，它是把栈顶元素删除掉，使其相邻的元素称为新的栈顶元素。   应用">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-f38cb48a029b79eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-JavaScript-DataStructures-and-Algorithms/Stack" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">数据结构与算法JavaScript描述（2） —— 栈（Stack）</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.01.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/791af5e3a74a" target="_blank" rel="external">https://www.jianshu.com/p/791af5e3a74a</a></p>
+</blockquote>
+<h3 id="Stack"><a href="#Stack" class="headerlink" title="Stack"></a>Stack</h3><blockquote>
+<p>一种遵循<strong>后进先出</strong>(LIFO，last-in-first-out)的有序列表。仅允许在表的一端进行插入和删除操作，这一端称为<code>栈顶</code>，把另一端称为<code>栈底</code>。</p>
+<p>向一个栈中插入新元素叫作<code>入栈</code>，它将新元素放在栈顶。从一个栈中删除一个元素叫作<code>出栈</code>，它是把栈顶元素删除掉，使其相邻的元素称为新的栈顶元素。</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/3779867-f38cb48a029b79eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="栈的模型"></p>
+<p>应用：进制转换、实现回文、递归演示等</p>
+<p>实现：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stack</span> </span>&#123;</div><div class="line">&nbsp</div><div class="line">  <span class="keyword">constructor</span>() &#123;</div><div class="line">    <span class="keyword">this</span>.elements = []</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 入栈</span></div><div class="line">  push(ele) &#123;</div><div class="line">    <span class="keyword">this</span>.elements.push(ele)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 出栈</span></div><div class="line">  pop() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.pop()</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 返回栈顶元素</span></div><div class="line">  peek() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements[<span class="keyword">this</span>.length - <span class="number">1</span>]</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">get</span> length() &#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.elements.length</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 清空栈内元素</span></div><div class="line">  clear() &#123;</div><div class="line">    <span class="keyword">this</span>.length = <span class="number">0</span></div><div class="line">  &#125;</div><div class="line">&nbsp</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>示例1：进制转换</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">mulBase</span>(<span class="params">num, base</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> s = <span class="keyword">new</span> Stack()</div><div class="line">  <span class="keyword">do</span> &#123;</div><div class="line">    s.push(num % base)</div><div class="line">    num = <span class="built_in">Math</span>.floor(num /= base)</div><div class="line">  &#125; <span class="keyword">while</span> (num &gt; <span class="number">0</span>)</div><div class="line">  <span class="keyword">let</span> converted = <span class="string">''</span></div><div class="line">  <span class="keyword">while</span>(s.length &gt; <span class="number">0</span>) &#123;</div><div class="line">      converted += s.pop()</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> converted</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> num1 = mulBase(<span class="number">32</span>, <span class="number">2</span>)</div><div class="line"><span class="built_in">console</span>.log(num1)			<span class="comment">// 100000</span></div><div class="line">&nbsp</div><div class="line"><span class="keyword">const</span> num2 = mulBase(<span class="number">125</span>, <span class="number">8</span>)</div><div class="line"><span class="built_in">console</span>.log(num2)			<span class="comment">// 175</span></div></pre></td></tr></table></figure>
+<p>示例2：判断回文</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPalindrome</span>(<span class="params">word</span>) </span>&#123;</div><div class="line">  <span class="keyword">const</span> s = <span class="keyword">new</span> Stack()</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; word.length; i++) &#123;</div><div class="line">    s.push(word[i])</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">let</span> rWord = <span class="string">''</span></div><div class="line">  <span class="keyword">while</span>(s.length &gt; <span class="number">0</span>) &#123;</div><div class="line">    rWord += s.pop()</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (word === rWord) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span></div><div class="line">  &#125; </div><div class="line">  <span class="keyword">return</span> <span class="literal">false</span></div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> str1 = isPalindrome(<span class="string">'hello'</span>)</div><div class="line"><span class="built_in">console</span>.log(str1)		<span class="comment">// false</span></div><div class="line">&nbsp</div><div class="line"><span class="keyword">const</span> str2 = isPalindrome(<span class="string">'racecar'</span>)</div><div class="line"><span class="built_in">console</span>.log(str2)		<span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>示例3： 递归演示 —— 阶乘函数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">factorial</span>(<span class="params">n</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (n === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">1</span></div><div class="line">  <span class="keyword">else</span> <span class="keyword">return</span> n * factorial(n - <span class="number">1</span>)</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// test</span></div><div class="line"><span class="keyword">const</span> num = factorial(<span class="number">5</span>)</div><div class="line"><span class="built_in">console</span>.log(num)		<span class="comment">// 120</span></div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/12/30/JavaScript-DataStructures-and-Algorithms/List/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2018/01/01/JavaScript-DataStructures-and-Algorithms/Queue/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

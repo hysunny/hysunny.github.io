@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vue.js 2.0 模板编译源码分析 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Vue.js," />
+  
+
+  <meta name="description" content="本文基于vue-2.4.4源码进行分析  模板编译是Vue 2.0中很重要的一个环节，它将template编译成render 函数，最后生成Virtual DOM渲染在页面。 本篇文章将结合源码对模板编译流程进行分析： 从源码角度看，模板编译主要经历如下流程：  即： 首先，在项目初始化时挂载DOM节点并获取template 然后将 template 编译成 render 函数。这个编译过程包含">
+<meta name="keywords" content="Vue.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js 2.0 模板编译源码分析">
+<meta property="og:url" content="http://hysunny.me/2017/09/28/Vue/vue-render/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="本文基于vue-2.4.4源码进行分析  模板编译是Vue 2.0中很重要的一个环节，它将template编译成render 函数，最后生成Virtual DOM渲染在页面。 本篇文章将结合源码对模板编译流程进行分析： 从源码角度看，模板编译主要经历如下流程：  即： 首先，在项目初始化时挂载DOM节点并获取template 然后将 template 编译成 render 函数。这个编译过程包含">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hysunny.me/images/vue-compile.png">
+<meta property="og:image" content="http://hysunny.me/images/ast.png">
+<meta property="og:image" content="http://hysunny.me/images/vue-compile-flow.png">
+<meta property="og:updated_time" content="2018-04-29T07:31:37.750Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue.js 2.0 模板编译源码分析">
+<meta name="twitter:description" content="本文基于vue-2.4.4源码进行分析  模板编译是Vue 2.0中很重要的一个环节，它将template编译成render 函数，最后生成Virtual DOM渲染在页面。 本篇文章将结合源码对模板编译流程进行分析： 从源码角度看，模板编译主要经历如下流程：  即： 首先，在项目初始化时挂载DOM节点并获取template 然后将 template 编译成 render 函数。这个编译过程包含">
+<meta name="twitter:image" content="http://hysunny.me/images/vue-compile.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Vue/vue-render" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Vue.js 2.0 模板编译源码分析</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.09.28</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Vue-js/">Vue.js</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>本文基于<a href="https://github.com/vuejs/vue/tree/v2.4.4" target="_blank" rel="external">vue-2.4.4</a>源码进行分析</p>
+</blockquote>
+<p>模板编译是Vue 2.0中很重要的一个环节，它将<code>template</code>编译成<code>render</code> 函数，最后生成<code>Virtual DOM</code>渲染在页面。</p>
+<p>本篇文章将结合源码对<strong>模板编译</strong>流程进行分析：</p>
+<p>从源码角度看，模板编译主要经历如下流程：</p>
+<p><img src="/images/vue-compile.png" alt="vue-compile.png"></p>
+<p>即：</p>
+<p>首先，在项目初始化时<code>挂载DOM节点</code>并<code>获取template</code></p>
+<p>然后将 <code>template</code> 编译成 <code>render 函数</code>。这个编译过程包含：</p>
+<ol>
+<li><code>check 缓存</code>，如果有缓存数据就读取缓存数据</li>
+<li>获取并合并<code>options</code></li>
+<li><code>parse</code>: 将template解析成AST</li>
+<li><code>optimize</code>: 标记静态节点</li>
+<li><code>generate</code>: 拼接 render function 字符串</li>
+<li>通过 new function 生成<strong>渲染函数</strong></li>
+<li>缓存</li>
+</ol>
+<p>其中，3、4、5是整个模板编译的核心。</p>
+<p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/index.js" target="_blank" rel="external">baseCompile</a>函数（src/compiler/index.js）依次执行<code>parse</code>，<code>optimize</code>，和<code>generate</code>，最后返回一个包含<code>ast</code>、<code>render</code>和<code>staticRenderFns</code>的对象。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> createCompiler = createCompilerCreator(<span class="function"><span class="keyword">function</span> <span class="title">baseCompile</span> (<span class="params"></span></span></div><div class="line"><span class="function"><span class="params">  template: string,</span></span></div><div class="line"><span class="function"><span class="params">  options: CompilerOptions</span></span></div><div class="line"><span class="function"><span class="params"></span>): <span class="title">CompiledResult</span> </span>&#123;</div><div class="line">  <span class="comment">// 3. parse: 将template解析成AST</span></div><div class="line">  <span class="keyword">const</span> ast = parse(template.trim(), options)</div><div class="line">  <span class="comment">// 4. optimize: 标记静态节点</span></div><div class="line">  optimize(ast, options)</div><div class="line">  <span class="comment">// 5. generate: 拼接 render function 字符串</span></div><div class="line">  <span class="keyword">const</span> code = generate(ast, options)</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    ast,</div><div class="line">    render: code.render,</div><div class="line">    staticRenderFns: code.staticRenderFns</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="parse-将template解析成AST"><a href="#parse-将template解析成AST" class="headerlink" title="parse: 将template解析成AST"></a>parse: 将template解析成AST</h3><p>这里，先简单介绍下AST。</p>
+<p><a href="https://zh.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E8%AA%9E%E6%B3%95%E6%A8%B9" target="_blank" rel="external">AST</a>全称是：Abstract Syntax Tree (抽象语法树)，是源代码语法所对应的树状结构。Vue 2.0中ASTNode有三种形式：<code>ASTElement</code>、<code>ASTText</code>、<code>ASTExpression</code>。</p>
+<p>Vue 2.0中的<a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/parser/index.js" target="_blank" rel="external">parse</a>函数（src/compiler/parser/index.js）采用了jQuery作者<a href="https://zh.wikipedia.org/wiki/%E7%B4%84%E7%BF%B0%C2%B7%E9%9B%B7%E8%A5%BF%E6%A0%BC" target="_blank" rel="external">John Resig</a>的<a href="https://johnresig.com/files/htmlparser.js" target="_blank" rel="external">HTML Parser</a></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">parseHTML(template, &#123;</div><div class="line">  start (tag, attrs, unary) &#123;</div><div class="line">  	<span class="comment">// 解析到新的节点时调用，包括节点tagName, attributes等信息</span></div><div class="line">  &#125;,</div><div class="line">  end () &#123;</div><div class="line">  	<span class="comment">// 节点解析结束时调用，包括节点tagName等信息</span></div><div class="line">  &#125;,</div><div class="line">  chars (text: string) &#123;</div><div class="line">  	<span class="comment">// 文本解析完成时调用，包括文本本身</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如：<code>&lt;div id=&#39;app&#39;&gt;&lt;/div&gt;</code></p>
+<p><code>parseHTML</code>后的结果是：</p>
+<p><img src="/images/ast.png" alt="ast.png"></p>
+<h3 id="optimize-标记静态节点"><a href="#optimize-标记静态节点" class="headerlink" title="optimize: 标记静态节点"></a>optimize: 标记静态节点</h3><p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/optimizer.js" target="_blank" rel="external">optimize</a>函数（src/compiler/optimizer.js）会对静态节点打标，提取最大的静态树，在后面patch时，被标记为static的节点将直接跳过diff。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">optimize</span> (<span class="params">root: ?ASTElement, options: CompilerOptions</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!root) <span class="keyword">return</span></div><div class="line">  isStaticKey = genStaticKeysCached(options.staticKeys || <span class="string">''</span>)</div><div class="line">  isPlatformReservedTag = options.isReservedTag || no</div><div class="line">  <span class="comment">// first pass: mark all non-static nodes.</span></div><div class="line">  markStatic(root)</div><div class="line">  <span class="comment">// second pass: mark static roots.</span></div><div class="line">  markStaticRoots(root, <span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="generate-拼接-render-function-字符串"><a href="#generate-拼接-render-function-字符串" class="headerlink" title="generate: 拼接 render function 字符串"></a>generate: 拼接 render function 字符串</h3><p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/codegen/index.js" target="_blank" rel="external">generate</a>函数（src/compiler/codegen/index.js）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">generate</span> (<span class="params"></span></span></div><div class="line"><span class="function"><span class="params">  ast: ASTElement | void,</span></span></div><div class="line"><span class="function"><span class="params">  options: CompilerOptions</span></span></div><div class="line"><span class="function"><span class="params"></span>): <span class="title">CodegenResult</span> </span>&#123;</div><div class="line">  <span class="keyword">const</span> state = <span class="keyword">new</span> CodegenState(options)</div><div class="line">  <span class="keyword">const</span> code = ast ? genElement(ast, state) : <span class="string">'_c("div")'</span></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    render: <span class="string">`with(this)&#123;return <span class="subst">$&#123;code&#125;</span>&#125;`</span>,</div><div class="line">    staticRenderFns: state.staticRenderFns</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>模板编译的核心：<code>template</code>  →  <code>AST</code> →  <code>render function</code></p>
+<p><img src="/images/vue-compile-flow.png" alt="vue-comile-flow.png"></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/09/17/javascript-prototype/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/09/30/WebGL-Guide/1/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
