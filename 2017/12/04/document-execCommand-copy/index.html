@@ -12,20 +12,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="JavaScript," />
   
 
-  <meta name="description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： 1234567891011121314&amp;lt;div class=&amp;quot;share-box&amp;quot;&amp;gt;  &amp;lt;input type=">
+  <meta name="description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： &amp;lt;div class=&quot;share-box&quot;&amp;gt;  &amp;lt;input type=&quot;text&quot; class=&quot;share-link&quot; val">
+<meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="document.execCommand(&#39;copy&#39; &#x2F; &#39;cut&#39;) 异步调用一二事">
 <meta property="og:url" content="http://hysunny.me/2017/12/04/document-execCommand-copy/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
-<meta property="og:description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： 1234567891011121314&amp;lt;div class=&amp;quot;share-box&amp;quot;&amp;gt;  &amp;lt;input type=">
+<meta property="og:description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： &amp;lt;div class=&quot;share-box&quot;&amp;gt;  &amp;lt;input type=&quot;text&quot; class=&quot;share-link&quot; val">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-05T14:10:14.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:30:09.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="document.execCommand(&#39;copy&#39; &#x2F; &#39;cut&#39;) 异步调用一二事">
-<meta name="twitter:description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： 1234567891011121314&amp;lt;div class=&amp;quot;share-box&amp;quot;&amp;gt;  &amp;lt;input type=">
+<meta name="twitter:description" content="最近的wap项目开发中有这样一个需求： 点击“分享”按钮会生成分享链接，然后自动将该链接复制到剪贴板 一开始以为很好做： 点击按钮时调用生成分享链接的接口，然后在回调中执行document.execCommand(‘copy’) 就好啦 简单示例： &amp;lt;div class=&quot;share-box&quot;&amp;gt;  &amp;lt;input type=&quot;text&quot; class=&quot;share-link&quot; val">
 
   
 
@@ -112,6 +113,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -156,33 +168,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -214,6 +204,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
 
 
       
@@ -227,9 +222,6 @@
       
 
       
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
-      
       
     </div>
   </header>
@@ -241,18 +233,27 @@
 <p>一开始以为很好做：</p>
 <p>点击按钮时调用生成分享链接的接口，然后在回调中执行<br><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand" target="_blank" rel="external">document.execCommand(‘copy’)</a> 就好啦</p>
 <p>简单示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;share-box&quot;&gt;</div><div class="line">  &lt;input type=&quot;text&quot; class=&quot;share-link&quot; value=&quot;分享链接&quot; /&gt;</div><div class="line">  &lt;button class=&quot;share-btn&quot;&gt;分享&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">$(&apos;.share-btn&apos;).on(&apos;click&apos;, function() &#123;</div><div class="line">  $.ajax(&#123;</div><div class="line">  	url: &apos;/echo/json/&apos;,</div><div class="line">    method: &apos;post&apos;</div><div class="line">  &#125;).then(rs =&gt; &#123;</div><div class="line">  	$(&apos;.share-link&apos;).val(&apos;https://xxx.xxx.com/share/xxx&apos;).select()</div><div class="line">   	document.execCommand(&apos;copy&apos;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"share-box"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"share-link"</span> <span class="attr">value</span>=<span class="string">"分享链接"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"share-btn"</span>&gt;</span>分享<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$(<span class="string">'.share-btn'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  $.ajax(&#123;</div><div class="line">  	url: <span class="string">'/echo/json/'</span>,</div><div class="line">  	method: <span class="string">'post'</span></div><div class="line">  &#125;).then(<span class="function"><span class="params">rs</span> =&gt;</span> &#123;</div><div class="line">  	$(<span class="string">'.share-link'</span>).val(<span class="string">'https://xxx.xxx.com/share/xxx'</span>).select()</div><div class="line">   	<span class="built_in">document</span>.execCommand(<span class="string">'copy'</span>)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>然而，现实总会狠狠打脸</p>
 <p>回调中的<code>document.execCommand(&#39;copy&#39;)</code>并没有执行</p>
 <p>效果查看：</p>
 <script async src="//jsfiddle.net/hysunny/939upv6n/embed/"></script>
 
 <p>查看<a href="https://www.w3.org/TR/clipboard-apis/#clipboard-event-copy" target="_blank" rel="external">规范</a>后得知：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">These are the steps to follow when triggering copy, cut or paste actions through a scripting API:</div><div class="line"></div><div class="line">1. Execute the corresponding action synchronously.</div><div class="line">2. Use the action’s return value as the return value for the API call.</div><div class="line"></div><div class="line">Note: Copy and cut commands triggered through a scripting API will only affect the contents of the real clipboard if the event is dispatched from an event that is trusted and triggered by the user, or if the implementation is configured to allow this. Paste commands triggered through a scripting API will only fire paste events and give access to clipboard contents if the implementation is configured to allow this. How implementations can be configured to allow read or write access to the clipboard is outside the scope of this specification.</div></pre></td></tr></table></figure>
+<blockquote>
+<p>These are the steps to follow when triggering copy, cut or paste actions through a scripting API:</p>
+<ol>
+<li>Execute the corresponding action synchronously.</li>
+<li>Use the action’s return value as the return value for the API call.</li>
+</ol>
+<p>Note: Copy and cut commands triggered through a scripting API will only affect the contents of the real clipboard if the event is dispatched from an event that is trusted and triggered by the user, or if the implementation is configured to allow this. Paste commands triggered through a scripting API will only fire paste events and give access to clipboard contents if the implementation is configured to allow this. How implementations can be configured to allow read or write access to the clipboard is outside the scope of this specification.</p>
+</blockquote>
 <p>也就是说：<code>document.execCommand(&#39;copy&#39;)</code>必须是<strong>由用户触发，并且这个操作是同步地</strong>。</p>
 <p>所以，这个需求并不是我不想做，而是无能为力啊(´_ゝ`)</p>
 <p>最后，改成了<strong>点击“分享”生成链接后再弹出个弹窗，然后再点击“复制链接”按钮后复制链接</strong>，简单示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;share-box&quot;&gt;</div><div class="line">  &lt;input type=&quot;text&quot; class=&quot;share-link&quot; value=&quot;分享链接&quot; /&gt;</div><div class="line">  &lt;button class=&quot;share-btn&quot;&gt;分享&lt;/button&gt;</div><div class="line">  &lt;button class=&quot;copy-link&quot;&gt;复制链接&lt;/button&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"></div><div class="line">$(&apos;.share-btn&apos;).on(&apos;click&apos;, function() &#123;</div><div class="line">  $.ajax(&#123;</div><div class="line">  	url: &apos;/echo/json/&apos;,</div><div class="line">    method: &apos;post&apos;</div><div class="line">  &#125;).then(rs =&gt; &#123;</div><div class="line">  	 $(&apos;.share-link&apos;).val(&apos;https://xxx.xxx.com/share/xxx&apos;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div><div class="line"></div><div class="line">$(&apos;.copy-link&apos;).on(&apos;click&apos;, function() &#123;</div><div class="line">  $(&apos;.share-link&apos;).select()</div><div class="line">  document.execCommand(&apos;copy&apos;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"share-box"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">class</span>=<span class="string">"share-link"</span> <span class="attr">value</span>=<span class="string">"分享链接"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"share-btn"</span>&gt;</span>分享<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"copy-link"</span>&gt;</span>复制链接<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line">$(<span class="string">'.share-btn'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  $.ajax(&#123;</div><div class="line">    url: <span class="string">'/echo/json/'</span>,</div><div class="line">    method: <span class="string">'post'</span></div><div class="line">  &#125;).then(<span class="function"><span class="params">rs</span> =&gt;</span> &#123;</div><div class="line">  	 $(<span class="string">'.share-link'</span>).val(<span class="string">'https://xxx.xxx.com/share/xxx'</span>)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div><div class="line">&nbsp</div><div class="line">$(<span class="string">'.copy-link'</span>).on(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  $(<span class="string">'.share-link'</span>).select()</div><div class="line">  <span class="built_in">document</span>.execCommand(<span class="string">'copy'</span>)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <p>效果可查看： </p>
 <script async src="//jsfiddle.net/hysunny/vzh37p9y/embed/"></script>
 
@@ -332,6 +333,17 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
               href="/category/"
               rel="noopener noreferrer"
               target="_self"
@@ -376,33 +388,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -413,31 +403,6 @@
 </div>
 
 
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-
-
-    
-
-  </div>
 
   
 

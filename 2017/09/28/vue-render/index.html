@@ -12,10 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="Vue.js," />
   
 
   <meta name="description" content="本文基于vue-2.4.4源码进行分析  模板编译是Vue 2.0中很重要的一个环节，它将template编译成render 函数，最后生成Virtual DOM渲染在页面。 本篇文章将结合源码对模板编译流程进行分析： 从源码角度看，模板编译主要经历如下流程：  即： 首先，在项目初始化时挂载DOM节点并获取template 然后将 template 编译成 render 函数。这个编译过程包含">
+<meta name="keywords" content="Vue.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue.js 2.0 模板编译源码分析">
 <meta property="og:url" content="http://hysunny.me/2017/09/28/vue-render/index.html">
@@ -25,7 +26,7 @@
 <meta property="og:image" content="http://hysunny.me/images/vue-compile.png">
 <meta property="og:image" content="http://hysunny.me/images/ast.png">
 <meta property="og:image" content="http://hysunny.me/images/vue-compile-flow.png">
-<meta property="og:updated_time" content="2017-12-08T13:22:20.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:31:37.750Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue.js 2.0 模板编译源码分析">
 <meta name="twitter:description" content="本文基于vue-2.4.4源码进行分析  模板编译是Vue 2.0中很重要的一个环节，它将template编译成render 函数，最后生成Virtual DOM渲染在页面。 本篇文章将结合源码对模板编译流程进行分析： 从源码角度看，模板编译主要经历如下流程：  即： 首先，在项目初始化时挂载DOM节点并获取template 然后将 template 编译成 render 函数。这个编译过程包含">
@@ -116,6 +117,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -160,33 +172,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -196,11 +186,6 @@
 
 </div>
 
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#parse-将template解析成AST"><span class="toc-text">parse: 将template解析成AST</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#optimize-标记静态节点"><span class="toc-text">optimize: 标记静态节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#generate-拼接-render-function-字符串"><span class="toc-text">generate: 拼接 render function 字符串</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
-  </div>
 
 
 
@@ -223,6 +208,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Vue-js/">Vue.js</a>
+  </span>
+
 
 
       
@@ -235,9 +225,6 @@
         </span>
       
 
-      
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
       
       
     </div>
@@ -256,28 +243,28 @@
 <p>首先，在项目初始化时<code>挂载DOM节点</code>并<code>获取template</code></p>
 <p>然后将 <code>template</code> 编译成 <code>render 函数</code>。这个编译过程包含：</p>
 <ol>
-<li>check 缓存，如果有缓存数据就读取缓存数据</li>
-<li>获取并合并options</li>
-<li>parse: 将template解析成AST</li>
-<li>optimize: 标记静态节点</li>
-<li>generate: 拼接 render function 字符串</li>
-<li>通过 new function 生成渲染函数</li>
+<li><code>check 缓存</code>，如果有缓存数据就读取缓存数据</li>
+<li>获取并合并<code>options</code></li>
+<li><code>parse</code>: 将template解析成AST</li>
+<li><code>optimize</code>: 标记静态节点</li>
+<li><code>generate</code>: 拼接 render function 字符串</li>
+<li>通过 new function 生成<strong>渲染函数</strong></li>
 <li>缓存</li>
 </ol>
 <p>其中，3、4、5是整个模板编译的核心。</p>
 <p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/index.js" target="_blank" rel="external">baseCompile</a>函数（src/compiler/index.js）依次执行<code>parse</code>，<code>optimize</code>，和<code>generate</code>，最后返回一个包含<code>ast</code>、<code>render</code>和<code>staticRenderFns</code>的对象。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> createCompiler = createCompilerCreator(<span class="function"><span class="keyword">function</span> <span class="title">baseCompile</span> (<span class="params"></span></span></div><div class="line"><span class="function"><span class="params">  template: string,</span></span></div><div class="line"><span class="function"><span class="params">  options: CompilerOptions</span></span></div><div class="line"><span class="function"><span class="params"></span>): <span class="title">CompiledResult</span> </span>&#123;</div><div class="line">  <span class="comment">// 3. parse: 将template解析成AST</span></div><div class="line">  <span class="keyword">const</span> ast = parse(template.trim(), options)</div><div class="line">  <span class="comment">// 4. optimize: 标记静态节点</span></div><div class="line">  optimize(ast, options)</div><div class="line">  <span class="comment">// 5. generate: 拼接 render function 字符串</span></div><div class="line">  <span class="keyword">const</span> code = generate(ast, options)</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    ast,</div><div class="line">    render: code.render,</div><div class="line">    staticRenderFns: code.staticRenderFns</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="keyword">const</span> createCompiler = createCompilerCreator(<span class="function"><span class="keyword">function</span> <span class="title">baseCompile</span> (<span class="params"></span></span></div><div class="line"><span class="function"><span class="params">  template: string,</span></span></div><div class="line"><span class="function"><span class="params">  options: CompilerOptions</span></span></div><div class="line"><span class="function"><span class="params"></span>): <span class="title">CompiledResult</span> </span>&#123;</div><div class="line">  <span class="comment">// 3. parse: 将template解析成AST</span></div><div class="line">  <span class="keyword">const</span> ast = parse(template.trim(), options)</div><div class="line">  <span class="comment">// 4. optimize: 标记静态节点</span></div><div class="line">  optimize(ast, options)</div><div class="line">  <span class="comment">// 5. generate: 拼接 render function 字符串</span></div><div class="line">  <span class="keyword">const</span> code = generate(ast, options)</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    ast,</div><div class="line">    render: code.render,</div><div class="line">    staticRenderFns: code.staticRenderFns</div><div class="line">  &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
 <h3 id="parse-将template解析成AST"><a href="#parse-将template解析成AST" class="headerlink" title="parse: 将template解析成AST"></a>parse: 将template解析成AST</h3><p>这里，先简单介绍下AST。</p>
 <p><a href="https://zh.wikipedia.org/wiki/%E6%8A%BD%E8%B1%A1%E8%AA%9E%E6%B3%95%E6%A8%B9" target="_blank" rel="external">AST</a>全称是：Abstract Syntax Tree (抽象语法树)，是源代码语法所对应的树状结构。Vue 2.0中ASTNode有三种形式：<code>ASTElement</code>、<code>ASTText</code>、<code>ASTExpression</code>。</p>
 <p>Vue 2.0中的<a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/parser/index.js" target="_blank" rel="external">parse</a>函数（src/compiler/parser/index.js）采用了jQuery作者<a href="https://zh.wikipedia.org/wiki/%E7%B4%84%E7%BF%B0%C2%B7%E9%9B%B7%E8%A5%BF%E6%A0%BC" target="_blank" rel="external">John Resig</a>的<a href="https://johnresig.com/files/htmlparser.js" target="_blank" rel="external">HTML Parser</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">parseHTML(template, &#123;</div><div class="line">  start (tag, attrs, unary) &#123;</div><div class="line">  	// 解析到新的节点时调用，包括节点tagName, attributes等信息</div><div class="line">  &#125;,</div><div class="line">  end () &#123;</div><div class="line">  	// 节点解析结束时调用，包括节点tagName等信息</div><div class="line">  &#125;,</div><div class="line">  chars (text: string) &#123;</div><div class="line">  	// 文本解析完成时调用，包括文本本身</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">parseHTML(template, &#123;</div><div class="line">  start (tag, attrs, unary) &#123;</div><div class="line">  	<span class="comment">// 解析到新的节点时调用，包括节点tagName, attributes等信息</span></div><div class="line">  &#125;,</div><div class="line">  end () &#123;</div><div class="line">  	<span class="comment">// 节点解析结束时调用，包括节点tagName等信息</span></div><div class="line">  &#125;,</div><div class="line">  chars (text: string) &#123;</div><div class="line">  	<span class="comment">// 文本解析完成时调用，包括文本本身</span></div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>如：<code>&lt;div id=&#39;app&#39;&gt;&lt;/div&gt;</code></p>
 <p><code>parseHTML</code>后的结果是：</p>
 <p><img src="/images/ast.png" alt="ast.png"></p>
 <h3 id="optimize-标记静态节点"><a href="#optimize-标记静态节点" class="headerlink" title="optimize: 标记静态节点"></a>optimize: 标记静态节点</h3><p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/optimizer.js" target="_blank" rel="external">optimize</a>函数（src/compiler/optimizer.js）会对静态节点打标，提取最大的静态树，在后面patch时，被标记为static的节点将直接跳过diff。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">optimize</span> (<span class="params">root: ?ASTElement, options: CompilerOptions</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!root) <span class="keyword">return</span></div><div class="line">  isStaticKey = genStaticKeysCached(options.staticKeys || <span class="string">''</span>)</div><div class="line">  isPlatformReservedTag = options.isReservedTag || no</div><div class="line">  <span class="comment">// first pass: mark all non-static nodes.</span></div><div class="line">  markStatic(root)</div><div class="line">  <span class="comment">// second pass: mark static roots.</span></div><div class="line">  markStaticRoots(root, <span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">optimize</span> (<span class="params">root: ?ASTElement, options: CompilerOptions</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!root) <span class="keyword">return</span></div><div class="line">  isStaticKey = genStaticKeysCached(options.staticKeys || <span class="string">''</span>)</div><div class="line">  isPlatformReservedTag = options.isReservedTag || no</div><div class="line">  <span class="comment">// first pass: mark all non-static nodes.</span></div><div class="line">  markStatic(root)</div><div class="line">  <span class="comment">// second pass: mark static roots.</span></div><div class="line">  markStaticRoots(root, <span class="literal">false</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="generate-拼接-render-function-字符串"><a href="#generate-拼接-render-function-字符串" class="headerlink" title="generate: 拼接 render function 字符串"></a>generate: 拼接 render function 字符串</h3><p><a href="https://github.com/vuejs/vue/blob/v2.4.4/src/compiler/codegen/index.js" target="_blank" rel="external">generate</a>函数（src/compiler/codegen/index.js）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">generate</span> (<span class="params"></span></span></div><div class="line"><span class="function"><span class="params">  ast: ASTElement | void,</span></span></div><div class="line"><span class="function"><span class="params">  options: CompilerOptions</span></span></div><div class="line"><span class="function"><span class="params"></span>): <span class="title">CodegenResult</span> </span>&#123;</div><div class="line">  <span class="keyword">const</span> state = <span class="keyword">new</span> CodegenState(options)</div><div class="line">  <span class="keyword">const</span> code = ast ? genElement(ast, state) : <span class="string">'_c("div")'</span></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    render: <span class="string">`with(this)&#123;return <span class="subst">$&#123;code&#125;</span>&#125;`</span>,</div><div class="line">    staticRenderFns: state.staticRenderFns</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">generate</span> (<span class="params"></span></span></div><div class="line"><span class="function"><span class="params">  ast: ASTElement | void,</span></span></div><div class="line"><span class="function"><span class="params">  options: CompilerOptions</span></span></div><div class="line"><span class="function"><span class="params"></span>): <span class="title">CodegenResult</span> </span>&#123;</div><div class="line">  <span class="keyword">const</span> state = <span class="keyword">new</span> CodegenState(options)</div><div class="line">  <span class="keyword">const</span> code = ast ? genElement(ast, state) : <span class="string">'_c("div")'</span></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    render: <span class="string">`with(this)&#123;return <span class="subst">$&#123;code&#125;</span>&#125;`</span>,</div><div class="line">    staticRenderFns: state.staticRenderFns</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>模板编译的核心：<code>template</code>  →  <code>AST</code> →  <code>render function</code></p>
 <p><img src="/images/vue-compile-flow.png" alt="vue-comile-flow.png"></p>
 
@@ -313,7 +300,7 @@
     <a class="show pull-left" href="/2017/09/17/javascript-prototype/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2017/10/02/vue-compile/">
+    <a class="show pull-right" href="/2017/10/02/vue-patch/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -351,6 +338,17 @@
               target="_self"
               >
               博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
             </a>
           </li>
         
@@ -401,33 +399,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -438,31 +414,6 @@
 </div>
 
 
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-
-
-    
-
-  </div>
 
   
 

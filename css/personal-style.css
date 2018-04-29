@@ -1,0 +1,15 @@
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, Consolas, "Liberation Mono", Menlo, Courier;
+    font-size: 1em;
+}
+
+.article-content blockquote {
+    margin-bottom: 10px;
+}
+
+.article-content ol li {
+    line-height: 1.5;
+}

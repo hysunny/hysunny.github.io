@@ -12,22 +12,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="JavaScript,prototype," />
   
 
-  <meta name="description" content="普通对象和函数对象函数对象：使用函数声明、函数表达式、Function构造函数创建的对象  函数实际上是对象，每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。  普通对象：除了函数对象以外的对象，都是普通对象。 示例： 123456789101112131415161718192021// 定义函数的三个方法function f1() &amp;#123;&amp;#125;;">
+  <meta name="description" content="普通对象和函数对象函数对象：使用函数声明、函数表达式、Function构造函数创建的对象  函数实际上是对象，每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。  普通对象：除了函数对象以外的对象，都是普通对象。 示例： // 定义函数的三个方法function f1() &amp;#123;&amp;#125;;		// 函数声明var f2 = function() &amp;#123;">
+<meta name="keywords" content="JavaScript,prototype">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript深入理解 —— 原型、原型链和继承">
 <meta property="og:url" content="http://hysunny.me/2017/09/17/javascript-prototype/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
-<meta property="og:description" content="普通对象和函数对象函数对象：使用函数声明、函数表达式、Function构造函数创建的对象  函数实际上是对象，每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。  普通对象：除了函数对象以外的对象，都是普通对象。 示例： 123456789101112131415161718192021// 定义函数的三个方法function f1() &amp;#123;&amp;#125;;">
+<meta property="og:description" content="普通对象和函数对象函数对象：使用函数声明、函数表达式、Function构造函数创建的对象  函数实际上是对象，每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。  普通对象：除了函数对象以外的对象，都是普通对象。 示例： // 定义函数的三个方法function f1() &amp;#123;&amp;#125;;		// 函数声明var f2 = function() &amp;#123;">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://hysunny.me/images/prototype-chain.png">
 <meta property="og:image" content="http://hysunny.me/images/prototype.png">
-<meta property="og:updated_time" content="2017-09-17T07:58:54.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:30:45.601Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript深入理解 —— 原型、原型链和继承">
-<meta name="twitter:description" content="普通对象和函数对象函数对象：使用函数声明、函数表达式、Function构造函数创建的对象  函数实际上是对象，每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。  普通对象：除了函数对象以外的对象，都是普通对象。 示例： 123456789101112131415161718192021// 定义函数的三个方法function f1() &amp;#123;&amp;#125;;">
+<meta name="twitter:description" content="普通对象和函数对象函数对象：使用函数声明、函数表达式、Function构造函数创建的对象  函数实际上是对象，每个函数都是Function类型的实例，而且都与其他引用类型一样具有属性和方法。  普通对象：除了函数对象以外的对象，都是普通对象。 示例： // 定义函数的三个方法function f1() &amp;#123;&amp;#125;;		// 函数声明var f2 = function() &amp;#123;">
 <meta name="twitter:image" content="http://hysunny.me/images/prototype-chain.png">
 
   
@@ -115,6 +116,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -159,33 +171,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -195,11 +185,6 @@
 
 </div>
 
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#普通对象和函数对象"><span class="toc-text">普通对象和函数对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数"><span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原型对象"><span class="toc-text">原型对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原型链"><span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-text">继承</span></a></li></ol>
-  </div>
 
 
 
@@ -222,6 +207,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
 
 
       
@@ -235,9 +225,6 @@
       
 
       
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
-      
       
     </div>
   </header>
@@ -250,7 +237,7 @@
 </blockquote>
 <p>普通对象：除了<code>函数对象</code>以外的对象，都是普通对象。</p>
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">// 定义函数的三个方法</div><div class="line">function f1() &#123;&#125;;		// 函数声明</div><div class="line">var f2 = function() &#123;&#125;;			// 函数表达式</div><div class="line">var f3 = new Function(&quot;num1&quot;, &quot;num2&quot;, &quot;return num1 + num2&quot;);		// Function构造函数</div><div class="line"></div><div class="line">// 创建对象</div><div class="line">var o1 = &#123;&#125;; 		// 对象字面量</div><div class="line">var o2 = new Object();		// Object构造函数</div><div class="line">var o3 = new f1();		// f1构造函数</div><div class="line"></div><div class="line">// 检测类型</div><div class="line">console.log(typeof Function);  //function</div><div class="line">console.log(typeof Object);  //function</div><div class="line"></div><div class="line">console.log(typeof f1);  //function</div><div class="line">console.log(typeof f2);  //function</div><div class="line">console.log(typeof f3);  //function</div><div class="line"></div><div class="line">console.log(typeof o1);  //object</div><div class="line">console.log(typeof o2);  //object</div><div class="line">console.log(typeof o3);  //object</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 定义函数的三个方法</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>) </span>&#123;&#125;;		<span class="comment">// 函数声明</span></div><div class="line"><span class="keyword">var</span> f2 = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;			<span class="comment">// 函数表达式</span></div><div class="line"><span class="keyword">var</span> f3 = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"num1"</span>, <span class="string">"num2"</span>, <span class="string">"return num1 + num2"</span>);		<span class="comment">// Function构造函数</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">// 创建对象</span></div><div class="line"><span class="keyword">var</span> o1 = &#123;&#125;; 		<span class="comment">// 对象字面量</span></div><div class="line"><span class="keyword">var</span> o2 = <span class="keyword">new</span> <span class="built_in">Object</span>();		<span class="comment">// Object构造函数</span></div><div class="line"><span class="keyword">var</span> o3 = <span class="keyword">new</span> f1();		<span class="comment">// f1构造函数</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">// 检测类型</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Function</span>);  <span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Object</span>);  <span class="comment">//function</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> f1);  <span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> f2);  <span class="comment">//function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> f3);  <span class="comment">//function</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> o1);  <span class="comment">//object</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> o2);  <span class="comment">//object</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> o3);  <span class="comment">//object</span></div></pre></td></tr></table></figure>
 <h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>构造函数： 通过<code>new</code>关键字方式调用的函数。</p>
 <p>在构造函数内部（也就是被调用的函数内）：</p>
 <ol>
@@ -260,7 +247,7 @@
 <li>如果被调用的函数没有显式的 return 表达式，则隐式的会返回 this 对象 —— 也就是实例对象。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function Person(name) &#123;</div><div class="line">	this.name = name;</div><div class="line">	this.sayName = function() &#123;</div><div class="line">		console.log(this.name);</div><div class="line">	&#125;;</div><div class="line">&#125;</div><div class="line">var person1 = new Person(&quot;Hysunny&quot;);</div><div class="line">var person2 = new Person(&quot;Max&quot;);</div><div class="line"></div><div class="line">console.log(person1 instanceof Person);		// true</div><div class="line">console.log(person1.constructor === person2.constructor);		// true</div><div class="line"></div><div class="line">// 实例的__proto__属性指向构造函数的prototype</div><div class="line">console.log(person1.__proto__ === Person.prototype);		// true</div><div class="line"></div><div class="line">// 实例的constructor指向构造函数</div><div class="line">console.log(person1.constructor === Person);		// true</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">	<span class="keyword">this</span>.name = name;</div><div class="line">	<span class="keyword">this</span>.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">		<span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">	&#125;;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">"Hysunny"</span>);</div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">"Max"</span>);</div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(person1 <span class="keyword">instanceof</span> Person);		<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(person1.constructor === person2.constructor);		<span class="comment">// true</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">// 实例的__proto__属性指向构造函数的prototype</span></div><div class="line"><span class="built_in">console</span>.log(person1.__proto__ === Person.prototype);		<span class="comment">// true</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">// 实例的constructor指向构造函数</span></div><div class="line"><span class="built_in">console</span>.log(person1.constructor === Person);		<span class="comment">// true</span></div></pre></td></tr></table></figure>
 <h2 id="原型对象"><a href="#原型对象" class="headerlink" title="原型对象"></a>原型对象</h2><p>在 JavaScript 中，每当定义一个对象（函数）时候，对象中都会包含一些预定义的属性。其中就包含<code>prototype</code>属性，这个属性指向函数的<code>原型对象</code>。</p>
 <ol>
 <li>原型对象是一个<code>普通对象</code>(除<code>Function.prototype</code>之外)，存储所有实例对象共享的方法和属性；</li>
@@ -269,9 +256,9 @@
 <li>每个对象都有 <code>__proto__</code> 属性，但只有函数对象才有 <code>prototype</code> 属性，这两个属性指向函数的<strong>原型对象</strong>。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">function Person(name) &#123;</div><div class="line">  this.name = name;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Person.prototype. sayName = function() &#123;</div><div class="line">  console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">var person1 = new Person(&quot;Hysunny&quot;);</div><div class="line">var person2 = new Person(&quot;Max&quot;);</div><div class="line"></div><div class="line">// 构造函数、原型对象和实例之间有这样的联系</div><div class="line">Person.prototype.constructor === Person;</div><div class="line">person1.__proto__ === Person.prototype;</div><div class="line">person1.constructor === Person;</div><div class="line"></div><div class="line">console.log(person1.constructor === Person);		// true</div><div class="line">console.log(Person.prototype.constructor === Person);		// true</div><div class="line">console.log(Person.prototype.constructor === person1.constructor);		// true</div><div class="line">// =&gt; 原型对象是构造函数的一个实例</div><div class="line"></div><div class="line">console.log(Person.prototype.constructor == Person);		// true</div><div class="line">// =&gt; 原型对象的constructor属性指向prototype属性所在的函数</div><div class="line"></div><div class="line">console.log(person1.__proto__ === Person.prototype);		// true</div><div class="line">// =&gt; __proto__属性指向函数的原型对象</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.name = name;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line">Person.prototype. sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">"Hysunny"</span>);</div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">"Max"</span>);</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 构造函数、原型对象和实例之间有这样的联系</span></div><div class="line">Person.prototype.constructor === Person;</div><div class="line">person1.__proto__ === Person.prototype;</div><div class="line">person1.constructor === Person;</div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(person1.constructor === Person);		<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Person.prototype.constructor === Person);		<span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Person.prototype.constructor === person1.constructor);		<span class="comment">// true</span></div><div class="line"><span class="comment">// =&gt; 原型对象是构造函数的一个实例</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(Person.prototype.constructor == Person);		<span class="comment">// true</span></div><div class="line"><span class="comment">// =&gt; 原型对象的constructor属性指向prototype属性所在的函数</span></div><div class="line">&nbsp</div><div class="line"><span class="built_in">console</span>.log(person1.__proto__ === Person.prototype);		<span class="comment">// true</span></div><div class="line"><span class="comment">// =&gt; __proto__属性指向函数的原型对象</span></div></pre></td></tr></table></figure>
 <p><strong>注：</strong> <code>Function.prototype</code>虽为函数对象，但是是个空函数，没有<code>prototype</code>属性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">console.log(typeof Function.prototype) // function</div><div class="line">console.log(typeof Function.prototype.prototype) // undefined</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Function</span>.prototype) <span class="comment">// function</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Function</span>.prototype.prototype) <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
 <h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>从上面的分析我们可以知道：JS在创建对象（不论是普通对象还是函数对象）的时候，都有一个<code>__proto__</code>内置属性，用于指向创建它的函数对象的原型对象<code>prototype</code>。</p>
 <p>以上面的例子为例：</p>
 <ol>
@@ -279,12 +266,12 @@
 <li><code>Person.prototype</code>具有<code>__proto__</code>属性，指向<code>Object.prototype</code></li>
 <li><code>Object.prototype</code>具有<code>__proto__</code>属性，指向<code>null</code></li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">console.log(person1.__proto__ === Person.prototype) // true</div><div class="line">console.log(Person.prototype.__proto__ === Object.prototype) // true</div><div class="line">console.log(Object.prototype.__proto__) // null</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(person1.__proto__ === Person.prototype) <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(Person.prototype.__proto__ === <span class="built_in">Object</span>.prototype) <span class="comment">// true</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Object</span>.prototype.__proto__) <span class="comment">// null</span></div></pre></td></tr></table></figure>
 <p>这些<code>__proto__</code>串起来，就构成了原型链，原型链的顶端为<code>null</code>。绘出原型链图如下：</p>
 <p><img src="/images/prototype-chain.png" alt="原型链"></p>
 <p>简化如下：<br><img src="/images/prototype.png" alt="原型链"></p>
 <p>疑点解释：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">1. Object.__proto__ === Function.prototype 	// true</div><div class="line">// Object是函数对象，是通过new Function()创建，所以Object.__proto__指向Function.prototype。</div><div class="line"></div><div class="line">2. Function.__proto__ === Function.prototype		// true</div><div class="line">// Function 也是对象函数，也是通过new Function()创建，所以Function.__proto__指向Function.prototype。</div><div class="line"></div><div class="line">3. Function.prototype.__proto__ === Object.prototype // true</div><div class="line">// Function本身也是一个构造函数，所以`Function.prototype.__proto__`指向`Object.prototype`</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="number">1.</span> <span class="built_in">Object</span>.__proto__ === <span class="built_in">Function</span>.prototype 	<span class="comment">// true</span></div><div class="line"><span class="comment">// Object是函数对象，是通过new Function()创建，所以Object.__proto__指向Function.prototype。</span></div><div class="line">&nbsp</div><div class="line"><span class="number">2.</span> <span class="built_in">Function</span>.__proto__ === <span class="built_in">Function</span>.prototype		<span class="comment">// true</span></div><div class="line"><span class="comment">// Function 也是对象函数，也是通过new Function()创建，所以Function.__proto__指向Function.prototype。</span></div><div class="line">&nbsp</div><div class="line"><span class="number">3.</span> <span class="built_in">Function</span>.prototype.__proto__ === <span class="built_in">Object</span>.prototype <span class="comment">// true</span></div><div class="line"><span class="comment">// Function本身也是一个构造函数，所以`Function.prototype.__proto__`指向`Object.prototype`</span></div></pre></td></tr></table></figure>
 <h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><blockquote>
 <p>继承是OO语言中的一个最为人津津乐道的概念.许多OO语言都支持两种继承方式: <code>接口继承</code> 和 <code>实现继承</code> 。接口继承只继承方法签名,而实现继承则继承实际的方法.由于js中方法没有签名,在ECMAScript中无法实现接口继承.ECMAScript只支持实现继承,而且其 <code>实现继承</code> 主要是依靠原型链来实现的.</p>
 </blockquote>
@@ -373,6 +360,17 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
               href="/category/"
               rel="noopener noreferrer"
               target="_self"
@@ -417,33 +415,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -460,27 +436,8 @@
     
 
     
-  <section class="duoshuo-comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-javascript-prototype" 
-      data-title="JavaScript深入理解 —— 原型、原型链和继承" data-url="http://hysunny.me/2017/09/17/javascript-prototype/index.html"></div>
-    <!-- 多说评论框 end -->
-  </section>
 
 
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
 
 
     

@@ -12,17 +12,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="CSS," />
   
 
   <meta name="description" content="一、CSS选择器关于CSS选择器，首先请看这里：CSS 选择器参考手册  通过以上，我们可以将CSS选择器分为以下几种： 基本选择器 ID选择器（#footer），匹配所有id属性等于footer的元素。  类选择器（.info），匹配所有class属性中包含info的元素。 通用选择器（*），匹配任何元素。 标签选择器（E），匹配所有使用E标签的元素。 同级元素选择器（E~F ），匹配任何在E元">
+<meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS选择器、优先级以及!important知识总结">
 <meta property="og:url" content="http://hysunny.me/2015/08/12/css-selector/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
 <meta property="og:description" content="一、CSS选择器关于CSS选择器，首先请看这里：CSS 选择器参考手册  通过以上，我们可以将CSS选择器分为以下几种： 基本选择器 ID选择器（#footer），匹配所有id属性等于footer的元素。  类选择器（.info），匹配所有class属性中包含info的元素。 通用选择器（*），匹配任何元素。 标签选择器（E），匹配所有使用E标签的元素。 同级元素选择器（E~F ），匹配任何在E元">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-03T14:45:34.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:29:48.160Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS选择器、优先级以及!important知识总结">
 <meta name="twitter:description" content="一、CSS选择器关于CSS选择器，首先请看这里：CSS 选择器参考手册  通过以上，我们可以将CSS选择器分为以下几种： 基本选择器 ID选择器（#footer），匹配所有id属性等于footer的元素。  类选择器（.info），匹配所有class属性中包含info的元素。 通用选择器（*），匹配任何元素。 标签选择器（E），匹配所有使用E标签的元素。 同级元素选择器（E~F ），匹配任何在E元">
@@ -112,6 +113,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -156,33 +168,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -192,11 +182,6 @@
 
 </div>
 
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、CSS选择器"><span class="toc-text">一、CSS选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本选择器"><span class="toc-text">基本选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#属性选择器"><span class="toc-text">属性选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组合选择器"><span class="toc-text">组合选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪类选择器"><span class="toc-text">伪类选择器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS2-1中的伪类："><span class="toc-text">CSS2.1中的伪类：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS2-1中的伪元素"><span class="toc-text">CSS2.1中的伪元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS3中与用户界面有关的伪类"><span class="toc-text">CSS3中与用户界面有关的伪类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS3中的结构性伪类"><span class="toc-text">CSS3中的结构性伪类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS3的反选伪类"><span class="toc-text">CSS3的反选伪类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CSS3中的-target伪类"><span class="toc-text">CSS3中的:target伪类</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#后代元素选择器和子元素选择器的区别"><span class="toc-text">后代元素选择器和子元素选择器的区别</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、CSS优先级"><span class="toc-text">二、CSS优先级</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是CSS优先级？"><span class="toc-text">什么是CSS优先级？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#样式的优先级"><span class="toc-text">样式的优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#选择器的优先级"><span class="toc-text">选择器的优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS优先级法则"><span class="toc-text">CSS优先级法则</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、-important知识点"><span class="toc-text">三、!important知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#important简介"><span class="toc-text">!important简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IE-6-0下的-important"><span class="toc-text">IE 6.0下的!important</span></a></li></ol></li></ol>
-  </div>
 
 
 
@@ -219,6 +204,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  </span>
+
 
 
       
@@ -231,9 +221,6 @@
         </span>
       
 
-      
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
       
       
     </div>
@@ -251,7 +238,7 @@
 <li>同级元素选择器（E~F ），匹配任何在E元素之后的同级F元素(CSS3)。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#footer</span> &#123; <span class="attribute">background</span>: <span class="number">#999</span>;&#125;</div><div class="line"><span class="selector-class">.info</span> &#123; <span class="attribute">background</span>: <span class="number">#000</span>;&#125;</div><div class="line">* &#123; <span class="attribute">margin</span>: <span class="number">0</span>;<span class="attribute">padding</span>: <span class="number">0</span>; &#125;</div><div class="line"><span class="selector-tag">div</span> &#123; <span class="attribute">border</span>: <span class="number">1px</span> <span class="number">#000000</span> solid; &#125;</div><div class="line"><span class="selector-tag">p</span> ~ <span class="selector-tag">ul</span> &#123; <span class="attribute">background</span>: <span class="number">#000000</span>; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-id">#footer</span> &#123; <span class="attribute">background</span>: <span class="number">#999</span>;&#125;</div><div class="line"><span class="selector-class">.info</span> &#123; <span class="attribute">background</span>: <span class="number">#000</span>;&#125;</div><div class="line">* &#123; <span class="attribute">margin</span>: <span class="number">0</span>;<span class="attribute">padding</span>: <span class="number">0</span>; &#125;</div><div class="line"><span class="selector-tag">div</span> &#123; <span class="attribute">border</span>: <span class="number">1px</span> <span class="number">#000000</span> solid; &#125;</div><div class="line"><span class="selector-tag">p</span> ~ <span class="selector-tag">ul</span> &#123; <span class="attribute">background</span>: <span class="number">#000000</span>; &#125;</div></pre></td></tr></table></figure>
 <h3 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h3><p>说明：以下E表示元素，attr表示属性，val表示属性的值。</p>
 <ol>
 <li><p><code>E[attr]</code>选择器</p>
@@ -319,7 +306,7 @@
 <li><code>E:lang(c)</code>, 匹配lang属性等于c的E元素。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-child</span> &#123;</div><div class="line">  <span class="attribute">font-style</span>: italic;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=text]</span><span class="selector-pseudo">:focus</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#000</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#ffe</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=text]</span><span class="selector-pseudo">:focus</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#fff</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">q</span><span class="selector-pseudo">:lang(sv)</span> &#123;</div><div class="line">  <span class="attribute">quotes</span>: <span class="string">"\201D"</span> <span class="string">"\201D"</span> <span class="string">"\2019"</span> <span class="string">"\2019"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-child</span> &#123;</div><div class="line">  <span class="attribute">font-style</span>: italic;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=text]</span><span class="selector-pseudo">:focus</span> &#123;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#000</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#ffe</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type=text]</span><span class="selector-pseudo">:focus</span><span class="selector-pseudo">:hover</span> &#123;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#fff</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">q</span><span class="selector-pseudo">:lang(sv)</span> &#123;</div><div class="line">  <span class="attribute">quotes</span>: <span class="string">"\201D"</span> <span class="string">"\201D"</span> <span class="string">"\2019"</span> <span class="string">"\2019"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="CSS2-1中的伪元素"><a href="#CSS2-1中的伪元素" class="headerlink" title="CSS2.1中的伪元素"></a>CSS2.1中的伪元素</h4><ol>
 <li><code>E:first-line</code>, 匹配E元素的第一行。</li>
 <li><code>E:first-letter</code>, 匹配E元素的第一个字母。</li>
@@ -327,7 +314,7 @@
 <li><code>E:after</code>, 在E元素之后插入生成的内容。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-line</span> &#123; </div><div class="line">  <span class="attribute">font-weight</span>: bold; </div><div class="line">  <span class="attribute">color</span>: <span class="number">#600</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.preamble</span><span class="selector-pseudo">:first-letter</span> &#123; </div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1.5em</span>; </div><div class="line">  <span class="attribute">font-weight</span>: bold; </div><div class="line">&#125;</div><div class="line"><span class="selector-class">.cbb</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">height</span>: <span class="number">17px</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">18px</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(top.png) no-repeat <span class="number">0</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">18px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line"> <span class="attribute">content</span>: <span class="string">" ("</span> <span class="built_in">attr</span>(href) <span class="string">") "</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-line</span> &#123; </div><div class="line">  <span class="attribute">font-weight</span>: bold; </div><div class="line">  <span class="attribute">color</span>: <span class="number">#600</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.preamble</span><span class="selector-pseudo">:first-letter</span> &#123; </div><div class="line">  <span class="attribute">font-size</span>: <span class="number">1.5em</span>; </div><div class="line">  <span class="attribute">font-weight</span>: bold; </div><div class="line">&#125;</div><div class="line"><span class="selector-class">.cbb</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">height</span>: <span class="number">17px</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">18px</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="built_in">url</span>(top.png) no-repeat <span class="number">0</span> <span class="number">0</span>;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> -<span class="number">18px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">a</span><span class="selector-pseudo">:link</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line"> <span class="attribute">content</span>: <span class="string">" ("</span> <span class="built_in">attr</span>(href) <span class="string">") "</span>; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="CSS3中与用户界面有关的伪类"><a href="#CSS3中与用户界面有关的伪类" class="headerlink" title="CSS3中与用户界面有关的伪类"></a>CSS3中与用户界面有关的伪类</h4><ol>
 <li><code>E:enabled</code>, 匹配表单中激活的元素。</li>
 <li><code>E:disabled</code>, 匹配表单中禁用的元素。</li>
@@ -335,7 +322,7 @@
 <li><code>E::selection</code>, 匹配用户当前选中的元素。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type="text"]</span><span class="selector-pseudo">:disabled</span> &#123; <span class="attribute">background</span>: <span class="number">#ddd</span>; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type="text"]</span><span class="selector-pseudo">:disabled</span> &#123; <span class="attribute">background</span>: <span class="number">#ddd</span>; &#125;</div></pre></td></tr></table></figure>
 <h4 id="CSS3中的结构性伪类"><a href="#CSS3中的结构性伪类" class="headerlink" title="CSS3中的结构性伪类"></a>CSS3中的结构性伪类</h4><ol>
 <li><code>E:root</code>, 匹配文档的根元素，对于HTML文档，就是HTML元素。</li>
 <li><code>E:nth-child(n)</code>, 匹配其父元素的第n个子元素，第一个编号为1。</li>
@@ -350,13 +337,13 @@
 <li><code>E:empty</code>, 匹配一个不包含任何子元素的元素，注意：文本节点也被看作子元素。</li>
 </ol>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(odd)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(even)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3n+0)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3n)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(2n+11)</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-last-child(2)</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:last-child</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:only-child</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:empty</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(odd)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(even)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3n+0)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:nth-child(3n)</span> &#123; <span class="attribute">color</span>: <span class="number">#f00</span>; &#125;</div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(2n+11)</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-last-child(2)</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:last-child</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:only-child</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:empty</span> &#123; <span class="attribute">background</span>: <span class="number">#ff0</span>; &#125;</div></pre></td></tr></table></figure>
 <h4 id="CSS3的反选伪类"><a href="#CSS3的反选伪类" class="headerlink" title="CSS3的反选伪类"></a>CSS3的反选伪类</h4><p><code>E:not(s)</code>,匹配不符合当前选择器的任何元素</p>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-pseudo">:not(p)</span> &#123;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-pseudo">:not(p)</span> &#123;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h4 id="CSS3中的-target伪类"><a href="#CSS3中的-target伪类" class="headerlink" title="CSS3中的:target伪类"></a>CSS3中的:target伪类</h4><p><code>E:target</code>,匹配文档中特定”id”点击后的效果</p>
 <p>示例：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h2</span><span class="selector-pseudo">:target</span> &#123;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#f60</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">h2</span><span class="selector-pseudo">:target</span> &#123;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#f60</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <h3 id="后代元素选择器和子元素选择器的区别"><a href="#后代元素选择器和子元素选择器的区别" class="headerlink" title="后代元素选择器和子元素选择器的区别"></a>后代元素选择器和子元素选择器的区别</h3><p>这里我们简单讨论下后代元素选择器和子元素选择器的区别</p>
 <ol>
 <li><p>写法不一样：</p>
@@ -382,7 +369,7 @@
 <p>一般情况下，（<code>外部</code>样式）External style sheet &lt;（<code>内部</code>样式）Internal style sheet &lt;（<code>内联</code>样式）Inline style</p>
 <p><strong>例外</strong>：如果外部样式放在内部样式的后面，则外部样式将会覆盖内部样式。</p>
 <p>示例：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">utf-8</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">      <span class="comment">/* 内部样式 */</span></span></div><div class="line"><span class="css">      <span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:green;&#125;</span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"> </div><div class="line">    <span class="comment">&lt;!-- 外部样式 style.css --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"style.css"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 设置：h3&#123;color:blue;&#125; --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>测试！<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  </div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">utf-8</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">    <span class="comment">/* 内部样式 */</span></span></div><div class="line"><span class="css">    <span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:green;&#125;</span></div><div class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">&nbsp</div><div class="line">  <span class="comment">&lt;!-- 外部样式 style.css --&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"style.css"</span>/&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 设置：h3&#123;color:blue;&#125; --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h3</span>&gt;</span>测试！<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <h3 id="选择器的优先级"><a href="#选择器的优先级" class="headerlink" title="选择器的优先级"></a>选择器的优先级</h3><p>给不同的选择器分配不同的权值</p>
 <table>
 <thead>
@@ -412,7 +399,7 @@
 <li>HTML标签选择器权值为1.</li>
 </ol>
 <p>示例</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">        <span class="selector-id">#redP</span> <span class="selector-tag">p</span> &#123;</span></div><div class="line"><span class="css">             <span class="comment">/* 权值 = 100+1=101 */</span></span></div><div class="line"><span class="css">             <span class="selector-tag">color</span>:<span class="selector-id">#F00</span>;  <span class="comment">/* 红色 */</span></span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="undefined"> </span></div><div class="line"><span class="css">        <span class="selector-id">#redP</span> <span class="selector-class">.red</span> <span class="selector-tag">em</span> &#123;</span></div><div class="line"><span class="css">             <span class="comment">/* 权值 = 100+10+1=111 */</span></span></div><div class="line"><span class="css">             <span class="selector-tag">color</span>:<span class="selector-id">#00F</span>; <span class="comment">/* 蓝色 */</span></span></div><div class="line"><span class="undefined"> </span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="undefined"> </span></div><div class="line"><span class="css">        <span class="selector-id">#redP</span> <span class="selector-tag">p</span> <span class="selector-tag">span</span> <span class="selector-tag">em</span> &#123;</span></div><div class="line"><span class="css">             <span class="comment">/* 权值 = 100+1+1+1=103 */</span></span></div><div class="line"><span class="css">             <span class="selector-tag">color</span>:<span class="selector-id">#FF0</span>;<span class="comment">/*黄色*/</span></span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"redP"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"red"</span>&gt;</span>red</div><div class="line">           <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">em</span>&gt;</span>em red<span class="tag">&lt;/<span class="name">em</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>red<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">      <span class="selector-id">#redP</span> <span class="selector-tag">p</span> &#123;</span></div><div class="line"><span class="css">         <span class="comment">/* 权值 = 100+1=101 */</span></span></div><div class="line"><span class="css">         <span class="selector-tag">color</span>:<span class="selector-id">#F00</span>;  <span class="comment">/* 红色 */</span></span></div><div class="line"><span class="undefined">      &#125;</span></div><div class="line"><span class="undefined">      </span></div><div class="line"><span class="css">      <span class="selector-id">#redP</span> <span class="selector-class">.red</span> <span class="selector-tag">em</span> &#123;</span></div><div class="line"><span class="css">         <span class="comment">/* 权值 = 100+10+1=111 */</span></span></div><div class="line"><span class="css">         <span class="selector-tag">color</span>:<span class="selector-id">#00F</span>; <span class="comment">/* 蓝色 */</span></span></div><div class="line"><span class="undefined">      </span></div><div class="line"><span class="undefined">      &#125;</span></div><div class="line"><span class="undefined">      </span></div><div class="line"><span class="css">      <span class="selector-id">#redP</span> <span class="selector-tag">p</span> <span class="selector-tag">span</span> <span class="selector-tag">em</span> &#123;</span></div><div class="line"><span class="css">         <span class="comment">/* 权值 = 100+1+1+1=103 */</span></span></div><div class="line"><span class="css">         <span class="selector-tag">color</span>:<span class="selector-id">#FF0</span>;<span class="comment">/*黄色*/</span></span></div><div class="line"><span class="undefined">      &#125;</span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"redP"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"red"</span>&gt;</span>red</div><div class="line">           <span class="tag">&lt;<span class="name">span</span>&gt;</span><span class="tag">&lt;<span class="name">em</span>&gt;</span>em red<span class="tag">&lt;/<span class="name">em</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>red<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>结果：标签内的数据显示为蓝色。</p>
 <h3 id="CSS优先级法则"><a href="#CSS优先级法则" class="headerlink" title="CSS优先级法则"></a>CSS优先级法则</h3><p>比较样式的优先级是，只需统计不同选择器的个数，然后与对应的权值相乘即可。根据结果便可得出优先级。</p>
 <ol>
@@ -428,13 +415,13 @@
 <p>声明了<code>!important</code>的样式，具有最高的优先级，相当于写在最下面（最后定义）</p>
 <h3 id="IE-6-0下的-important"><a href="#IE-6-0下的-important" class="headerlink" title="IE 6.0下的!important"></a>IE 6.0下的!important</h3><p>IE 6.0<code>不完全</code>支持!important</p>
 <p>IE支持重定义中的!important，例如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.yuanxin</span> &#123; <span class="attribute">color</span>:<span class="number">#e00</span> <span class="meta">!important</span>; &#125;</div><div class="line"><span class="selector-class">.yuanxin</span> &#123; <span class="attribute">color</span>:<span class="number">#000</span>; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-class">.yuanxin</span> &#123; <span class="attribute">color</span>:<span class="number">#e00</span> <span class="meta">!important</span>; &#125;</div><div class="line"><span class="selector-class">.yuanxin</span> &#123; <span class="attribute">color</span>:<span class="number">#000</span>; &#125;</div></pre></td></tr></table></figure>
 <p>你将会发现定义了样式<code>class=&quot;yuanxin&quot;</code>时，在IE下，字体显示为红色（#e00）。<br>但不支持同一定义中的<code>!important</code>。例如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.yuanxin</span> &#123; <span class="attribute">color</span>: <span class="number">#e00</span> <span class="meta">!important</span>; <span class="attribute">color</span>: <span class="number">#000</span>; &#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-class">.yuanxin</span> &#123; <span class="attribute">color</span>: <span class="number">#e00</span> <span class="meta">!important</span>; <span class="attribute">color</span>: <span class="number">#000</span>; &#125;</div></pre></td></tr></table></figure>
 <p>此时在IE6下不支持，你将会发现定义了样式<code>class=&quot;yuanxin&quot;</code>时，字体显示为黑色（#000）。</p>
 <p><strong>解释</strong>：</p>
 <p>important的样式属性和覆盖它的样式属性单独使用时(不在一个{}里)，IE 6.0认为!important优先级较高，否则当含!important的样式属性被同一个{}里的样式覆盖时，IE 6.0认为!important较低!<br>再举一个例子：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*样式1*/</span></div><div class="line"><span class="selector-id">#a</span>&#123;<span class="attribute">width</span>:<span class="number">100</span> <span class="meta">!important</span>;&#125; <span class="comment">/*有效*/</span></div><div class="line"><span class="selector-id">#a</span>&#123;<span class="attribute">width</span>:<span class="number">50px</span>;&#125; <span class="comment">/*无效*/</span></div><div class="line"><span class="comment">/*样式2*/</span></div><div class="line"><span class="selector-id">#a</span>&#123;<span class="attribute">width</span>:<span class="number">100px</span> <span class="meta">!important</span>; <span class="attribute">width</span>:<span class="number">50px</span>;&#125; <span class="comment">/*width:100px无效，width:50px 有效*/</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="comment">/*样式1*/</span></div><div class="line"><span class="selector-id">#a</span> &#123; <span class="attribute">width</span>:<span class="number">100</span> <span class="meta">!important</span>; &#125; <span class="comment">/*有效*/</span></div><div class="line"><span class="selector-id">#a</span> &#123; <span class="attribute">width</span>:<span class="number">50px</span>; &#125; <span class="comment">/*无效*/</span></div><div class="line"><span class="comment">/*样式2*/</span></div><div class="line"><span class="selector-id">#a</span> &#123; <span class="attribute">width</span>:<span class="number">100px</span> <span class="meta">!important</span>; <span class="attribute">width</span>:<span class="number">50px</span>; &#125; <span class="comment">/*width:100px无效，width:50px 有效*/</span></div></pre></td></tr></table></figure>
 <p>因为IE 6.0一直都不完全支持这个语法，而其他的浏览器都支持。因此我们就可以利用这一点来分别利用!important，我们可以针对IE和非IE浏览器设置不同的样式，只要在非IE浏览器样式的后面加上!important。</p>
 <p>完。</p>
 <hr>
@@ -519,6 +506,17 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
               href="/category/"
               rel="noopener noreferrer"
               target="_self"
@@ -563,33 +561,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -606,27 +582,8 @@
     
 
     
-  <section class="duoshuo-comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-css-selector" 
-      data-title="CSS选择器、优先级以及!important知识总结" data-url="http://hysunny.me/2015/08/12/css-selector/index.html"></div>
-    <!-- 多说评论框 end -->
-  </section>
 
 
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
 
 
     

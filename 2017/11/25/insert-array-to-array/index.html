@@ -12,20 +12,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="JavaScript,Array," />
   
 
-  <meta name="description" content="JavaScript将一个数组插入到另一个数组中 方法一：unshift + splice 123456var arr1 = [&amp;apos;a&amp;apos;, &amp;apos;b&amp;apos;, &amp;apos;c&amp;apos;];   var arr2 = [&amp;apos;1&amp;apos;, &amp;apos;2&amp;apos;, &amp;apos;3&amp;apos;];   var index = 2;   arr2.unshif">
+  <meta name="description" content="JavaScript将一个数组插入到另一个数组中 方法一：unshift + splice var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];   var arr2 = [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;];   var index = 2;   arr2.unshift(index, 0);  Array.prototype.splice.apply(arr1, arr2);   console.">
+<meta name="keywords" content="JavaScript,Array">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript 实现 —— 将一个数组插入另一个数组中">
 <meta property="og:url" content="http://hysunny.me/2017/11/25/insert-array-to-array/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
-<meta property="og:description" content="JavaScript将一个数组插入到另一个数组中 方法一：unshift + splice 123456var arr1 = [&amp;apos;a&amp;apos;, &amp;apos;b&amp;apos;, &amp;apos;c&amp;apos;];   var arr2 = [&amp;apos;1&amp;apos;, &amp;apos;2&amp;apos;, &amp;apos;3&amp;apos;];   var index = 2;   arr2.unshif">
+<meta property="og:description" content="JavaScript将一个数组插入到另一个数组中 方法一：unshift + splice var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];   var arr2 = [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;];   var index = 2;   arr2.unshift(index, 0);  Array.prototype.splice.apply(arr1, arr2);   console.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-05T14:14:42.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:30:09.841Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 实现 —— 将一个数组插入另一个数组中">
-<meta name="twitter:description" content="JavaScript将一个数组插入到另一个数组中 方法一：unshift + splice 123456var arr1 = [&amp;apos;a&amp;apos;, &amp;apos;b&amp;apos;, &amp;apos;c&amp;apos;];   var arr2 = [&amp;apos;1&amp;apos;, &amp;apos;2&amp;apos;, &amp;apos;3&amp;apos;];   var index = 2;   arr2.unshif">
+<meta name="twitter:description" content="JavaScript将一个数组插入到另一个数组中 方法一：unshift + splice var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];   var arr2 = [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;];   var index = 2;   arr2.unshift(index, 0);  Array.prototype.splice.apply(arr1, arr2);   console.">
 
   
 
@@ -112,6 +113,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -156,33 +168,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -214,6 +204,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  </span>
+
 
 
       
@@ -227,9 +222,6 @@
       
 
       
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
-      
       
     </div>
   </header>
@@ -238,11 +230,11 @@
     
       <p><code>JavaScript</code>将一个数组插入到另一个数组中</p>
 <p>方法一：<code>unshift</code> + <code>splice</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];   </div><div class="line">var arr2 = [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;];   </div><div class="line">var index = 2;   </div><div class="line">arr2.unshift(index, 0);  </div><div class="line">Array.prototype.splice.apply(arr1, arr2);   </div><div class="line">console.log(arr1);     // [&quot;a&quot;, &quot;b&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;c&quot;]</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];   </div><div class="line"><span class="keyword">var</span> arr2 = [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>];   </div><div class="line"><span class="keyword">var</span> index = <span class="number">2</span>;   </div><div class="line">arr2.unshift(index, <span class="number">0</span>);  </div><div class="line"><span class="built_in">Array</span>.prototype.splice.apply(arr1, arr2);   </div><div class="line"><span class="built_in">console</span>.log(arr1);     <span class="comment">// ["a", "b", "1", "2", "3", "c"]</span></div></pre></td></tr></table></figure>
 <p>方法二：<code>splice</code> + <code>concat</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];   </div><div class="line">var arr2 = [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;];   </div><div class="line">var index = 2;   </div><div class="line">arr1.splice.apply(arr1, [index, 0].concat(arr2));</div><div class="line">console.log(arr1);     // [&quot;a&quot;, &quot;b&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;c&quot;]</div></pre></td></tr></table></figure>
-<p>方法三: <code>splice +</code>ES6 rest`</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];   </div><div class="line">var arr2 = [&apos;1&apos;, &apos;2&apos;, &apos;3&apos;]; </div><div class="line">arr1.splice(2, 0, ...arr2)</div><div class="line">console.log(arr1) 	//  [&quot;a&quot;, &quot;b&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;c&quot;]</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];   </div><div class="line"><span class="keyword">var</span> arr2 = [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>];   </div><div class="line"><span class="keyword">var</span> index = <span class="number">2</span>;   </div><div class="line">arr1.splice.apply(arr1, [index, <span class="number">0</span>].concat(arr2));</div><div class="line"><span class="built_in">console</span>.log(arr1);     <span class="comment">// ["a", "b", "1", "2", "3", "c"]</span></div></pre></td></tr></table></figure>
+<p>方法三: <code>splice</code> + <code>ES6 rest</code></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> arr1 = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>];   </div><div class="line"><span class="keyword">var</span> arr2 = [<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]; </div><div class="line">arr1.splice(<span class="number">2</span>, <span class="number">0</span>, ...arr2)</div><div class="line"><span class="built_in">console</span>.log(arr1) 	<span class="comment">//  ["a", "b", "1", "2", "3", "c"]</span></div></pre></td></tr></table></figure>
 
     
   </div>
@@ -320,6 +312,17 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
               href="/category/"
               rel="noopener noreferrer"
               target="_self"
@@ -364,33 +367,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -401,31 +382,6 @@
 </div>
 
 
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-
-
-    
-
-  </div>
 
   
 

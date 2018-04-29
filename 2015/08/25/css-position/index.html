@@ -12,10 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="CSS," />
   
 
   <meta name="description" content="CSS的position总是属性很容易让人弄混~ 为了仔细区别它们，所以今天总结一下CSS的position属性~ 下面是总结内容~ 有疏漏、错误之处敬请指出！~o(^▽^)o~  一、简介定义：position属性规定元素的定位类型。 说明：这个属性定义建立元素布局所用的定位机制。任何元素都可以定位，不过绝对定位或固定元素会生成一个块级框，而不论该元素本身是什么类型。相对定位元素会相对于它在正常">
+<meta name="keywords" content="CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CSS position 属性总结">
 <meta property="og:url" content="http://hysunny.me/2015/08/25/css-position/index.html">
@@ -34,7 +35,7 @@
 <meta property="og:image" content="http://hysunny.me/images/position-9.png">
 <meta property="og:image" content="http://hysunny.me/images/position-10.png">
 <meta property="og:image" content="http://hysunny.me/images/position-11.png">
-<meta property="og:updated_time" content="2017-09-09T15:05:22.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:29:28.824Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS position 属性总结">
 <meta name="twitter:description" content="CSS的position总是属性很容易让人弄混~ 为了仔细区别它们，所以今天总结一下CSS的position属性~ 下面是总结内容~ 有疏漏、错误之处敬请指出！~o(^▽^)o~  一、简介定义：position属性规定元素的定位类型。 说明：这个属性定义建立元素布局所用的定位机制。任何元素都可以定位，不过绝对定位或固定元素会生成一个块级框，而不论该元素本身是什么类型。相对定位元素会相对于它在正常">
@@ -125,6 +126,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -169,33 +181,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -205,11 +195,6 @@
 
 </div>
 
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、简介"><span class="toc-text">一、简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、取值"><span class="toc-text">二、取值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、-详解"><span class="toc-text">三、 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-static"><span class="toc-text">1. static</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-relative"><span class="toc-text">2. relative</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-absolute"><span class="toc-text">3. absolute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-fixed"><span class="toc-text">4.fixed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-sticky"><span class="toc-text">5. sticky</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-inherit"><span class="toc-text">6. inherit</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-相对定位的属性："><span class="toc-text">1. 相对定位的属性：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-绝对定位的属性"><span class="toc-text">2. 绝对定位的属性</span></a></li></ol></li></ol>
-  </div>
 
 
 
@@ -232,6 +217,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/CSS/">CSS</a>
+  </span>
+
 
 
       
@@ -244,9 +234,6 @@
         </span>
       
 
-      
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
       
       
     </div>
@@ -307,13 +294,13 @@
 <p> <strong>解释</strong>：position设置为static或不设定position属性时，元素遵循正常的文档流，对象占用文档空间，该定位方式下，top、right、left、bottom、z-index属性是无效的。</p>
 <p> 示例：<br> <script async src="//jsfiddle.net/hysunny/zj2ogz8m/embed/html,css,result/"></script></p>
 <p> 通过上例，可以看出position属性设置为static和不设置其实是一样的~</p>
-<p>所以，通常此属性值可以不设置，除非要<code>覆盖之前的定义。</code>下面举个栗子：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">A</span>页面</div><div class="line"><span class="selector-id">#div-1</span>&#123;</div><div class="line">  <span class="attribute">position</span>:absolute；</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">B</span>页面</div><div class="line"><span class="selector-id">#div-1</span>&#123;</div><div class="line">  <span class="attribute">position</span>:absolute；</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所以，通常此属性值可以不设置，除非要<strong>覆盖之前的定义</strong>。下面举个栗子：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">A</span>页面</div><div class="line"><span class="selector-id">#div-1</span>&#123;</div><div class="line">  <span class="attribute">position</span>:absolute；</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">B</span>页面</div><div class="line"><span class="selector-id">#div-1</span>&#123;</div><div class="line">  <span class="attribute">position</span>:absolute；</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>页面B中`position:static;是为了覆盖页面A中position的定义。</p>
 <h3 id="2-relative"><a href="#2-relative" class="headerlink" title="2. relative"></a>2. relative</h3><p>生成相对定位的元素，相对于其正常位置进行定位。</p>
 <p><strong>解释：</strong> </p>
-<p>(1）position设置为relative时，top、right、left、bottom等属性有效，相对其<code>正常位置</code>移。</p>
-<p>(2）position设置为relative时，元素遵照正常的文档流，占据文档空间，但是占据的文档空间<code>不会</code>随top、right、left、bottom的偏移而发生变动，也就是说，它后面的元素是依据前一个元素正常位置（即未设置top、right、left、bottom属性之前）进行的定位。</p>
+<p>(1）position设置为relative时，top、right、left、bottom等属性有效，相对其<strong>正常位置</strong>移。</p>
+<p>(2）position设置为relative时，元素遵照正常的文档流，占据文档空间，但是占据的文档空间<strong>不会</strong>随top、right、left、bottom的偏移而发生变动，也就是说，它后面的元素是依据前一个元素正常位置（即未设置top、right、left、bottom属性之前）进行的定位。</p>
 <p>(3）position设置为relative时，如果没有进行任何的top、right、left、bottom设置，元素不会进行任何位置的改变。</p>
 <p>示例：</p>
 <script async src="//jsfiddle.net/hysunny/ae8s2cm4/embed/html,css,result/"></script>
@@ -330,8 +317,8 @@
 <p><img src="/images/position-2.png" alt="position-2"></p>
 <p>由图可以看出，我们将外边距设置为20px，second元素向下偏移40px，所以margin可以改变元素所占文档空间！同理，padding也可改变元素所占文档空间，这里不多做演示。</p>
 <h3 id="3-absolute"><a href="#3-absolute" class="headerlink" title="3. absolute"></a>3. absolute</h3><p>生成绝对定位的元素，相对于非static定位的第一个父元素进行定位。</p>
-<p><strong>解释</strong>：position设置为absolute，元素会脱离文档流，整个元素不再占据文档空间，就只能相对<code>非static</code>定位的<code>第一个</code>父元素进行定位<br>(1）absolute在无父级是非static定位时以<html>标签作为原点定位，而relative和static方式在最外层时是以<body>标签作为原点定位。<html>标签和<body>标签相差9px左右。</body></html></body></html></p>
-<p>(2）position设置为absolute或fixed时，必须指定left、right、top、bottom属性中的<code>至少一个</code>，否则left、right、top、bottom属性会使用它们的默认值auto，这将导致对象遵从正常的HTML布局规则，在前一个对象之后立即被呈递，简单讲就是都变成relative，会占用文档空间，不会脱离文档流。若多设，比如top和bottom一同存在的话，那么只有top生效；left和right一同存在的话，那么只有left生效。</p>
+<p><strong>解释</strong>：position设置为absolute，元素会脱离文档流，整个元素不再占据文档空间，就只能相对<strong>非static</strong>定位的<strong>第一个</strong>父元素进行定位<br>(1）absolute在无父级是非static定位时以<html>标签作为原点定位，而relative和static方式在最外层时是以<body>标签作为原点定位。<html>标签和<body>标签相差9px左右。</body></html></body></html></p>
+<p>(2）position设置为absolute或fixed时，必须指定left、right、top、bottom属性中的<strong>至少一个</strong>，否则left、right、top、bottom属性会使用它们的默认值auto，这将导致对象遵从正常的HTML布局规则，在前一个对象之后立即被呈递，简单讲就是都变成relative，会占用文档空间，不会脱离文档流。若多设，比如top和bottom一同存在的话，那么只有top生效；left和right一同存在的话，那么只有left生效。</p>
 <p>(3）绝对（absolute）定位对象和相对（relative）定位对象在可视区域之外会导致滚动条出现。而固定（fixed）定位对象放置在可视区域之外，滚动条不会出现。</p>
 <p>示例：</p>
 <script async src="//jsfiddle.net/hysunny/q325w0k6/embed/html,css,result/"></script>
@@ -480,6 +467,17 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
               href="/category/"
               rel="noopener noreferrer"
               target="_self"
@@ -524,33 +522,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -567,27 +543,8 @@
     
 
     
-  <section class="duoshuo-comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-css-position" 
-      data-title="CSS position 属性总结" data-url="http://hysunny.me/2015/08/25/css-position/index.html"></div>
-    <!-- 多说评论框 end -->
-  </section>
 
 
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
 
 
     

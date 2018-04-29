@@ -12,20 +12,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="Vue.js," />
   
 
-  <meta name="description" content="在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。  Vue.js实现双向数据绑定的两种方式1. v-model调用组件时： 123&amp;lt;comp v-model=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt;或&amp;lt;comp :value=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt; 在组件内部，必须：  接受一个 value 属性 在有新的 val">
+  <meta name="description" content="在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。  Vue.js实现双向数据绑定的两种方式1. v-model调用组件时： &amp;lt;comp v-model=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt;或&amp;lt;comp :value=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt; 在组件内部，必须：  接受一个 value 属性 在有新的 value">
+<meta name="keywords" content="Vue.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue.js 双向数据绑定原理分析">
 <meta property="og:url" content="http://hysunny.me/2017/07/02/two-way-data-binding-in-vuejs/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
-<meta property="og:description" content="在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。  Vue.js实现双向数据绑定的两种方式1. v-model调用组件时： 123&amp;lt;comp v-model=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt;或&amp;lt;comp :value=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt; 在组件内部，必须：  接受一个 value 属性 在有新的 val">
+<meta property="og:description" content="在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。  Vue.js实现双向数据绑定的两种方式1. v-model调用组件时： &amp;lt;comp v-model=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt;或&amp;lt;comp :value=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt; 在组件内部，必须：  接受一个 value 属性 在有新的 value">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-03T10:23:10.000Z">
+<meta property="og:updated_time" content="2018-04-29T07:31:37.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue.js 双向数据绑定原理分析">
-<meta name="twitter:description" content="在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。  Vue.js实现双向数据绑定的两种方式1. v-model调用组件时： 123&amp;lt;comp v-model=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt;或&amp;lt;comp :value=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt; 在组件内部，必须：  接受一个 value 属性 在有新的 val">
+<meta name="twitter:description" content="在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。  Vue.js实现双向数据绑定的两种方式1. v-model调用组件时： &amp;lt;comp v-model=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt;或&amp;lt;comp :value=&quot;something&quot;&amp;gt;&amp;lt;/comp&amp;gt; 在组件内部，必须：  接受一个 value 属性 在有新的 value">
 
   
 
@@ -112,6 +113,17 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
             href="/category/"
             rel="noopener noreferrer"
             target="_self"
@@ -156,33 +168,11 @@
         <li class="item-toolbox">
           <a
             class="CIRCLE"
-            href="/atom.xml"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            RSS
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
             href="/search/"
             rel="noopener noreferrer"
             target="_self"
             >
             搜索
-          </a>
-        </li>
-      
-        <li class="item-toolbox">
-          <a
-            class="CIRCLE"
-            href="/demo/"
-            rel="noopener noreferrer"
-            target="_blank"
-            >
-            demo
           </a>
         </li>
       
@@ -192,11 +182,6 @@
 
 </div>
 
-
-  <div id="toc" class="toc-article">
-    <strong class="toc-title">文章目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-js实现双向数据绑定的两种方式"><span class="toc-text">Vue.js实现双向数据绑定的两种方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-v-model"><span class="toc-text">1. v-model</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-props-sync-修饰符"><span class="toc-text">2. props  .sync 修饰符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue实现双向数据绑定的原理分析"><span class="toc-text">Vue实现双向数据绑定的原理分析</span></a></li></ol>
-  </div>
 
 
 
@@ -219,6 +204,11 @@
       
 
       
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Vue-js/">Vue.js</a>
+  </span>
+
 
 
       
@@ -232,9 +222,6 @@
       
 
       
-        <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
-      
       
     </div>
   </header>
@@ -244,50 +231,50 @@
       <p>在使用Vue.js自定义组件时，很多时候，我们都期望数据是双向绑定的。</p>
 <hr>
 <h2 id="Vue-js实现双向数据绑定的两种方式"><a href="#Vue-js实现双向数据绑定的两种方式" class="headerlink" title="Vue.js实现双向数据绑定的两种方式"></a>Vue.js实现双向数据绑定的两种方式</h2><h3 id="1-v-model"><a href="#1-v-model" class="headerlink" title="1. v-model"></a>1. v-model</h3><p>调用组件时：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">v-model</span>=<span class="string">"something"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div><div class="line">或</div><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">:value</span>=<span class="string">"something"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">v-model</span>=<span class="string">"something"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div><div class="line">或</div><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">:value</span>=<span class="string">"something"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>在组件内部，必须：</p>
 <ul>
 <li>接受一个 <code>value</code> 属性</li>
 <li>在有新的 value 时触发 <code>input</code> 事件</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.$emit(<span class="string">'input'</span>, newValue)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">this</span>.$emit(<span class="string">'input'</span>, newValue)</div></pre></td></tr></table></figure>
 <p>如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;comp v-model=<span class="string">"something"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></span></div><div class="line"></div><div class="line"></div><div class="line">Vue.component(<span class="string">'comp'</span>, &#123;</div><div class="line">	...,</div><div class="line">	props: [<span class="string">'value'</span>],</div><div class="line">	computed: &#123;</div><div class="line">		currentValue: &#123;</div><div class="line">			get () &#123;</div><div class="line">				<span class="keyword">return</span> <span class="keyword">this</span>.value</div><div class="line">			&#125;,</div><div class="line">			set (val) &#123;</div><div class="line">				<span class="keyword">this</span>.$emit(<span class="string">'input'</span>, val)</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;,</div><div class="line">	...</div><div class="line">&#125;）</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&lt;comp v-model=<span class="string">"something"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></span></div><div class="line">&nbsp</div><div class="line">&nbsp</div><div class="line">Vue.component(<span class="string">'comp'</span>, &#123;</div><div class="line">  ...,</div><div class="line">  props: [<span class="string">'value'</span>],</div><div class="line">  computed: &#123;</div><div class="line">    currentValue: &#123;</div><div class="line">      get () &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.value</div><div class="line">      &#125;,</div><div class="line">      set (val) &#123;</div><div class="line">        <span class="keyword">this</span>.$emit(<span class="string">'input'</span>, val)</div><div class="line">      &#125;</div><div class="line">	&#125;</div><div class="line">  &#125;,</div><div class="line">  ...</div><div class="line">&#125;）</div></pre></td></tr></table></figure>
 <h3 id="2-props-sync-修饰符"><a href="#2-props-sync-修饰符" class="headerlink" title="2. props  .sync 修饰符"></a>2. props  .sync 修饰符</h3><p>调用组件时：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">:foo.sync</span>=<span class="string">"bar"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">:foo.sync</span>=<span class="string">"bar"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>在组件内部，</p>
 <ul>
 <li>接受一个 <code>foo</code> 属性</li>
 <li>需要更新 <code>foo</code> 时，它需要显式地触发一个更新事件</li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">this</span>.$emit(<span class="string">'update:foo'</span>, newValue)</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">this</span>.$emit(<span class="string">'update:foo'</span>, newValue)</div></pre></td></tr></table></figure>
 <p>如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;comp :foo.sync=<span class="string">"bar"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></span></div><div class="line"></div><div class="line">Vue.component(<span class="string">'comp'</span>, &#123;</div><div class="line">	...,</div><div class="line">	props: [<span class="string">'foo'</span>],</div><div class="line">	data () &#123;</div><div class="line">		<span class="keyword">return</span> &#123;</div><div class="line">			currentValue: <span class="keyword">this</span>.foo</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	watch: &#123;</div><div class="line">		currentValue (val, oldVal) &#123;</div><div class="line">			<span class="keyword">this</span>.$emit(<span class="string">'update:foo'</span>, val)</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	...</div><div class="line">&#125;）</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">&lt;comp :foo.sync=<span class="string">"bar"</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></span></div><div class="line">&nbsp</div><div class="line">Vue.component(<span class="string">'comp'</span>, &#123;</div><div class="line">  ...,</div><div class="line">  props: [<span class="string">'foo'</span>],</div><div class="line">  data () &#123;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      currentValue: <span class="keyword">this</span>.foo</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  watch: &#123;</div><div class="line">    currentValue (val, oldVal) &#123;</div><div class="line">      <span class="keyword">this</span>.$emit(<span class="string">'update:foo'</span>, val)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  ...</div><div class="line">&#125;）</div></pre></td></tr></table></figure>
 <h2 id="Vue实现双向数据绑定的原理分析"><a href="#Vue实现双向数据绑定的原理分析" class="headerlink" title="Vue实现双向数据绑定的原理分析"></a>Vue实现双向数据绑定的原理分析</h2><p><code>v-model</code> 用于双向绑定数据，其本质为语法糖，即</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">v-model</span>=<span class="string">"something"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">v-model</span>=<span class="string">"something"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>相当于</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">v-bind:value</span>=<span class="string">"something"</span> <span class="attr">v-on:input</span>=<span class="string">"something = $event.target.value"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">comp</span> <span class="attr">v-bind:value</span>=<span class="string">"something"</span> <span class="attr">v-on:input</span>=<span class="string">"something = $event.target.value"</span>&gt;</span><span class="tag">&lt;/<span class="name">comp</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>props  <code>.sync</code> 修饰符 用于双向数据绑定，其本质也为语法糖，即</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;comp :foo.sync=&quot;bar&quot;&gt;&lt;/comp&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight vim"><table><tr><td class="code"><pre><div class="line">&lt;<span class="keyword">comp</span> :foo.<span class="keyword">sync</span>=<span class="string">"bar"</span>&gt;&lt;/<span class="keyword">comp</span>&gt;</div></pre></td></tr></table></figure>
 <p>相当于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;comp :foo=&quot;bar&quot; @update:foo=&quot;val =&gt; bar = val&quot;&gt;&lt;/comp&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><div class="line">&lt;comp <span class="symbol">:foo=<span class="string">"bar"</span></span> <span class="variable">@update</span><span class="symbol">:foo=<span class="string">"val =&gt; bar = val"</span>&gt;&lt;/comp&gt;</span></div></pre></td></tr></table></figure>
 <p>以上，我们可以很容易的看出，实现一个自定义组件的双向数据绑定，其实就是父组件传递一个属性给子组件，在子组件中该属性的值改变时显式的去触发一个事件（v-model触发input事件，.sync触发update:props事件）。</p>
 <p>那在Vue.js内部究竟是如何实现双向数据绑定的呢？我们下面继续分析下。</p>
 <p>在Vue.js中，采用观察者-订阅者模式来进行双向数据绑定，通过<code>Object.defineProperty()</code>方法来劫持各个属性的setter，getter，在数据变动时发布消息给订阅者，触发相应的监听回调。</p>
 <p>既然是观察者-订阅者模式，那观察者-订阅者是如何实现的呢？我们来看源码</p>
 <p>观察者(Observer)关键代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span> (data) &#123;</div><div class="line">        <span class="keyword">this</span>.walk(data)</div><div class="line">    &#125;</div><div class="line">    walk (data) &#123;</div><div class="line">        <span class="comment">// 遍历 data 对象属性，调用 defineReactive 方法</span></div><div class="line">        <span class="keyword">let</span> keys = <span class="built_in">Object</span>.keys(data)</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keys.length; i++)&#123;</div><div class="line">            defineReactive(data, keys[i], data[keys[i]])</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span> (data) &#123;</div><div class="line">    <span class="keyword">this</span>.walk(data)</div><div class="line">  &#125;</div><div class="line">  walk (data) &#123;</div><div class="line">    <span class="comment">// 遍历 data 对象属性，调用 defineReactive 方法</span></div><div class="line">    <span class="keyword">let</span> keys = <span class="built_in">Object</span>.keys(data)</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; keys.length; i++)&#123;</div><div class="line">      defineReactive(data, keys[i], data[keys[i]])</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>订阅者（Watcher）关键代码：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(vm, expOrFn, cb) &#123;</div><div class="line">    <span class="keyword">this</span>.cb = cb</div><div class="line">    <span class="keyword">this</span>.vm = vm</div><div class="line">    <span class="keyword">this</span>.expOrFn = expOrFn</div><div class="line">    <span class="keyword">this</span>.value = <span class="keyword">this</span>.get()</div><div class="line">  &#125;</div><div class="line">  update()&#123;</div><div class="line">    <span class="keyword">this</span>.run()</div><div class="line">  &#125;</div><div class="line">  run()&#123;</div><div class="line">    <span class="keyword">const</span>  value = <span class="keyword">this</span>.get()</div><div class="line">    <span class="keyword">if</span>(value !==<span class="keyword">this</span>.value)&#123;</div><div class="line">      <span class="keyword">this</span>.value = value</div><div class="line">      <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  get()&#123;</div><div class="line">    <span class="keyword">const</span> value = <span class="keyword">this</span>.vm._data[<span class="keyword">this</span>.expOrFn]</div><div class="line">    <span class="keyword">return</span> value</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Watcher</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span>(vm, expOrFn, cb) &#123;</div><div class="line">    <span class="keyword">this</span>.cb = cb</div><div class="line">    <span class="keyword">this</span>.vm = vm</div><div class="line">    <span class="keyword">this</span>.expOrFn = expOrFn</div><div class="line">    <span class="keyword">this</span>.value = <span class="keyword">this</span>.get()</div><div class="line">  &#125;</div><div class="line">  update()&#123;</div><div class="line">    <span class="keyword">this</span>.run()</div><div class="line">  &#125;</div><div class="line">  run()&#123;</div><div class="line">    <span class="keyword">const</span>  value = <span class="keyword">this</span>.get()</div><div class="line">    <span class="keyword">if</span>(value !==<span class="keyword">this</span>.value)&#123;</div><div class="line">      <span class="keyword">this</span>.value = value</div><div class="line">      <span class="keyword">this</span>.cb.call(<span class="keyword">this</span>.vm)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  get()&#123;</div><div class="line">    <span class="keyword">const</span> value = <span class="keyword">this</span>.vm._data[<span class="keyword">this</span>.expOrFn]</div><div class="line">    <span class="keyword">return</span> value</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>观察者和订阅者都有了，但是它们如何进行通信呢？</p>
 <p>首先，<br>观察者会遍历 data 对象的所有属性，每个属性通过调用 <code>defineReactive</code> 方法，转换为getter/setter</p>
 <p>defineReactive 关键代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj, key, value</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> dep = <span class="keyword">new</span> Dep()</div><div class="line">    <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</div><div class="line">        enumerable: <span class="literal">true</span>,</div><div class="line">        configurable: <span class="literal">true</span>,</div><div class="line">        get: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (Dep.target) &#123;</div><div class="line">                dep.depend()  <span class="comment">// 依赖收集</span></div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> value</div><div class="line">        &#125;,</div><div class="line">        set: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span>(<span class="params">newVal</span>) </span>&#123;</div><div class="line">            <span class="keyword">if</span> (value === newVal) &#123;</div><div class="line">                <span class="keyword">return</span></div><div class="line">            &#125; </div><div class="line">            value = newVal</div><div class="line">            <span class="comment">// 对新值进行观测，如果改变则通知订阅者</span></div><div class="line">            dep.notify()</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">defineReactive</span>(<span class="params">obj, key, value</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> dep = <span class="keyword">new</span> Dep()</div><div class="line">  <span class="built_in">Object</span>.defineProperty(obj, key, &#123;</div><div class="line">    enumerable: <span class="literal">true</span>,</div><div class="line">    configurable: <span class="literal">true</span>,</div><div class="line">    get: <span class="function"><span class="keyword">function</span> <span class="title">reactiveGetter</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (Dep.target) &#123;</div><div class="line">        dep.depend()  <span class="comment">// 依赖收集</span></div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> value</div><div class="line">    &#125;,</div><div class="line">    set: <span class="function"><span class="keyword">function</span> <span class="title">reactiveSetter</span>(<span class="params">newVal</span>) </span>&#123;</div><div class="line">      <span class="keyword">if</span> (value === newVal) &#123;</div><div class="line">        <span class="keyword">return</span></div><div class="line">      &#125; </div><div class="line">      value = newVal</div><div class="line">      <span class="comment">// 对新值进行观测，如果改变则通知订阅者</span></div><div class="line">      dep.notify()</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>defineReactive 方法将data的属性转换为访问器属性<br>get时进行依赖收集，<br>set时，如果数据有改变，则进行订阅通知</p>
 <p>通过上面的分析，我们知道了，观察者观测到数据更新时会通知订阅者，但是它是如何通知订阅者（Watcher）的呢？</p>
 <p>当然是通过订阅器了！</p>
 <p>订阅器(Dep)关键代码如下：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</div><div class="line">    <span class="keyword">constructor</span> (id, subs) &#123;</div><div class="line">        <span class="keyword">this</span>.id = <span class="number">0</span>++</div><div class="line">        <span class="keyword">this</span>.subs = []</div><div class="line">    &#125;</div><div class="line">    addSub () &#123;</div><div class="line">        <span class="keyword">this</span>.subs.push(sub)</div><div class="line">    &#125;</div><div class="line">    removeSub () &#123;</div><div class="line">        remove(<span class="keyword">this</span>.subs, sub)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    depend () &#123;</div><div class="line">        <span class="keyword">if</span> (Dep.target) &#123;</div><div class="line">        Dep.target.addDep(<span class="keyword">this</span>)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    notify () &#123;</div><div class="line">        <span class="keyword">const</span> subs = <span class="keyword">this</span>.subs.slice()</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = subs.length; i &lt; l; i++) &#123;</div><div class="line">            subs[i].update()</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</div><div class="line">  <span class="keyword">constructor</span> (id, subs) &#123;</div><div class="line">    <span class="keyword">this</span>.id = <span class="number">0</span>++</div><div class="line">    <span class="keyword">this</span>.subs = []</div><div class="line">  &#125;</div><div class="line">  addSub () &#123;</div><div class="line">    <span class="keyword">this</span>.subs.push(sub)</div><div class="line">  &#125;</div><div class="line">  removeSub () &#123;</div><div class="line">    remove(<span class="keyword">this</span>.subs, sub)</div><div class="line">  &#125;</div><div class="line">&nbsp</div><div class="line">  depend () &#123;</div><div class="line">    <span class="keyword">if</span> (Dep.target) &#123;</div><div class="line">      Dep.target.addDep(<span class="keyword">this</span>)</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&nbsp</div><div class="line">  notify () &#123;</div><div class="line">    <span class="keyword">const</span> subs = <span class="keyword">this</span>.subs.slice()</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, l = subs.length; i &lt; l; i++) &#123;</div><div class="line">        subs[i].update()</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>通过订阅器，订阅者接收到数据改变的通知</p>
 <p>由此，<code>Observer</code> 、 <code>Dep</code>、 <code>Watcher</code> 就形成了一个数据响应系统，也就是Vue.js实现双向数据绑定最核心的原理。</p>
 
@@ -367,6 +354,17 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
               href="/category/"
               rel="noopener noreferrer"
               target="_self"
@@ -411,33 +409,11 @@
           <li class="item-toolbox">
             <a
               class="CIRCLE"
-              href="/atom.xml"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              RSS
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
               href="/search/"
               rel="noopener noreferrer"
               target="_self"
               >
               搜索
-            </a>
-          </li>
-        
-          <li class="item-toolbox">
-            <a
-              class="CIRCLE"
-              href="/demo/"
-              rel="noopener noreferrer"
-              target="_blank"
-              >
-              demo
             </a>
           </li>
         
@@ -454,27 +430,8 @@
     
 
     
-  <section class="duoshuo-comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-two-way-data-binding-in-vuejs" 
-      data-title="Vue.js 双向数据绑定原理分析" data-url="http://hysunny.me/2017/07/02/two-way-data-binding-in-vuejs/index.html"></div>
-    <!-- 多说评论框 end -->
-  </section>
 
 
-
-
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"hysunny"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0]
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
 
 
     
