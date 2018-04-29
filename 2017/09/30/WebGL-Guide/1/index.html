@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第一章 WebGL概述 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/8aa0d6d09de9  1. WebGL是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。2. 个人计算机上使用最广泛的两种三维图形渲染技术是Direct3D和OpenGL（1992 SGI Silicon Graphics Inc开发）。3. WebGL从OpenGL ES（2003-2004提出">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第一章 WebGL概述">
+<meta property="og:url" content="http://hysunny.me/2017/09/30/WebGL-Guide/1/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/8aa0d6d09de9  1. WebGL是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。2. 个人计算机上使用最广泛的两种三维图形渲染技术是Direct3D和OpenGL（1992 SGI Silicon Graphics Inc开发）。3. WebGL从OpenGL ES（2003-2004提出">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-48330da09accdcaa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T09:52:58.385Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第一章 WebGL概述">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/8aa0d6d09de9  1. WebGL是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。2. 个人计算机上使用最广泛的两种三维图形渲染技术是Direct3D和OpenGL（1992 SGI Silicon Graphics Inc开发）。3. WebGL从OpenGL ES（2003-2004提出">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-48330da09accdcaa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/1" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第一章 WebGL概述</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.09.30</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/8aa0d6d09de9" target="_blank" rel="external">https://www.jianshu.com/p/8aa0d6d09de9</a></p>
+</blockquote>
+<h3 id="1-WebGL是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。"><a href="#1-WebGL是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。" class="headerlink" title="1. WebGL是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。"></a>1. WebGL是一项用来在网页上绘制和渲染<code>三维图形</code>（3D图形），并允许用户与之进行交互的技术。</h3><h3 id="2-个人计算机上使用最广泛的两种三维图形渲染技术是Direct3D和OpenGL（1992-SGI-Silicon-Graphics-Inc开发）。"><a href="#2-个人计算机上使用最广泛的两种三维图形渲染技术是Direct3D和OpenGL（1992-SGI-Silicon-Graphics-Inc开发）。" class="headerlink" title="2. 个人计算机上使用最广泛的两种三维图形渲染技术是Direct3D和OpenGL（1992 SGI Silicon Graphics Inc开发）。"></a>2. 个人计算机上使用最广泛的两种三维图形渲染技术是<code>Direct3D</code>和<code>OpenGL</code>（1992 SGI Silicon Graphics Inc开发）。</h3><h3 id="3-WebGL从OpenGL-ES（2003-2004提出，2007ES2-0，2012ES3-0）派生出来，基于ES2-0。"><a href="#3-WebGL从OpenGL-ES（2003-2004提出，2007ES2-0，2012ES3-0）派生出来，基于ES2-0。" class="headerlink" title="3. WebGL从OpenGL ES（2003-2004提出，2007ES2.0，2012ES3.0）派生出来，基于ES2.0。"></a>3. WebGL从<code>OpenGL ES</code>（2003-2004提出，2007ES2.0，2012ES3.0）派生出来，基于<code>ES2.0</code>。</h3><h3 id="4-OpenGL-2-0-起支持-可编程着色器，OpenGL-ES2-0继承了该特性，成为了WebGL1-0-的核心部分。"><a href="#4-OpenGL-2-0-起支持-可编程着色器，OpenGL-ES2-0继承了该特性，成为了WebGL1-0-的核心部分。" class="headerlink" title="4. OpenGL 2.0 起支持 可编程着色器，OpenGL ES2.0继承了该特性，成为了WebGL1.0 的核心部分。"></a>4. OpenGL 2.0 起支持 <code>可编程着色器</code>，OpenGL ES2.0继承了该特性，成为了WebGL1.0 的核心部分。</h3><h3 id="5-着色器语言（shading-language）"><a href="#5-着色器语言（shading-language）" class="headerlink" title="5. 着色器语言（shading language）"></a>5. 着色器语言（shading language）</h3><pre><code>OpenGL着色器语言（GLSL）
+OpenGL ES着色器语言（GLSL ES）
+</code></pre><h3 id="6-2011年-WebGL-发布第一个版本。"><a href="#6-2011年-WebGL-发布第一个版本。" class="headerlink" title="6. 2011年 WebGL 发布第一个版本。"></a>6. 2011年 WebGL 发布第一个版本。</h3><h3 id="7-WebGL页面包含了三种语言：-HTML5（超文本标记语言）、JavaScript-和-GLSL-ES。"><a href="#7-WebGL页面包含了三种语言：-HTML5（超文本标记语言）、JavaScript-和-GLSL-ES。" class="headerlink" title="7. WebGL页面包含了三种语言： HTML5（超文本标记语言）、JavaScript 和 GLSL ES。"></a>7. WebGL页面包含了三种语言： <code>HTML5</code>（超文本标记语言）、<code>JavaScript</code> 和 <code>GLSL ES</code>。</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-48330da09accdcaa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WebGL.png"></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/09/28/vue-render/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/09/30/WebGL-Guide/2/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

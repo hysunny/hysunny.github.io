@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第七章 进入三维世界 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/753d4e225880  1. 视点（eye point）：观察者所处的（三维空间中的）位置。（eyeX, eyeY, eyeZ）2. 视线（viewing direction）：从视点出发沿着观察方向的射线称作视线。3. 观察目标点（look-at point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。(a">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第七章 进入三维世界">
+<meta property="og:url" content="http://hysunny.me/2017/10/01/WebGL-Guide/7/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/753d4e225880  1. 视点（eye point）：观察者所处的（三维空间中的）位置。（eyeX, eyeY, eyeZ）2. 视线（viewing direction）：从视点出发沿着观察方向的射线称作视线。3. 观察目标点（look-at point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。(a">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-82529e06ab40c877.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-a6b3262c92547c30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f1dc94e82da948f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-110aa8938e5300dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b1ad79d617dbe970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-1adf584a4435e3a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f158e7479bfbf42a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-d54e09205f39c760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-8bf804517b49443d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T10:00:51.416Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第七章 进入三维世界">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/753d4e225880  1. 视点（eye point）：观察者所处的（三维空间中的）位置。（eyeX, eyeY, eyeZ）2. 视线（viewing direction）：从视点出发沿着观察方向的射线称作视线。3. 观察目标点（look-at point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。(a">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-82529e06ab40c877.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/7" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第七章 进入三维世界</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/753d4e225880" target="_blank" rel="external">https://www.jianshu.com/p/753d4e225880</a></p>
+</blockquote>
+<h3 id="1-视点（eye-point）：观察者所处的（三维空间中的）位置。（eyeX-eyeY-eyeZ）"><a href="#1-视点（eye-point）：观察者所处的（三维空间中的）位置。（eyeX-eyeY-eyeZ）" class="headerlink" title="1. 视点（eye point）：观察者所处的（三维空间中的）位置。（eyeX, eyeY, eyeZ）"></a>1. 视点（eye point）：观察者所处的（三维空间中的）位置。（eyeX, eyeY, eyeZ）</h3><h3 id="2-视线（viewing-direction）：从视点出发沿着观察方向的射线称作视线。"><a href="#2-视线（viewing-direction）：从视点出发沿着观察方向的射线称作视线。" class="headerlink" title="2. 视线（viewing direction）：从视点出发沿着观察方向的射线称作视线。"></a>2. 视线（viewing direction）：从视点出发沿着观察方向的射线称作视线。</h3><h3 id="3-观察目标点（look-at-point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。-atX-atY-atZ"><a href="#3-观察目标点（look-at-point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。-atX-atY-atZ" class="headerlink" title="3. 观察目标点（look-at point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。(atX, atY, atZ)"></a>3. 观察目标点（look-at point）：被观察目标所在的点。视线从视点出发，穿过观察目标点并继续延伸。(atX, atY, atZ)</h3><h3 id="4-上方向（up-direction）：最终绘制在屏幕上的影像中的向上的方向。-upX-upY-upZ"><a href="#4-上方向（up-direction）：最终绘制在屏幕上的影像中的向上的方向。-upX-upY-upZ" class="headerlink" title="4. 上方向（up direction）：最终绘制在屏幕上的影像中的向上的方向。(upX, upY, upZ)"></a>4. 上方向（up direction）：最终绘制在屏幕上的影像中的向上的方向。(upX, upY, upZ)</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-82529e06ab40c877.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="5-视点、观察目标点和上方向可以构成一个视图矩阵（view-matrix）"><a href="#5-视点、观察目标点和上方向可以构成一个视图矩阵（view-matrix）" class="headerlink" title="5. 视点、观察目标点和上方向可以构成一个视图矩阵（view matrix）"></a>5. 视点、观察目标点和上方向可以构成一个视图矩阵（view matrix）</h3><h3 id="6-等式："><a href="#6-等式：" class="headerlink" title="6.  等式："></a>6.  等式：</h3><p>  <code>旋转后顶点坐标</code> = <code>旋转矩阵</code> × <code>原始顶点坐标</code><br>  <code>&quot;从视点看上去&quot;的旋转后顶点坐标</code> = <code>视图矩阵</code> × 旋转后顶点坐标<br>  <code>&quot;从视点看上去&quot;的变换后顶点坐标</code> = <code>视图矩阵</code> × <code>模型矩阵</code> × <code>原始顶点坐标</code></p>
+<h3 id="7-可视范围（visible-range）-观察得到的区域边界。"><a href="#7-可视范围（visible-range）-观察得到的区域边界。" class="headerlink" title="7. 可视范围（visible range）: 观察得到的区域边界。"></a>7. <code>可视范围</code>（visible range）: 观察得到的区域边界。</h3><p>  <code>WebGL</code>只绘制可视范围内的对象，降低程序开销。</p>
+<h3 id="8-可视空间：由水平视角、垂直失焦和可视深度（能够看多远）定义"><a href="#8-可视空间：由水平视角、垂直失焦和可视深度（能够看多远）定义" class="headerlink" title="8.可视空间：由水平视角、垂直失焦和可视深度（能够看多远）定义"></a>8.<code>可视空间</code>：由水平视角、垂直失焦和可视深度（能够看多远）定义</h3><p>  可是空间常分为两类：<br>  （1）长方体可视空间，也称盒状空间，由正射投影（orthographic projection）产生。</p>
+<p>  由前后两个矩形表面确定，分别称<code>近裁剪面</code>（near clipping plane）和<code>远裁剪面</code>（far clipping plane）。</p>
+<p>  近裁剪面的四个顶点为(right, top, -near), (-left, top, -near), (-left, -bottom, -near), (right, -bottom, -near)。</p>
+<p>  近裁剪面与远裁剪面之间的盒形空间就是可视空间，只有在此空间内的物体会被显示出来。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-a6b3262c92547c30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  远裁剪面的四个顶点为(right, top, far), (-left, top, far), (-left, -bottom, far), (right, -bottom, far)</p>
+<p>  （2）四棱锥 / 金字塔可视空间，由<code>透视投影</code>（perspective projection）产生。</p>
+<p>  透视投影矩阵（perspective projection matrix）定义了透视投影可视空间的矩阵。</p>
+<p>  <code>fov</code>: 垂直失焦，即可视空间顶面和底面间的夹角，必须大于0<br>  <code>aspect</code>: 近裁剪面的宽高比（宽度 / 高度）</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f1dc94e82da948f1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="9-等式"><a href="#9-等式" class="headerlink" title="9. 等式"></a>9. 等式</h3><p>  <code>正射投影后的坐标</code> = <code>正射投影矩阵</code> × <code>视图矩阵</code> × <code>顶点坐标</code><br>  <code>&quot;从视点看上去&quot;的投影后变换后顶点坐标</code> = <code>投影矩阵</code> ×  <code>视图矩阵</code> × <code>模型矩阵</code> × <code>原始顶点坐标</code></p>
+<h3 id="10-隐藏面消除（hidden-surface-removal）：消除那些被遮挡的表面（隐藏面）"><a href="#10-隐藏面消除（hidden-surface-removal）：消除那些被遮挡的表面（隐藏面）" class="headerlink" title="10. 隐藏面消除（hidden surface removal）：消除那些被遮挡的表面（隐藏面）"></a>10. <code>隐藏面消除</code>（hidden surface removal）：消除那些被遮挡的表面（隐藏面）</h3><p>  开启隐藏面消除功能<br>  前提：必须设置可视空间（正射投影空间或透视投影空间）<br>  步骤：<br>  （1）开启隐藏面消除功能： <code>gl.enable(gl.DEPTH_TEST);</code><br>  <code>gl.enable()</code>规范：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-110aa8938e5300dc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （2）在绘制之前，清除深度缓冲区（depth buffer）：<code>gl.clear(gl.DEPTH_BUFFER_BIT);</code><br>  <img src="http://upload-images.jianshu.io/upload_images/3779867-b1ad79d617dbe970.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  与gl.enable()函数对应的还有gl.disable()函数。禁用某个功能:</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-1adf584a4435e3a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="11-深度冲突（Z-fighting）：当几何图形或物体的两个表面极为接近时，深度缓冲区有限的精度已经不能区分哪个在前，哪个在后了，就会使得表面看上去斑斑驳驳的。"><a href="#11-深度冲突（Z-fighting）：当几何图形或物体的两个表面极为接近时，深度缓冲区有限的精度已经不能区分哪个在前，哪个在后了，就会使得表面看上去斑斑驳驳的。" class="headerlink" title="11. 深度冲突（Z fighting）：当几何图形或物体的两个表面极为接近时，深度缓冲区有限的精度已经不能区分哪个在前，哪个在后了，就会使得表面看上去斑斑驳驳的。"></a>11. <code>深度冲突</code>（Z fighting）：当几何图形或物体的两个表面极为接近时，深度缓冲区有限的精度已经不能区分哪个在前，哪个在后了，就会使得表面看上去斑斑驳驳的。</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f158e7479bfbf42a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  解决方案： <code>多边形偏移</code>（polygon offset），该机制将直接在Z值上<strong>加上一个偏移量</strong>，偏移量的值由物体表面相对于观察者视线的角度来确定。<br>  启动该机制步骤：<br>  （1）启用多边形偏移：<code>gl.enable(gl.POLYGON_OFFSET_FILL);</code><br>  （2）在绘制之前指定用来计算偏移量的参数： <code>gl.polygonOffset(1.0, 1.0);</code></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-d54e09205f39c760.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="12-画立方体"><a href="#12-画立方体" class="headerlink" title="12. 画立方体"></a>12. 画立方体</h3><p>  <code>gl.drawElements()</code><br>  <img src="http://upload-images.jianshu.io/upload_images/3779867-8bf804517b49443d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/01/WebGL-Guide/6/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/02/vue-patch/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

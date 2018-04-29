@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第八章 光照 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/062aa6855f87  1. 当光线照射到物体上时，发生了两个重要现象：  （1）根据光源和光线方向，物体不同表面的明暗程度变得不一致。  （2）根据光源和光线方向，物体向地面投下了影子。    2.  着色和阴影  着色（shading）：根据光照条件重建“物体各表面明暗不一的效果”的过程。  阴影（shadowing）：物体">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第八章 光照">
+<meta property="og:url" content="http://hysunny.me/2017/10/09/WebGL-Guide/8/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/062aa6855f87  1. 当光线照射到物体上时，发生了两个重要现象：  （1）根据光源和光线方向，物体不同表面的明暗程度变得不一致。  （2）根据光源和光线方向，物体向地面投下了影子。    2.  着色和阴影  着色（shading）：根据光照条件重建“物体各表面明暗不一的效果”的过程。  阴影（shadowing）：物体">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-a1674decb53c0631.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-fbf3f9a239530ad5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-12dfbb9fcff088ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b78775beb62f08ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T10:01:36.794Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第八章 光照">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/062aa6855f87  1. 当光线照射到物体上时，发生了两个重要现象：  （1）根据光源和光线方向，物体不同表面的明暗程度变得不一致。  （2）根据光源和光线方向，物体向地面投下了影子。    2.  着色和阴影  着色（shading）：根据光照条件重建“物体各表面明暗不一的效果”的过程。  阴影（shadowing）：物体">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-a1674decb53c0631.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/8" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第八章 光照</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/062aa6855f87" target="_blank" rel="external">https://www.jianshu.com/p/062aa6855f87</a></p>
+</blockquote>
+<h3 id="1-当光线照射到物体上时，发生了两个重要现象："><a href="#1-当光线照射到物体上时，发生了两个重要现象：" class="headerlink" title="1. 当光线照射到物体上时，发生了两个重要现象："></a>1. 当光线照射到物体上时，发生了两个重要现象：</h3><p>  （1）根据光源和光线方向，物体不同表面的<strong>明暗程度</strong>变得不一致。<br>  （2）根据光源和光线方向，物体向地面投下了<strong>影子</strong>。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-a1674decb53c0631.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="2-着色和阴影"><a href="#2-着色和阴影" class="headerlink" title="2.  着色和阴影"></a>2.  着色和阴影</h3><p>  <code>着色</code>（shading）：根据光照条件重建“物体各表面<strong>明暗不一</strong>的效果”的过程。<br>  <code>阴影</code>（shadowing）：物体向地面投下<strong>影子</strong>的现象。</p>
+<h3 id="3-真实世界中的光的类型："><a href="#3-真实世界中的光的类型：" class="headerlink" title="3. 真实世界中的光的类型："></a>3. 真实世界中的光的类型：</h3><p>  （1）<code>平行光</code>（directional light），类似于自然中的太阳光。平行光线相互平行，具有方向，可以用<strong>一个方向和一个颜色</strong>来定义。<br>  （2）<code>点光源光</code>（point light），类似于人造灯泡的光。点光源光是从一个点向周围的所有方向发出的光，需要<strong>指定点光源的位置和颜色</strong>。光线的方向将根据点光源的位置和被照射之处的位置计算出来。<br>  （3）<code>环境光</code>（ambient light），模拟<strong>非直射光</strong>，也就是由光源发出后经过墙壁或其他物体反射后的光。环境光（间接光）是指那些经光源（点光源或平行光源）发出后，被墙壁等物体多次反射，然后照到物体表面上的光。环境光从各个角度照射物体，其强度都是一致的。环境光<strong>不用指定位置和方向，只需指定颜色</strong>即可。<br>  （4）<code>聚光灯光</code>（spot light），模拟电筒、车前灯等。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-fbf3f9a239530ad5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="4-反射光的颜色，取决于：入射光（方向、颜色）和物体表面的类型。"><a href="#4-反射光的颜色，取决于：入射光（方向、颜色）和物体表面的类型。" class="headerlink" title="4. 反射光的颜色，取决于：入射光（方向、颜色）和物体表面的类型。"></a>4. 反射光的颜色，取决于：入射光（方向、颜色）和物体表面的类型。</h3><h3 id="5-物体表面反射光线的方式："><a href="#5-物体表面反射光线的方式：" class="headerlink" title="5. 物体表面反射光线的方式："></a>5. 物体表面反射光线的方式：</h3><p>  （1）漫反射（diffuse relection）<br>  针对平行光或点光源，漫反射的反射光在各个方向上是均匀的。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-12dfbb9fcff088ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  <code>漫反射光颜色</code> = <code>入射光颜色</code> × <code>表面基底色</code> × <code>cosa</code><br>  <code>cosa</code> = <code>光线方向</code> · <code>法线方向</code><br>   <code>漫反射光颜色</code> = <code>入射光颜色</code> × <code>表面基底色</code> × (<code>光线方向</code> · <code>法线方向</code>)</p>
+<p>  （2）环境反射（enviroment/ambient reflection）<br>  针对环境光，环境反射的反射光的方向可以认为是入射光的反方向。在各个方向均匀。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-b78775beb62f08ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  <code>环境反射光颜色</code> = <code>入射光颜色</code> × <code>表面基底色</code></p>
+<p>  注：表面基底色是物体本来的颜色，也就是物体在白光下的颜色<br>  当漫反射和环境反射同时存在时，将两者加起来，就会得到物体最终被观察到的颜色</p>
+<p>  <code>表面的反射光颜色</code> = <code>漫反射光颜色</code> + <code>环境反射光颜色</code></p>
+<h3 id="6-归一化（normalization）：将一个矢量的长度调整为1，同时保持方向不变的过程。"><a href="#6-归一化（normalization）：将一个矢量的长度调整为1，同时保持方向不变的过程。" class="headerlink" title="6. 归一化（normalization）：将一个矢量的长度调整为1，同时保持方向不变的过程。"></a>6. <code>归一化</code>（normalization）：将一个矢量的长度调整为1，同时保持方向不变的过程。</h3><h3 id="7-平面的法向量唯一，即平面上的任意一点都具有相同的法向量。"><a href="#7-平面的法向量唯一，即平面上的任意一点都具有相同的法向量。" class="headerlink" title="7. 平面的法向量唯一，即平面上的任意一点都具有相同的法向量。"></a>7. 平面的法向量唯一，即平面上的任意一点都具有相同的法向量。</h3><h3 id="8-逆转置矩阵（inverse-transpose-matrx）"><a href="#8-逆转置矩阵（inverse-transpose-matrx）" class="headerlink" title="8. 逆转置矩阵（inverse transpose matrx）"></a>8. 逆转置矩阵（inverse transpose matrx）</h3><p>  <code>变换后的法向量</code> = <code>法向量</code> × <code>模型矩阵的逆转置矩阵</code></p>
+<p>  求逆转置矩阵的两个步骤：<br>  （1）求原矩阵的<strong>逆矩阵</strong> <code>Matrix4.setInverseOf(m)</code><br>  （2）将上一部求得的逆矩阵进行<strong>转置</strong> <code>Matrix4.transpose()</code></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/02/vue-patch/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/09/WebGL-Guide/9/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

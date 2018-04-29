@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第六章 OpenGL ES着色器语言 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/52caa3874f2b  本章主要内容：（1）数据、变量和变量类型。（2）矢量、矩阵、结构体、数组、采样器（纹理）（3）运算、程序流、函数（4）attribute、uniform和varying变量（5）精度限定词（6）预处理和指令 1. WebGL并不支持GLSL ES 1.00的所有特性。实际上，它支持的是1.00版本的一个子">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第六章 OpenGL ES着色器语言">
+<meta property="og:url" content="http://hysunny.me/2017/10/01/WebGL-Guide/6/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/52caa3874f2b  本章主要内容：（1）数据、变量和变量类型。（2）矢量、矩阵、结构体、数组、采样器（纹理）（3）运算、程序流、函数（4）attribute、uniform和varying变量（5）精度限定词（6）预处理和指令 1. WebGL并不支持GLSL ES 1.00的所有特性。实际上，它支持的是1.00版本的一个子">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-54b4fe0273328ca5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-9747feac9ab962f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-551ecf820518e144.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-25fb916d84a79b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-6387718e713d635a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-def85d1c3fad1846.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-3694495af926980f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-7b0105c989e0cedd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-e8184f32462e298b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f6711963fd38c900.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-c1225958a2972953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-5763d85f7934fb4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-00cc4a1c7884c4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-beb3fe2d11ddaafb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-a1a7b82bb5c6a84e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-448082658255aceb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-eec3ce347806ef52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-1d20f0e87f23a2bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-870270bebbb99ae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-0176a16318e306f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-a287b6d6dc026797.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-eff9d53e0cd8c427.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-eda0c4c6e5db92d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-ca96b8fefe7ae8b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-077bca44d5e457fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-c9f16c9f8daf325c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-d60c7aa6a3f41040.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-48688f7612c553af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T10:00:10.697Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第六章 OpenGL ES着色器语言">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/52caa3874f2b  本章主要内容：（1）数据、变量和变量类型。（2）矢量、矩阵、结构体、数组、采样器（纹理）（3）运算、程序流、函数（4）attribute、uniform和varying变量（5）精度限定词（6）预处理和指令 1. WebGL并不支持GLSL ES 1.00的所有特性。实际上，它支持的是1.00版本的一个子">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-54b4fe0273328ca5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/6" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第六章 OpenGL ES着色器语言</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/52caa3874f2b" target="_blank" rel="external">https://www.jianshu.com/p/52caa3874f2b</a></p>
+</blockquote>
+<p>本章主要内容：<br>（1）数据、变量和变量类型。<br>（2）矢量、矩阵、结构体、数组、采样器（纹理）<br>（3）运算、程序流、函数<br>（4）attribute、uniform和varying变量<br>（5）精度限定词<br>（6）预处理和指令</p>
+<h3 id="1-WebGL并不支持GLSL-ES-1-00的所有特性。实际上，它支持的是1-00版本的一个子集，其中只包括WebGL需要的那些核心特性。"><a href="#1-WebGL并不支持GLSL-ES-1-00的所有特性。实际上，它支持的是1-00版本的一个子集，其中只包括WebGL需要的那些核心特性。" class="headerlink" title="1. WebGL并不支持GLSL ES 1.00的所有特性。实际上，它支持的是1.00版本的一个子集，其中只包括WebGL需要的那些核心特性。"></a>1. WebGL并不支持<code>GLSL ES 1.00</code>的所有特性。实际上，它支持的是1.00版本的一个子集，其中只包括WebGL需要的那些核心特性。</h3><h3 id="2-GLEL-ES编程语言是在OpenGL着色器语言（GLSL）的基础上，删除和简化一部分后形成的，降低了硬件消耗，减少了性能开销。"><a href="#2-GLEL-ES编程语言是在OpenGL着色器语言（GLSL）的基础上，删除和简化一部分后形成的，降低了硬件消耗，减少了性能开销。" class="headerlink" title="2. GLEL ES编程语言是在OpenGL着色器语言（GLSL）的基础上，删除和简化一部分后形成的，降低了硬件消耗，减少了性能开销。"></a>2. GLEL ES编程语言是在OpenGL着色器语言（GLSL）的基础上，删除和简化一部分后形成的，降低了硬件消耗，减少了性能开销。</h3><h3 id="3-基础："><a href="#3-基础：" class="headerlink" title="3. 基础："></a>3. 基础：</h3><p>  （1）程序式<strong>大小写敏感</strong>的<br>  （2）每一个语句都应该以一个英文分号结束</p>
+<h3 id="4-执行次序"><a href="#4-执行次序" class="headerlink" title="4. 执行次序"></a>4. 执行次序</h3><p>  从main函数开始执行。<br>  着色器程序<strong>有且仅有</strong>一个main()函数，而且该函数不能接受任何参数。<br>  main函数前的void关键字表示这个函数不返回任何值。</p>
+<h3 id="5-注释"><a href="#5-注释" class="headerlink" title="5. 注释"></a>5. 注释</h3><p>  单行注释：   // int kp = 496;<br>  多行注释： /<em>  haha </em>/</p>
+<h3 id="6-数据值类型（数值和布尔值）"><a href="#6-数据值类型（数值和布尔值）" class="headerlink" title="6. 数据值类型（数值和布尔值）"></a>6. 数据值类型（数值和布尔值）</h3><p>  GLSL支持两种数据值类型<br>  （1）数值类型：整数（没有小数点）和浮点数（有小数点）<br>  （2）布尔值类型：true 和 false<br>  不支持字符串类型</p>
+<h3 id="7-变量"><a href="#7-变量" class="headerlink" title="7. 变量"></a>7. 变量</h3><p>  规则：<br>  （1）只包括a-z，A-Z，0-9和下划线<em><br>  （2）变量名的首字母不能是数字<br>  （3）不能是关键字和保留字，但是变量名的一部分可以是它们<br>  （4）不能以`gl</em><code>，</code>webgl_<code>，或</code><em>webgl</em>`开头，这些前缀已经被OpenGL ES保留了</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-54b4fe0273328ca5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="GLSL ES关键字"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-9747feac9ab962f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="GLSL ES保留字"></p>
+<h3 id="8-GLSL-ES是强类型语言"><a href="#8-GLSL-ES是强类型语言" class="headerlink" title="8. GLSL ES是强类型语言"></a>8. GLSL ES是强类型语言</h3><p>  （1）GLSL ES要求具体指明变量的数据类型： &lt;类型&gt; &lt;变量名&gt;<br>  如： <code>vec4 a_Position</code><br>  （2）定义函数时，必须指定函数的返回值<br>  （3）在进行赋值操作（=）的时候，等号左右两侧的数据类型也必须一样，否则就会出错</p>
+<h3 id="9-基本类型"><a href="#9-基本类型" class="headerlink" title="9. 基本类型"></a>9. 基本类型</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-551ecf820518e144.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="GLSL的基本类型"></p>
+<p>  为变量指定类型有利于WebGL系统检查代码错误，提高程序的运行效率。<br>  如： float klimt  // 浮点数变量</p>
+<h3 id="10-赋值和类型转换"><a href="#10-赋值和类型转换" class="headerlink" title="10. 赋值和类型转换"></a>10. 赋值和类型转换</h3><p>  <code>=</code> 用于赋值，赋值时要保证左侧变量的类型和右侧的值类型一致<br>  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line"><span class="type">float</span> f2 = <span class="number">8.0</span>;</div></pre></td></tr></table></figure></p>
+<p>  可以使用内置函数进行类型转换，如：<br>  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line"><span class="type">float</span> f3 = <span class="type">float</span>(<span class="number">8</span>);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-25fb916d84a79b02.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类型转换内置函数"></p>
+<h3 id="11-运算符"><a href="#11-运算符" class="headerlink" title="11. 运算符"></a>11. 运算符</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-6387718e713d635a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="基本类型的运算符"></p>
+<p>  说明：</p>
+<p>  [1] 在进行逻辑与(&amp;&amp;)运算时，只有第一个表达式的计算值为true时才会计算第二个表达式。同样，在进行逻辑或(||)运算时，只有第一个表达式的值为false时才会计算第二个表达式。</p>
+<p>  [2] 逻辑异或(^^)运算的含义是：只有当左右两个表达式中有且仅有一个为true时，运算结果才是true，否则为false。</p>
+<h3 id="12-矢量和矩阵"><a href="#12-矢量和矩阵" class="headerlink" title="12. 矢量和矩阵"></a>12. 矢量和矩阵</h3><p>  （1）矢量和矩阵类型的变量都包含多个元素，每个元素是一个数值（整型数、浮点数和布尔值）<br>  矢量将这些元素排成一列，可以用来表示顶点坐标或颜色值等，而矩阵将元素划分成行和列，可以用来表示变换矩阵。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-def85d1c3fad1846.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6-6.png"></p>
+<p>  （2）赋值和构造<br>  （a） <code>=</code> 等号用于赋值，如：<code>vec4 position = vec4(1.0, 2.0, 3.0, 4.0);</code><br>  （b）构造函数：专门创建指定类型的变量的函数，构造函数的名称和其创建的变量类型名称总是一致的。</p>
+<p>  （3）矩阵构造函数<br>  （a）想矩阵构造函数中传入矩阵的每一个元素的数值来构造矩阵，注意传入值的顺序必须是列主序的</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-3694495af926980f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （b）向矩阵构造函数中传入一个或多个矢量，按照列主序使用矢量里的元素值来构造矩阵。<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用两个vec2对象来创建mat2对象</span></div><div class="line"><span class="type">vec2</span> v2_1 = <span class="type">vec2</span>(<span class="number">1.0</span>, <span class="number">3.0</span>);</div><div class="line"><span class="type">vec2</span> v2_2 = <span class="type">vec2</span>(<span class="number">2.0</span>, <span class="number">2.0</span>);</div><div class="line"><span class="type">mat2</span> m2_1 = <span class="type">mat2</span>(v2_1, v2_2);   <span class="comment">// 1.0  2.0</span></div><div class="line">                                <span class="comment">//  3.0  4.0</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">// 使用一个vec4对象来创建mat2对象</span></div><div class="line"><span class="type">vec4</span> v4 = <span class="type">vec4</span>(<span class="number">1.0</span>, <span class="number">3.0</span>, <span class="number">2.0</span>, <span class="number">4.0</span>);</div><div class="line"><span class="type">mat2</span> m2_2 = <span class="type">mat2</span>(v4);     <span class="comment">// 1.0  2.0</span></div><div class="line">                          <span class="comment">//  3.0  4.0</span></div></pre></td></tr></table></figure></p>
+<p>  （c）向矩阵构造函数中出阿奴矢量和数值，按照<strong>列主序</strong>使用矢量里的元素值和直接传入的数值来构造矩阵<br>  <figure class="highlight gcode"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 使用两个浮点数和一个vec2对象来创建mat2对象</span></div><div class="line">mat<span class="number">2</span> <span class="name">m2</span> = mat<span class="number">2</span><span class="comment">(1.0, 3.0, v2_2)</span>;      <span class="comment">// 1.0  2.0</span></div><div class="line">                                     <span class="comment">//  3.0  4.0</span></div></pre></td></tr></table></figure></p>
+<p>  （d）向矩阵构造函数中传入单个数值，这样将生成一个对角线上元素都是该数值，其他元素为0.0的矩阵<br>  <figure class="highlight gcode"><table><tr><td class="code"><pre><div class="line">mat<span class="number">4</span> <span class="name">m4</span> = mat<span class="number">4</span><span class="comment">(1.0)</span>;    <span class="comment">// 1.0  0.0  0.0  0.0</span></div><div class="line">                        <span class="comment">// 0.0  1.0  0.0  0.0</span></div><div class="line">                        <span class="comment">// 0.0  0.0  1.0  0.0</span></div><div class="line">                        <span class="comment">// 0.0  0.0  0.0  1.0</span></div></pre></td></tr></table></figure></p>
+<p>  与矢量构造函数类似，如果传入的数值的数量大于1，有没有达到矩阵元素的数量，就会出错<br>  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">mat4 m4 = mat4(<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>);    <span class="comment">// 错误。mat4对象需要16个元素</span></div></pre></td></tr></table></figure></p>
+<p>  （3）访问元素<br>  为了访问矢量或矩阵中的元素，可以使用<code>.</code>或<code>[]</code>运算符<br>  （a）<code>.</code>运算符</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-7b0105c989e0cedd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分量名"></p>
+<p>  任何适量的x,r或s分量都会返回第一个分量，y,g,t分量都会返回第二个分量。<br>  如：<br>  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">vec3 v3 = vec3(<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>);    <span class="comment">// 将v3设为(1.0, 2.0, 3.0)</span></div><div class="line"><span class="type">float</span> f;</div><div class="line">&nbsp</div><div class="line">f = v3.x;  <span class="comment">// 设f为 1.0</span></div><div class="line">f = v3.y;  <span class="comment">// 设f为 2.0</span></div><div class="line">f = v3.z;  <span class="comment">// 设f为 3.0</span></div><div class="line">&nbsp</div><div class="line">f = v3.r;  <span class="comment">// 设f为 1.0</span></div><div class="line">f = v3.s;  <span class="comment">// 设f为 1.0</span></div></pre></td></tr></table></figure></p>
+<p>  将（同一个集合的）多个分量名共同置于点运算符后，就可以从矢量中同时抽取出多个分量。这个过程乘坐混合（swizzling）<br>  如： v2 = v3.xz<br>  此时的多个分量必须属于同一个集合，比如说，你不能使用v3.was</p>
+<p>  （b）<code>[]</code>运算符<br>  矩阵中的元素从<strong>下标0</strong>开始按照<strong>列主序</strong>读取。<br>  限制：<code>[]</code>中只能出现的索引值必须是<strong>常量索引值</strong></p>
+<p>  <code>常量索引值</code>定义如下：<br>  （a）整型字面量（0或1）<br>  （b）用 <code>const</code> 修饰的全局变量或局部变量。不包括函数参数。<br>  （c）循环索引<br>  （d）由前述三条中的项组成的表达式</p>
+  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="type">int</span> <span class="keyword">index</span> = <span class="number">0</span>  <span class="comment">// const 关键字表示变量是只读的</span></div><div class="line"><span class="type">vec4</span> v4a = m4[<span class="keyword">index</span>]  <span class="comment">// 同m4[0]相同</span></div></pre></td></tr></table></figure>
+<p>  注意，你不能使用未经<code>const</code>修饰的变量作为索引值，因为它不是一个常量索引值（除非它是循环索引）。</p>
+  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="type">int</span> index1 = <span class="number">0</span></div><div class="line"><span class="type">vec4</span> v4c = m4[index2]    <span class="comment">// 错误：index不是常量索引</span></div></pre></td></tr></table></figure>
+<p>  （4）运算符<br>  对于矢量和矩阵，只可以使用比较运算符中的<code>==</code> 和 <code>!=</code>，不可以使用<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>和<code>&lt;=</code>。<br>  如果想要比较矢量和矩阵的大小，应该是用内置函数，比如<code>lessThan()</code>。<br>  如果你想逐分量比较，可以使用内置的函数<code>equal()</code>或<code>notEqual()</code></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-e8184f32462e298b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="矢量和矩阵可用的运算符"></p>
+<h3 id="13-矢量和浮点数的运算"><a href="#13-矢量和浮点数的运算" class="headerlink" title="13. 矢量和浮点数的运算"></a>13. 矢量和浮点数的运算</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f6711963fd38c900.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （1） 矢量运算</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-c1225958a2972953.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （2） 矩阵和浮点数的运算</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-5763d85f7934fb4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （3）矩阵右乘矢量</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-00cc4a1c7884c4b8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （4） 矩阵左乘矢量</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-beb3fe2d11ddaafb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （5）矩阵与矩阵相乘</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-a1a7b82bb5c6a84e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="14-结构体"><a href="#14-结构体" class="headerlink" title="14.  结构体"></a>14.  结构体</h3><p>  （1）结构体：用户自定义的类型，使用关键字 struct，将已存在的类型聚合到一起，就可以定义为结构体。如：<br>  <figure class="highlight thrift"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">light</span> </span>&#123;    <span class="comment">//  定义结构体light</span></div><div class="line">  vec4 color;    <span class="comment">// 光的颜色</span></div><div class="line">  vec4 position;    <span class="comment">// 广元位置</span></div><div class="line">&#125; </div><div class="line">light <span class="number">11</span>, <span class="number">12</span>;    <span class="comment">// 声明了light类型的变量11和12</span></div></pre></td></tr></table></figure></p>
+<p>  也可以在定义结构体的同时声明该结构体类型类型的变量，如：</p>
+  <figure class="highlight thrift"><table><tr><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">light</span> </span>&#123;    <span class="comment">//  定义结构体和定义变量同时进行</span></div><div class="line">  vec4 color;    <span class="comment">// 光的颜色</span></div><div class="line">  vec4 position;    <span class="comment">// 广元位置</span></div><div class="line">&#125; <span class="number">11</span>;    <span class="comment">// 该结构体类型的变量11</span></div></pre></td></tr></table></figure>
+<p>  （2）赋值和构造<br>  结构体有标准的构造函数，其名称与结构体名一致。构造函数的参数的顺序必须与结构体定义中的成员顺序一致。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-448082658255aceb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="结构体构造函数的使用方法"></p>
+<p>  （3）访问成员<br>  在结构体变量名后跟点运算符（.），然后再加上成员名，就可以访问变量的成员。如：<br>  <figure class="highlight maxima"><table><tr><td class="code"><pre><div class="line">vec4 <span class="built_in">color</span> = <span class="number">11.</span><span class="built_in">color</span>;</div><div class="line">vec3 <span class="built_in">position</span> = <span class="number">11.</span><span class="built_in">position</span>;</div></pre></td></tr></table></figure></p>
+<h3 id="15-数组"><a href="#15-数组" class="headerlink" title="15. 数组"></a>15. 数组</h3><p>  （1）<br>  ELSL ES 只支持一维数组，而且数组对象不支持pop()和push()等操作，创建数组时也不需要使用new运算符。<br>  声明数组，只需要在变量名后加上中括号和数组长度，如：<br>  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line"><span class="type">float</span> floatArray[<span class="number">4</span>];    <span class="comment">// 声明含有4个浮点数元素的数组</span></div><div class="line">vec4 vec4Array[<span class="number">2</span>];    <span class="comment">//  声明含有两个vec4对象的数组</span></div></pre></td></tr></table></figure></p>
+<p>  数组的长度必须是大于0的整型常量表达式，定义如下：<br>  （a）整型字面量（如0或1）<br>  （b）用const限定字修饰的全局变量或局部变量，不包括函数参数<br>  （c）由前述两条中的项组成的表达式</p>
+<p>  举例：<br>  <figure class="highlight fortran"><table><tr><td class="code"><pre><div class="line"><span class="built_in">int</span> <span class="built_in">size</span> = <span class="number">4</span>;</div><div class="line">vec4 vec4Array[<span class="built_in">size</span>];    // 错误。如果第一行为const <span class="built_in">int</span> <span class="built_in">size</span> = <span class="number">4</span>;则不会报错</div></pre></td></tr></table></figure></p>
+<p>  注意，你不可以用const限定字来修饰数组本身。</p>
+<p>  只有整型常量表达式和uniform变量可以被用作数组的索引值。<br>  数组不能在声明时被一次性地初始化，而必须显式地对每个元素进行初始化。如：</p>
+  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">vec4Array[<span class="number">0</span>] = vec4(<span class="number">4.0</span>, <span class="number">3.0</span>, <span class="number">6.0</span>, <span class="number">1.0</span>);</div><div class="line">vec4Array[<span class="number">1</span>] = vec4(<span class="number">3.0</span>, <span class="number">2.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>);</div></pre></td></tr></table></figure>
+<p>  数组本身只支持[]运算符，但数组的元素能够参与其自身类型支持的任意运算。如：</p>
+  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 将floatArray的第二个参数乘以3.14</span></div><div class="line"><span class="type">float</span> f = floatArray[<span class="number">1</span>] * <span class="number">3.14</span>;</div><div class="line"><span class="comment">// 将vec4Array的第一个参数乘以vec4(1.0, 2.0, 3.0 ,4.0)</span></div><div class="line">vec4 v4 = vec4Array[<span class="number">0</span>] * vec4(<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span> ,<span class="number">4.0</span>);</div></pre></td></tr></table></figure>
+<h3 id="16-取样器（纹理）"><a href="#16-取样器（纹理）" class="headerlink" title="16. 取样器（纹理）"></a>16. 取样器（纹理）</h3><p>  必须通过<code>取样器</code>（sampler）类型变量访问纹理。<br>  有两种基本类型的取样器类型：<code>sampler2D</code> 和 <code>samplerCube</code><br>  取样器变量只能是uniform变量，或者需要访问纹理的函数，如<code>texture2D()</code>函数的参数，如：<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">uniform</span> <span class="type">sampler2D</span> u_Sampler;</div></pre></td></tr></table></figure></p>
+<p>  只有纹理单元编号可以给取样器变量，而且必须使用gl.uniformli()来进行赋值。</p>
+<p>  除了<code>=</code>、<code>==</code>和<code>!=</code>，取样器变量不可以作为操作数参与运算。</p>
+<p>  取样器变量受到着色器支持的纹理单元的最大数量限制。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-eec3ce347806ef52.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="着色器中取样器类型变量的最小数量"></p>
+<p>  mediump是一个精度限定字</p>
+<h3 id="17-运算符优先级"><a href="#17-运算符优先级" class="headerlink" title="17. 运算符优先级"></a>17. 运算符优先级</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-1d20f0e87f23a2bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="18-程序流程控制：分支和循环"><a href="#18-程序流程控制：分支和循环" class="headerlink" title="18. 程序流程控制：分支和循环"></a>18. 程序流程控制：分支和循环</h3><p>  （1）if 和 if-else<br>  <img src="http://upload-images.jianshu.io/upload_images/3779867-870270bebbb99ae1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="if语句格式"></p>
+<p>  如：</p>
+  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">if (distance &lt; <span class="number">0.5</span>) &#123;</div><div class="line">  gl_fragColor = vec4(<span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>);</div><div class="line">&#125; else &#123;</div><div class="line">  gl_fragColor = vec4(<span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  （2）for语句</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-0176a16318e306f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="for语句格式"></p>
+<p>  如：</p>
+  <figure class="highlight matlab"><table><tr><td class="code"><pre><div class="line"><span class="keyword">for</span> (int <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; <span class="number">3</span>; <span class="built_in">i</span>++) &#123;</div><div class="line">  sum += i;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  注意：循环变量<code>i</code>只能在初始化表达中定义，条件表达式可以为空，如果这样做，空的条件表达式返回<code>true</code>。</p>
+<p>  for语句的其他限制：<br>  （a）只允许有一个循环变量，循环变量只能是<code>int</code>或<code>float</code>类型。<br>  （b）循环表达式必须是以下的形式：<code>i++</code>,<code>i--</code>,<code>i+=</code>常量表达式或<code>i-=</code>常量表达式<br>  （c）条件表达式必须是循环变量与整型常量的比较<br>  （d）在循环体内，循环变量不可被赋值<br>  这些限制的存在是为了使编译器就能够对for循环进行内联展开</p>
+<p>  （3）continue、break和discard语句<br>  （a）continue终止包含该语句的最内层循环和执行循环表达式（递增/递减循环变量），然后执行下一次循环<br>  （b）break中止包含该语句的最内层循环，并不在继续执行循环。</p>
+<p>  如：<br>  <figure class="highlight awk"><table><tr><td class="code"><pre><div class="line"><span class="regexp">//</span> <span class="keyword">continue</span> case</div><div class="line"><span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  <span class="keyword">if</span> (i == <span class="number">8</span>) &#123;</div><div class="line">    <span class="keyword">continue</span>;    <span class="regexp">//</span> 跳过循环体余下的部分，继续下次循环</div><div class="line">  &#125;</div><div class="line">  <span class="regexp">//</span> 当i==<span class="number">8</span>时，不会执行到这里</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="regexp">//</span> <span class="keyword">break</span> case</div><div class="line"><span class="keyword">for</span> (int i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</div><div class="line">  <span class="keyword">if</span> (i == <span class="number">8</span>) &#123;</div><div class="line">    <span class="keyword">break</span>;    <span class="regexp">//</span> 跳出<span class="keyword">for</span>循环</div><div class="line">  &#125;</div><div class="line">  <span class="regexp">//</span> 当i&gt;=<span class="number">8</span>时，不会执行这里</div><div class="line">&#125;</div><div class="line"><span class="regexp">//</span> 当i==<span class="number">8</span>时，执行这里</div></pre></td></tr></table></figure></p>
+<p>  关于discard，它只能在片元着色器中使用，表示放弃当前片元直接处理下一片元。</p>
+<h3 id="19-函数"><a href="#19-函数" class="headerlink" title="19. 函数"></a>19. 函数</h3><p>  （1）</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-a287b6d6dc026797.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="函数语句格式"></p>
+<p>  可以没有return语句，但是返回类型必须是void<br>  也可以将自己定义的结构体指定为返回类型，但是结构体的成员中不能有数组。</p>
+<p>  示例：</p>
+  <figure class="highlight processing"><table><tr><td class="code"><pre><div class="line"><span class="comment">// RGBA颜色值转为亮度值函数</span></div><div class="line"><span class="built_in">float</span> luma(vec4, <span class="built_in">color</span>) &#123;</div><div class="line">  <span class="keyword">return</span> <span class="number">0.2126</span> * <span class="built_in">color</span>.r +  <span class="number">0.7162</span> * <span class="built_in">color</span>.g +  <span class="number">0.0722</span> * <span class="built_in">color</span>.b;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 调用</span></div><div class="line">attribute vec4 a_Color    <span class="comment">// 传了(r, g, b, a)的值</span></div><div class="line"><span class="keyword">void</span> main() &#123;</div><div class="line">  ...</div><div class="line">  <span class="built_in">float</span> <span class="built_in">brightness</span> = luma(a_Color);</div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  注意，如果调用函数时传入的参数类型与生命函数时指定的参数类型不一致，就会出错。<br>  如：</p>
+  <figure class="highlight cs"><table><tr><td class="code"><pre><div class="line"><span class="function"><span class="keyword">float</span> <span class="title">square</span>(<span class="params"><span class="keyword">float</span> <span class="keyword">value</span></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="keyword">value</span> * <span class="keyword">value</span>;</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  ...</div><div class="line">  <span class="keyword">float</span> x2 = square(<span class="number">10</span>);   <span class="comment">// 错误。应用10.0</span></div><div class="line">  ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  因为函数声明时的参数是float类型，而调用时却传入了int类型的值。</p>
+<p>  （2）规范声明<br>  如果函数定义在其调用之后，那么我们必须在进行调用之前先声明该函数的规范。<br>  规范会预先告诉WebGL系统函数的参数、参数类型、返回值等等<br>  如：</p>
+  <figure class="highlight processing"><table><tr><td class="code"><pre><div class="line"><span class="built_in">float</span> luma(vec4, <span class="built_in">color</span>);   <span class="comment">// 规范声明</span></div><div class="line">main() &#123;</div><div class="line">  ...</div><div class="line">  <span class="built_in">float</span> <span class="built_in">brightness</span> = luma(a_Color);  <span class="comment">// luma在定义之前就被调用了</span></div><div class="line">  ...</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="built_in">float</span> luma(vec4, <span class="built_in">color</span>) &#123;</div><div class="line">  <span class="keyword">return</span> <span class="number">0.2126</span> * <span class="built_in">color</span>.r +  <span class="number">0.7162</span> * <span class="built_in">color</span>.g +  <span class="number">0.0722</span> * <span class="built_in">color</span>.b;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  （3）参数限定词<br>  GLSL ES中，可以为参数指定限定自，以控制参数的行为。<br>  我们可以将函数参数定义成：<br>  （a）传递给函数的<br>  （b）将要在函数中被复制的<br>  （c）既是传递给函数的，也是将要在函数中被赋值的。<br>  其中（b）和（c）都有点类似于C语言中的指针</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-eff9d53e0cd8c427.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （4）内置函数</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-eda0c4c6e5db92d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="20-全局变量和局部变量"><a href="#20-全局变量和局部变量" class="headerlink" title="20. 全局变量和局部变量"></a>20. 全局变量和局部变量</h3><p>  attribute、varying和uniform变量都必须声明为全局变量</p>
+<p>  （1）存储限定字<br>  在GLSL ES中，我们经常使用<code>attribute</code>、<code>varying</code>和<code>uniform</code>限定字来修饰变量，如下图所示。此外，有时也会使用const限定字，它表示着色器中的某个变量是恒定的常量。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-ca96b8fefe7ae8b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （2）const变量<br>  const变量写在类型之前，声明的同时必须对它进行初始化，声明之后就不能再去改变它们的值了。<br>  如：<br>  <figure class="highlight cpp"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> <span class="keyword">int</span> a = <span class="number">3232</span></div></pre></td></tr></table></figure></p>
+<p>  （3）Attributr变量<br>  只能出现在顶点着色器中，只能被声明为<strong>全局变量</strong>，被用来表示逐顶点的信息。<br>  顶点着色器中能够容纳的attribute变量的最大数目与设备有关，你可以通过访问内置的全局常量来获取最大数目的值。<br>  但是不管设备如何，支持WebGL的环境都支持<strong>至少8个</strong><code>attribute</code>变量。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-077bca44d5e457fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （4）uniform变量<br>  可以用在顶点着色器和片元着色器中，且必须是<strong>全局变量</strong>。<br>  uniform变量<strong>只读</strong>，可以是除了数组或结构体之外的任意类型。<br>  如果在顶点着色器和片元着色器中声明了同名的uniform变量，那么它就会被两种着色器共享。<br>  uniform变量包含了一致（非逐顶点/逐片元的，各顶点或各片元公用）的数据，JS应该向其传递此类数据。<br>  比如，变换矩阵就不是逐定点的，而是所有顶点共用的，所以它在着色器中是uniform变量。<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">uniform</span> <span class="type">mat4</span> u_ViewMatrix</div></pre></td></tr></table></figure></p>
+<p>  （5）varying变量<br>  必须是<strong>全局变量</strong><br>  从顶点着色器向片元着色器传输数据。<br>  必须在两种着色器中生命同名、同类型的varying变量<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">varying</span> <span class="type">vec2</span> v_TexCoord</div><div class="line"><span class="keyword">varying</span> <span class="type">vec4</span> v_Color</div></pre></td></tr></table></figure></p>
+<p>  varying变量只能是以下类型：<code>float</code>、<code>vec2</code>、<code>vec3</code>、<code>vec4</code>、<code>mat2</code>、<code>mat3</code>和<code>mat4</code><br>  顶点着色器中赋给varying变量的值并不是直接传给了片元着色器的varying变量，这其中发生了<strong>光栅化</strong>的过程：根据绘制的图形，对前者（顶点着色器varying变量）进行内插，然后再传递个后者（片元着色器varying变量）<br>  正是因为varying变量需要被内插，所以我们需要限制它的数据类型</p>
+<p>  设备至少支持8个varying变量</p>
+<h3 id="21-精度限定字"><a href="#21-精度限定字" class="headerlink" title="21. 精度限定字"></a>21. 精度限定字</h3><p>  帮助着色器程序提高运行效率，削减内存开支。<br>  可选，不确定精度可以使用适中的默认值：<br>  <figure class="highlight cpp"><table><tr><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_ES</span></div><div class="line">precision mediump <span class="keyword">float</span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure></p>
+<p>  WebGL中支持的3种精度</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-c9f16c9f8daf325c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  注意：<br>  （1）在某些WebGL环境中，片元着色器可能不支持<code>highp</code>精度<br>  （2）数值范围和精度实际上也是与系统环境相关，可以使用<code>gl.getShaderPrecisionFormet()</code>来检查</p>
+<p>  如：<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">mediump</span> <span class="type">float</span> size;  <span class="comment">//  中精度浮点型变量</span></div><div class="line"><span class="keyword">highp</span> <span class="type">vec4</span> position;  <span class="comment">//  具有高精度浮点型的vec4对象</span></div><div class="line"><span class="keyword">lowp</span> <span class="type">vec4</span> color;  <span class="comment">//  具有低精度浮点型的vec4对象</span></div></pre></td></tr></table></figure></p>
+<p>  声明着色器的默认精度，这行代码必须在顶点着色器或片元着色器的顶部：<br>  <code>precision</code> 精度限定自 <strong>类型名称</strong><br>  表示接下来所有不以精度限定自修饰的该类型标量，其精度就是默认精度，如：<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="keyword">precision</span> <span class="keyword">mediump</span> <span class="type">float</span>;</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-d60c7aa6a3f41040.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6-27.png"></p>
+<p>  只有<code>片元着色器</code>中的float类型<strong>没有</strong>默认精度，我们需要手动指定。</p>
+<h3 id="22-预处理指令"><a href="#22-预处理指令" class="headerlink" title="22. 预处理指令"></a>22. 预处理指令</h3><p>  用来在真正编译之前对代码进行预处理，<code>#</code>开始</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-48688f7612c553af.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="6-28.png"></p>
+  <figure class="highlight cpp"><table><tr><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_ES</span></div><div class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> GL_FRAGMENT_PRECISION_HIGH</span></div><div class="line">precision highp <span class="keyword">float</span>;  <span class="comment">//  支持高精度，限定浮点型为高精度</span></div><div class="line">&nbsp</div><div class="line"><span class="meta">#<span class="meta-keyword">else</span></span></div><div class="line">precision mediump <span class="keyword">float</span>;  <span class="comment">//  不支持高精度，限定浮点型为中精度</span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div></pre></td></tr></table></figure>
+<p>  可以只是用<code>#version number</code>来指定着色器使用的GLSL ES版本</p>
+<p>  可以接受的版本包括100（GLSL ES 1.00）和101（GLSL ES 1.01）。如果不使用<code>#version</code>命令，默认版本为<code>100</code>。</p>
+<p>  指定版本代码：</p>
+  <figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">version 101</span></div></pre></td></tr></table></figure>
+<p>  <code>#version</code> 指令必须在着色器顶部，在它之前只能有注释和空白。</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/01/WebGL-Guide/5/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/01/WebGL-Guide/7/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

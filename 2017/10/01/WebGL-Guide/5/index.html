@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第五章 颜色与纹理 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/6c1092db1655  本章主要内容：（1） 将顶点的其他（非坐标）数据 —— 如颜色等 —— 传入顶点着色器（2）发生在顶点着色器和片元着色器之间的从图形到片元的转化，又称图元光栅化（rasterzation process）（3）将图形（或称纹理）映射到图形或三维对象的表面上。 1.  将顶点坐标传入着色器，步骤：  （1）">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第五章 颜色与纹理">
+<meta property="og:url" content="http://hysunny.me/2017/10/01/WebGL-Guide/5/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/6c1092db1655  本章主要内容：（1） 将顶点的其他（非坐标）数据 —— 如颜色等 —— 传入顶点着色器（2）发生在顶点着色器和片元着色器之间的从图形到片元的转化，又称图元光栅化（rasterzation process）（3）将图形（或称纹理）映射到图形或三维对象的表面上。 1.  将顶点坐标传入着色器，步骤：  （1）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-a39298b99c26bfec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-dc8438fd3a7649e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-e7f9aab3cb51ac7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-9eb08f5aefbab295.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-0a9640c9952ca0d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f2124855bfdf9ee8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-778b7dd0646e602d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f5512a813326f8d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-af1f8d5148206e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-57ada6a0587ca611.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-aaf68f0b5af2cc44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-d74e7a9224baf5e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-3a54c73076ba0119.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-51ede760a583ce43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-c34fd0d3b5f036bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-1f99486f5ac83601.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b45cceab15ce2884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-fe933a5a9680050d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f3eeb18a4ee053fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-c5a63c60ce3db700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-bdc5e188f14a5903.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b17ce54099c9fc3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-2c1ad85fe34a3c96.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-3a78ad9da23f76f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-354cae955d612a01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-27b918ecb33d7e00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-72e6a1727e56104b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-5de556e5771c8500.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T09:57:36.669Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第五章 颜色与纹理">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/6c1092db1655  本章主要内容：（1） 将顶点的其他（非坐标）数据 —— 如颜色等 —— 传入顶点着色器（2）发生在顶点着色器和片元着色器之间的从图形到片元的转化，又称图元光栅化（rasterzation process）（3）将图形（或称纹理）映射到图形或三维对象的表面上。 1.  将顶点坐标传入着色器，步骤：  （1）">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-a39298b99c26bfec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/5" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第五章 颜色与纹理</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/6c1092db1655" target="_blank" rel="external">https://www.jianshu.com/p/6c1092db1655</a></p>
+</blockquote>
+<p>本章主要内容：<br>（1） 将顶点的其他（非坐标）数据 —— 如颜色等 —— 传入顶点着色器<br>（2）发生在顶点着色器和片元着色器之间的从图形到片元的转化，又称图元光栅化（rasterzation process）<br>（3）将图形（或称纹理）映射到图形或三维对象的表面上。</p>
+<h3 id="1-将顶点坐标传入着色器，步骤："><a href="#1-将顶点坐标传入着色器，步骤：" class="headerlink" title="1.  将顶点坐标传入着色器，步骤："></a>1.  将顶点坐标传入着色器，步骤：</h3><p>  （1）创建缓冲区对象。<br>  （2）将缓冲区对象绑定到<code>tartget</code>上。<br>  （3）将顶点坐标数据写入缓冲区对象。<br>  （4）将缓冲区对象分配给对应的 <code>attribute</code> 变量。<br>  （5）开启 <code>attribute</code> 变量。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-a39298b99c26bfec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用两个缓冲区对象向顶点着色器传输数据"></p>
+<h3 id="2-交错组织（interleaving）：将顶点坐标和尺寸数据打包到同一缓冲区对象中。"><a href="#2-交错组织（interleaving）：将顶点坐标和尺寸数据打包到同一缓冲区对象中。" class="headerlink" title="2. 交错组织（interleaving）：将顶点坐标和尺寸数据打包到同一缓冲区对象中。"></a>2. <code>交错组织</code>（interleaving）：将<strong>顶点坐标</strong>和<strong>尺寸数据</strong>打包到同一缓冲区对象中。</h3><h3 id="3-gl-vertexAttribPointer"><a href="#3-gl-vertexAttribPointer" class="headerlink" title="3. gl.vertexAttribPointer()"></a>3. <code>gl.vertexAttribPointer()</code></h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-dc8438fd3a7649e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.vertexAttribPointer()"></p>
+<h3 id="4-varying-变量：-从顶点着色器向片元着色器中传入数据。"><a href="#4-varying-变量：-从顶点着色器向片元着色器中传入数据。" class="headerlink" title="4. varying 变量： 从顶点着色器向片元着色器中传入数据。"></a>4. <code>varying 变量</code>： 从顶点着色器向片元着色器中传入数据。</h3><p>  varying 变量只能是<strong>float</strong>（以及相关的<strong>vec2，vec3，vec4，mat2，mat3，mat4</strong>）。</p>
+<h3 id="5-在顶点着色器和片元着色器之间，有两个步骤："><a href="#5-在顶点着色器和片元着色器之间，有两个步骤：" class="headerlink" title="5. 在顶点着色器和片元着色器之间，有两个步骤："></a>5. 在顶点着色器和片元着色器之间，有两个步骤：</h3><p>  [1] <code>图形装配过程：将孤立的顶点坐标装配成几何图形。几何图形的类别由</code>gl.drawArray() `函数的第一个参数决定。<br>  输入数据：gl_Position<br>  [2]  光栅化过程：将装配好的几何图形转为片元。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-e7f9aab3cb51ac7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="顶点着色器和片元着色器之间的图形装配和光栅化"></p>
+<p>  步骤：<br>  （1）根据 <code>gl.drawArrays()</code>的参数n，将执行顶点着色器<strong>n</strong>次（执行顶点着色器结果：将坐标传入并存储在装配区）<br>  （2）开始装配图形。使用传入的点坐标，根据 <code>gl.drawArrays()</code>的第一个参数信息（如：gl.TRANGLES）来决定如何装配。<br>  （3）光栅化</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-9eb08f5aefbab295.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="几何图形装配和光栅化过程"></p>
+<h3 id="6-颜色内插（interpolation）"><a href="#6-颜色内插（interpolation）" class="headerlink" title="6. 颜色内插（interpolation）"></a>6. 颜色内插（interpolation）</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-0a9640c9952ca0d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="颜色值的内插"></p>
+<h3 id="7-纹理映射-和-纹素"><a href="#7-纹理映射-和-纹素" class="headerlink" title="7. 纹理映射 和 纹素"></a>7. 纹理映射 和 纹素</h3><p>  <code>纹理映射</code>（texture mapping）：根据纹理图像，为之前光栅化后的每个片元涂上合适的颜色。<br>  <code>纹素</code>（texels, texture elements）：组成纹理图像的像素。每一个纹素的颜色都是用<strong>RGB</strong>或<strong>RGBA</strong>格式编码。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f2124855bfdf9ee8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纹素"></p>
+<h3 id="8-在WebGL中，要进行纹理映射，需遵循以下四步："><a href="#8-在WebGL中，要进行纹理映射，需遵循以下四步：" class="headerlink" title="8.  在WebGL中，要进行纹理映射，需遵循以下四步："></a>8.  在WebGL中，要进行纹理映射，需遵循以下四步：</h3><p>  （1）准备好映射到几何图形上的纹理图像。<br>  （2）为几何图形配置纹理映射方式。<br>  （3）加载纹理图像，对其进行一些配置，以在WebGL中使用它。<br>  （4）在片元着色器中将相应的纹素从纹理中抽取出来，并将纹素的颜色赋给片元。</p>
+<h3 id="9-纹理坐标"><a href="#9-纹理坐标" class="headerlink" title="9. 纹理坐标"></a>9. 纹理坐标</h3><p>  <code>纹理坐标</code>是纹理图像上的坐标，通过纹理坐标可以在纹理图像上获取纹素颜色。<br>  WebGL系统中的纹理坐标系统是<strong>二维</strong>的。<br>  WebGL中使用s和t命名纹理坐标。（st坐标系统）</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-778b7dd0646e602d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WebGL的纹理坐标系统"></p>
+<h3 id="10-将纹理图像粘贴到几何图形上"><a href="#10-将纹理图像粘贴到几何图形上" class="headerlink" title="10. 将纹理图像粘贴到几何图形上"></a>10. 将纹理图像粘贴到几何图形上</h3><p>  在WebGL中，我们通过纹理图像的纹理坐标与几何图形顶点坐标间的映射关系，来确定怎样将纹理图像贴上去。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f5512a813326f8d1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将纹理图像映射到顶点上"></p>
+<h3 id="11-纹理映射过程详解"><a href="#11-纹理映射过程详解" class="headerlink" title="11. 纹理映射过程详解"></a>11. 纹理映射过程详解</h3><p>  步骤：<br>  （1）顶点着色器中接收定点的纹理坐标，光栅化后传递给片元着色器。<br>  （2）片元着色器根据片元的纹理坐标，从纹理图像中抽取出纹素颜色，赋给当前片元。<br>  （3）设置顶点的纹理坐标（<code>initVertexBuffers()</code>）</p>
+  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">var verticesTexCoords = new Float32Array([</div><div class="line">  <span class="number">-0.5</span>,  <span class="number">0.5</span>,   <span class="number">0.0</span>, <span class="number">1.0</span>,</div><div class="line">  <span class="number">-0.5</span>, <span class="number">-0.5</span>,   <span class="number">0.0</span>, <span class="number">0.0</span>,</div><div class="line">   <span class="number">0.5</span>,  <span class="number">0.5</span>,   <span class="number">1.0</span>, <span class="number">1.0</span>,</div><div class="line">   <span class="number">0.5</span>, <span class="number">-0.5</span>,   <span class="number">1.0</span>, <span class="number">0.0</span>,    </div><div class="line">])</div></pre></td></tr></table></figure>
+<p>  将顶点坐标和纹理坐标写入缓冲区对象，将其中的顶点坐标分配给a_Position变量并开启之。<br>  <figure class="highlight stata"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a_Position = <span class="keyword">gl</span>.getAttribLocation(<span class="keyword">gl</span>.<span class="keyword">program</span>, 'a_Position');</div><div class="line"><span class="keyword">gl</span>.vertexAttribPointer(a_Position, 2, <span class="keyword">gl</span>.FLOAT, false, FSIZE * 4, 0);</div><div class="line"><span class="keyword">gl</span>.enableVertexAttribArray(a_Position);</div></pre></td></tr></table></figure></p>
+<p>  获取<code>a_TexCoord</code>变量的存储位置，将缓冲区中的纹理坐标分配给该变量更开启。<br>  <figure class="highlight stata"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> a_TexCoord = <span class="keyword">gl</span>.getAttribLocation(<span class="keyword">gl</span>.<span class="keyword">program</span>, 'a_TexCoord');</div><div class="line"><span class="keyword">gl</span>.vertexAttribPointer(a_TexCoord, 2, <span class="keyword">gl</span>.FLOAT, false, FSIZE * 4, FSIZE * 2);</div><div class="line"><span class="keyword">gl</span>.enableVertexAttribArray(a_TexCoord);</div></pre></td></tr></table></figure></p>
+<p>  （4）准备待加载的纹理图像，令浏览器读取它（initTextures()）<br>  initTextures() =&gt; 配置和加载问题<br>  调用<code>gl.createTexture()</code>创建纹理对象<br>  <figure class="highlight ebnf"><table><tr><td class="code"><pre><div class="line"><span class="attribute">var texture</span> = gl.createTexture();</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-af1f8d5148206e92.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.createTexture()"></p>
+<p>  同样，也可以使用gl.deleteTeture()来删除一个纹理对象。如果试图删除一个已经被删除的纹理对象，不会报错也不会产生任何影响。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-57ada6a0587ca611.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.deleteTeture()"></p>
+<p>  调用<code>gl.getUniformLocation()</code>从片元着色器中获取<code>uniform</code>变量<code>u_Sampler</code>（取样器）的存储位置，该变量用来接收纹理图像<br>  <figure class="highlight stata"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> u_Sampler = <span class="keyword">gl</span>.getUniformLocation(<span class="keyword">gl</span>.<span class="keyword">program</span>, 'u_Sampler');</div></pre></td></tr></table></figure></p>
+<p>  创建image对象<br>  <figure class="highlight haxe"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> image = <span class="keyword">new</span> <span class="type">Image</span>();</div></pre></td></tr></table></figure></p>
+<p>  注册图像加载事件的响应函数<br>  <figure class="highlight matlab"><table><tr><td class="code"><pre><div class="line">image.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span>&#123; <span class="title">loadTexture</span><span class="params">(gl, n, texture, u_Sampler, image)</span>; &#125;;</span></div></pre></td></tr></table></figure></p>
+<p>  浏览器开始加载图像<br>  <figure class="highlight arduino"><table><tr><td class="code"><pre><div class="line"><span class="built_in">image</span>.src = <span class="string">'../resources/sky.jpg'</span>;</div></pre></td></tr></table></figure></p>
+<p>  （5）监听纹理图像的加载事件，一旦加载完成，就在WebGL系统中使用纹理（loadTexture()）。</p>
+<p>  <code>loadTexture()</code> =&gt; 配置纹理供WebGL使用</p>
+<p>  对纹理图像进行y轴翻转（WebGL纹理坐标中的t轴的方向和PNG、BMP、JPG等格式图片的坐标系统的Y轴方向是相反的。）<br>  <figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">gl</span><span class="selector-class">.pixelStorei</span>(<span class="selector-tag">gl</span><span class="selector-class">.UNPACK_FLIP_Y_WEBGL</span>, 1);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-aaf68f0b5af2cc44.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图像坐标系统和WebGL纹理坐标系统"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-d74e7a9224baf5e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.pixelStorei()"></p>
+<p>  <strong>开启0号纹理单元</strong><br>  WebGL通过纹理单元的机制来同时使用多个纹理。<br>  每个纹理单元有一个单元编号来管理一张纹理图像。<br>  系统支持的纹理单元格数取决于硬件和浏览器的WebGL实现，但是在默认情况下，WebGL<strong>至少支持8个</strong>纹理单元。<br>  在使用纹理单元之前，还需要调用<code>gl.aactiveTexture()</code>来激活它。<br>  <figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">gl</span><span class="selector-class">.activeTexture</span>(<span class="selector-tag">gl</span><span class="selector-class">.TEXTURE0</span>);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-3a54c73076ba0119.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.activeTexture()"></p>
+<p>  绑定纹理对象（设置纹理的类型）<br>  <figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">gl</span><span class="selector-class">.bindTexture</span>(<span class="selector-tag">gl</span><span class="selector-class">.TEXTURE_2D</span>, <span class="selector-tag">texture</span>);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-51ede760a583ce43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纹理类型"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-c34fd0d3b5f036bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.bindTexture()"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-1f99486f5ac83601.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将纹理坐标绑定到目标上"></p>
+<p>  配置纹理对象的参数 =&gt; 设置纹理图像映射到图形上的具体方式<br>  <figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">gl</span><span class="selector-class">.texParameteri</span>(<span class="selector-tag">gl</span><span class="selector-class">.TEXTURE_2D</span>, <span class="selector-tag">gl</span><span class="selector-class">.TEXTURE_MIN_FILTER</span>, <span class="selector-tag">gl</span><span class="selector-class">.LINEAR</span>);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-b45cceab15ce2884.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.texParameteri()"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-fe933a5a9680050d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="param 参数值"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f3eeb18a4ee053fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="四种纹理参数及它们锁产生的效果"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-c5a63c60ce3db700.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纹理参数及它们的默认值"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-bdc5e188f14a5903.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  配置纹理图像 =&gt; 将纹理图像分配给纹理对象，同时允许你告诉WebGL系统关于该图像的一些特性。<br>  <figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">gl</span><span class="selector-class">.texImage2D</span>(<span class="selector-tag">gl</span><span class="selector-class">.TEXTURE_2D</span>, 0, <span class="selector-tag">gl</span><span class="selector-class">.RGB</span>, <span class="selector-tag">gl</span><span class="selector-class">.RGB</span>, <span class="selector-tag">gl</span><span class="selector-class">.UNSIGNED_BYTE</span>, <span class="selector-tag">image</span>);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-b17ce54099c9fc3e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.texImage2D()"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-2c1ad85fe34a3c96.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纹素数据的数据格式"></p>
+<p>  format标示纹理数据的格式，必须根据纹理图像的格式来选择这个参数<br>  JPG =&gt; gl.RGB<br>  PNG =&gt; gl.RGBA<br>  BMP =&gt; gl.RGB<br>  <code>gl.LUMUNANCE</code> 和 <code>gl.LUMINANCE_ALPHA</code> 通常用在灰度图像上等等<br>  <code>流明</code>（luminance）标示我们感知到的物体表面的<strong>亮度</strong>。通常使用物体表面红、蓝颜色分量指的加权平均来计算流明。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-3a78ad9da23f76f5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="纹理数据的数据格式"></p>
+<p>  <code>type</code>参数制定了纹理数据类型。通常使用<code>gl.UNSIGNED_BYTE</code>数据类型。</p>
+<p>  分配后的WebGL系统：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-354cae955d612a01.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将图像分配给纹理对象"></p>
+<p>  将0号纹理传递给着色器中的<code>取样器变量</code><br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line">gl.uniform1i(u_Sampler, <span class="number">0</span>);</div><div class="line">&nbsp</div><div class="line"><span class="keyword">uniform</span> <span class="type">sampler2D</span> u_Sampler;</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-27b918ecb33d7e00.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="专用于纹理的数据类型"></p>
+<p>  分配给<code>unform</code>变量后的WebGL系统：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-72e6a1727e56104b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将纹理单元分配给uniform变量"></p>
+<p>  绘制矩形<br>  <figure class="highlight css"><table><tr><td class="code"><pre><div class="line"><span class="selector-tag">gl</span><span class="selector-class">.drawArrays</span>(<span class="selector-tag">gl</span><span class="selector-class">.TRIANGLE_STRIP</span>, 0, <span class="selector-tag">n</span>);</div></pre></td></tr></table></figure></p>
+<p>  从顶点着色器向片元着色器传输纹理坐标<br>  <figure class="highlight javascript"><table><tr><td class="code"><pre><div class="line"><span class="keyword">var</span> VSHADER_SOURCE =</div><div class="line">  <span class="string">'attribute vec4 a_Position;\n'</span> +</div><div class="line">  <span class="string">'attribute vec2 a_TexCoord;\n'</span> +</div><div class="line">  <span class="string">'varying vec2 v_TexCoord;\n'</span> +</div><div class="line">  <span class="string">'void main() &#123;\n'</span> +</div><div class="line">  <span class="string">'  gl_Position = a_Position;\n'</span> +</div><div class="line">  <span class="string">'  v_TexCoord = a_TexCoord;\n'</span> +</div><div class="line">  <span class="string">'&#125;\n'</span>;</div></pre></td></tr></table></figure></p>
+<p>  在片元着色器中获取纹理像素颜色（texture2D()）<br>  <figure class="highlight glsl"><table><tr><td class="code"><pre><div class="line"><span class="built_in">gl_FragColor</span> = <span class="built_in">texture2D</span>(u_Sampler, v_TexCoord);</div></pre></td></tr></table></figure></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-5de556e5771c8500.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="texture2D()"></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/01/WebGL-Guide/4/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/01/WebGL-Guide/6/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

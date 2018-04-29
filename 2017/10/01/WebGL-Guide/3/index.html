@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第三章 绘制和变换三角形 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/927532b30137  1. 缓冲区对象（buffer object）: 可以一次性地向着色器传入多个顶点的数据。  缓冲区对象是WebGL系统中的一块内存区域，我们可以一次性地向缓冲区对象中填充大量的顶点数据，然后将这些数据保存在其中，供顶点着色器使用。 2. 使用缓冲区对象向顶点着色器传入多个顶点     使用缓冲区对象向顶">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第三章 绘制和变换三角形">
+<meta property="og:url" content="http://hysunny.me/2017/10/01/WebGL-Guide/3/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/927532b30137  1. 缓冲区对象（buffer object）: 可以一次性地向着色器传入多个顶点的数据。  缓冲区对象是WebGL系统中的一块内存区域，我们可以一次性地向缓冲区对象中填充大量的顶点数据，然后将这些数据保存在其中，供顶点着色器使用。 2. 使用缓冲区对象向顶点着色器传入多个顶点     使用缓冲区对象向顶">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-3af4fcbff8811006.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-4fad47896f9a495a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-fd822d31dc55f849.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-595fa8e0ae8c63c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-e617d7b95c2529bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-5ad6465ca1f22682.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-cfad717a42e91f56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-64e933bcac052382.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-59edb3873d2f1612.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-15e40b7ba6e85054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-379fa477f7283cfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-dab7f8e57f31ea13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-7d1f55a4ad513b28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-6705d642c749b01f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-3231d683b0110fe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-34542e0bad9e203a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-ea1679ac1142e447.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-f672ba5d2857aa33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-ee466066215d71d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T09:55:36.339Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第三章 绘制和变换三角形">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/927532b30137  1. 缓冲区对象（buffer object）: 可以一次性地向着色器传入多个顶点的数据。  缓冲区对象是WebGL系统中的一块内存区域，我们可以一次性地向缓冲区对象中填充大量的顶点数据，然后将这些数据保存在其中，供顶点着色器使用。 2. 使用缓冲区对象向顶点着色器传入多个顶点     使用缓冲区对象向顶">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-3af4fcbff8811006.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/3" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第三章 绘制和变换三角形</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/927532b30137" target="_blank" rel="external">https://www.jianshu.com/p/927532b30137</a></p>
+</blockquote>
+<h3 id="1-缓冲区对象（buffer-object）-可以一次性地向着色器传入多个顶点的数据。"><a href="#1-缓冲区对象（buffer-object）-可以一次性地向着色器传入多个顶点的数据。" class="headerlink" title="1. 缓冲区对象（buffer object）: 可以一次性地向着色器传入多个顶点的数据。"></a>1. <code>缓冲区对象</code>（buffer object）: 可以一次性地向着色器传入<strong>多个顶点</strong>的数据。</h3><p>  缓冲区对象是WebGL系统中的一块内存区域，我们可以一次性地向缓冲区对象中填充大量的顶点数据，然后将这些数据保存在其中，供顶点着色器使用。</p>
+<h3 id="2-使用缓冲区对象向顶点着色器传入多个顶点"><a href="#2-使用缓冲区对象向顶点着色器传入多个顶点" class="headerlink" title="2. 使用缓冲区对象向顶点着色器传入多个顶点"></a>2. 使用缓冲区对象向顶点着色器传入多个顶点</h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-3af4fcbff8811006.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用缓冲区对象向顶点着色器传入多个顶点"></p>
+<p>  使用缓冲区对象向顶点着色器传入多个顶点的数据步骤：</p>
+  <figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">var vertices = new Float32Array([</div><div class="line">  <span class="number">0.0</span>, <span class="number">0.5</span>, <span class="number">-0.5</span>, <span class="number">-0.5</span>, <span class="number">0.5</span>, <span class="number">-0.5</span></div><div class="line">])</div></pre></td></tr></table></figure>
+<p>  （1） 创建缓冲区对象   （<code>var vertexBuffer = gl.createBuffer()</code>）</p>
+<p>  创建缓冲区对象前后： WebGL系统中多了一个缓冲区对象。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-4fad47896f9a495a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="创建缓冲区对象"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-fd822d31dc55f849.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.createBuffer()"></p>
+<p>  （2） 绑定缓冲区对象   （<code>gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer)</code>）</p>
+<p>  将缓冲区对象绑定到了 <code>gl.ARRAY_BUFFER</code> 目标上，缓冲区对象中存储着<strong>顶点</strong>的坐标数据。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-595fa8e0ae8c63c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.bindBuffer()"></p>
+<p>  绑定完成后，WebGL系统中：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-e617d7b95c2529bb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将缓冲区对象绑定到目标上"></p>
+<p>  （3） 将数据写入缓冲区对象  （<code>gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)</code>）</p>
+<p>  将顶点数据写入绑定到<code>gl.ARRAY_BUFFER</code>上的缓冲区对象。<br>  我们不能直接向缓冲区写数据，而只能向<code>“目标”</code>写入数据。<br>  所以，要向缓冲区写数据，<strong>必须先绑定</strong>。</p>
+<p>  该方法执行后，WebGL系统的内部状态如下：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-5ad6465ca1f22682.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="分配空间并向缓冲区对象中写入数据"></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-cfad717a42e91f56.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.bufferData()"></p>
+<p>  （4） 将缓冲区对象分配给一个 <code>attribute</code> 变量<br>  （<code>gl.vertexAttribPointer(a_Position, 2, gl_FLOAT, false, 0, 0)</code>）</p>
+<p>  <code>gl.vertexAttrib[1 2 3 4]f</code>系列函数一次只能向 <code>attribute</code> 变量分配（传输）<strong>一个值</strong>。<br>  所以，使用<code>gl.vertexAttribPointer()</code>一次性将整个缓冲区对象（实际上是缓冲区对象的引用或指针 =&gt; <strong>多个顶点数据</strong>）分配给一个 <code>attribute</code> 值。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-64e933bcac052382.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.vertexAttribPointer()"></p>
+<p>  执行完第四步后，WbeGL系统内部如下：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-59edb3873d2f1612.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="将缓冲区对象分配给attribute变量"></p>
+<p>  （5） 开启 <code>attribute</code> 变量 （<code>gl.enableVertexAttribArray(a_Position)</code>）</p>
+<p>  传入一个已经分配好缓冲区的 <code>attribute</code> 变量， 我们就开启了该变量。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-15e40b7ba6e85054.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.enableVertexAttribArray()"></p>
+<p>  也可以使用 <code>gl.disableVertexAttribArray()</code> 来关闭分配</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-379fa477f7283cfe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.disableVertexAttribArray()"></p>
+<p>  总结：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-dab7f8e57f31ea13.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用缓冲区对象向顶点着色器传输多个顶点数据的5个步骤"></p>
+<h3 id="3-类型化数组"><a href="#3-类型化数组" class="headerlink" title="3. 类型化数组"></a>3. 类型化数组</h3><p>  为了绘制三维图形，WebGL通常需要同时处理大量相同类型的数据，例如顶点的坐标和颜色数据。<br>  为了优化性能，WebGL为每种基本数据类型引入了一种特殊的数组（类型化数组）。<br>  浏览器事先知道数组中的数据类型，所以处理起来也更有效率。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-7d1f55a4ad513b28.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WebGL使用的各种类型化数组"></p>
+<p>  与普通的Array数组不同，类型化数组不支持<code>push()</code> 和 <code>pup()</code>方法。</p>
+<h3 id="4-gl-drawArrays"><a href="#4-gl-drawArrays" class="headerlink" title="4. gl.drawArrays()"></a>4. <code>gl.drawArrays()</code></h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-6705d642c749b01f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.drawArrays()"></p>
+<p>  该方法的<code>mode</code>参数选择：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-3231d683b0110fe3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-34542e0bad9e203a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-ea1679ac1142e447.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WebGL可以绘制的基本图形"></p>
+<h3 id="5-gl-PositionSize-10-0-只有在绘制单个点（gl-POINTS）的时候才起作用。"><a href="#5-gl-PositionSize-10-0-只有在绘制单个点（gl-POINTS）的时候才起作用。" class="headerlink" title="5. gl_PositionSize = 10.0 只有在绘制单个点（gl.POINTS）的时候才起作用。"></a>5. <code>gl_PositionSize = 10.0</code> 只有在绘制<strong>单个点</strong>（<code>gl.POINTS</code>）的时候才起作用。</h3><h3 id="6-平移-translate"><a href="#6-平移-translate" class="headerlink" title="6. 平移 translate"></a>6. 平移 <code>translate</code></h3><p>  步骤：<br>  （1）将顶点坐标传给a_Position       <code>attribute vec4 a_Position</code>;<br>  （2）向 a_Position 加上 u_Translation    <code>a_Position + u_Translation</code>;<br>  （3）结果赋值给 gl_Position         <code>gl_Position = a_Position + u_Translation</code>;</p>
+<h3 id="7-旋转"><a href="#7-旋转" class="headerlink" title="7. 旋转"></a>7. 旋转</h3><p>  为了描述一个旋转，必须指明：<br>  （1）旋转轴（图形将围绕旋转轴旋转）<br>  （2）旋转方向（方向：顺时针或逆时针）<br>  （3）旋转角度（图形旋转经过的角度）</p>
+<p>  正旋转（右手法则旋转）：</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-f672ba5d2857aa33.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="3-18.png"></p>
+<h3 id="8-gl-uniformMatrix4fv-location-transpose-array"><a href="#8-gl-uniformMatrix4fv-location-transpose-array" class="headerlink" title="8. gl.uniformMatrix4fv(location, transpose, array)"></a>8. <code>gl.uniformMatrix4fv(location, transpose, array)</code></h3><p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-ee466066215d71d0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="gl.uniformMatrix4fv()"></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/09/30/WebGL-Guide/2/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/01/WebGL-Guide/4/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

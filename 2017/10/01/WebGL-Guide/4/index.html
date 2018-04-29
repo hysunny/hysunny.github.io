@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第四章 高级变换与动画基础 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/82d4e909fca8  1. 模型变换（model transformation） or 建模变换 （modeling transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。相应地，模型变换的矩阵称为模型矩阵。  复杂变换的矩阵可以通过一系列基本变换的矩阵相乘得到通过反复变换和重绘图形可以">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第四章 高级变换与动画基础">
+<meta property="og:url" content="http://hysunny.me/2017/10/01/WebGL-Guide/4/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/82d4e909fca8  1. 模型变换（model transformation） or 建模变换 （modeling transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。相应地，模型变换的矩阵称为模型矩阵。  复杂变换的矩阵可以通过一系列基本变换的矩阵相乘得到通过反复变换和重绘图形可以">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-29T09:56:13.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第四章 高级变换与动画基础">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/82d4e909fca8  1. 模型变换（model transformation） or 建模变换 （modeling transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。相应地，模型变换的矩阵称为模型矩阵。  复杂变换的矩阵可以通过一系列基本变换的矩阵相乘得到通过反复变换和重绘图形可以">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/4" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第四章 高级变换与动画基础</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.01</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/82d4e909fca8" target="_blank" rel="external">https://www.jianshu.com/p/82d4e909fca8</a></p>
+</blockquote>
+<h3 id="1-模型变换（model-transformation）-or-建模变换-（modeling-transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。"><a href="#1-模型变换（model-transformation）-or-建模变换-（modeling-transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。" class="headerlink" title="1. 模型变换（model transformation） or 建模变换 （modeling transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。"></a>1. <code>模型变换</code>（model transformation） or <code>建模变换</code> （modeling transformation）：一个模型可能过了多次变换，将这些变换全部复合成一个等效的变换。</h3><p>相应地，模型变换的矩阵称为<code>模型矩阵</code>。</p>
+<p> <strong>复杂变换的矩阵可以通过一系列基本变换的矩阵相乘得到<br>通过反复变换和重绘图形可以生成动画效果。</strong></p>
+<h3 id="2-变换等式"><a href="#2-变换等式" class="headerlink" title="2.  变换等式"></a>2.  变换等式</h3><p>  <strong>等式一：</strong> <code>&quot;平移&quot;后的坐标</code> = <code>平移矩阵</code>  ×  <code>原始坐标</code></p>
+<p>  <strong>等式二：</strong> <code>&quot;平移后旋转&quot;后的坐标</code> = <code>旋转矩阵</code> × <code>平移后的坐标</code></p>
+<p>  等式一代入等式二，</p>
+<p>  <strong>等式三：</strong><code>&quot;平移后旋转&quot;后的坐标</code> = <code>旋转矩阵</code> × (<code>平移矩阵</code> × <code>原始坐标</code>)</p>
+<h3 id="3-WebGL中，设置好的背景色在重设之前一直有效"><a href="#3-WebGL中，设置好的背景色在重设之前一直有效" class="headerlink" title="3. WebGL中，设置好的背景色在重设之前一直有效"></a>3. WebGL中，设置好的背景色在重设之前一直有效</h3><p>  如设置<code>gl.clearColor(0.0, 0.0, 0.0, 1.0)</code>后，再再次重设前，背景色将一直为黑色。</p>
+<h3 id="4-requestAnimationFrame-【HTML5】"><a href="#4-requestAnimationFrame-【HTML5】" class="headerlink" title="4. requestAnimationFrame() 【HTML5】"></a>4. <code>requestAnimationFrame()</code> 【HTML5】</h3><p>  <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame</a></p>
+<p>  作用：对浏览器发出一个请求，请求在未来某个适当的时机调用tick()函数方法。</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/01/WebGL-Guide/3/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/01/WebGL-Guide/5/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

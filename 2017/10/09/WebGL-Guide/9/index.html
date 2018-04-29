@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>《WebGL 编程指南》笔记 —— 第九章 层次模型 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL," />
+  
+
+  <meta name="description" content="简书地址: https://www.jianshu.com/p/7e24180b9669**  1. 着色器对象与程序对象  着色器对象：着色器对象管理一个顶点着色器或一个片元着色器。每一个着色器都有一个着色器对象。  程序对象：程序对象是管理着色器对象的容器。WebGL中，一个程序对象必须包含一个顶点着色器和一个片元着色器。    2. initShaders() 函数解密  作用：    编">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《WebGL 编程指南》笔记 —— 第九章 层次模型">
+<meta property="og:url" content="http://hysunny.me/2017/10/09/WebGL-Guide/9/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="简书地址: https://www.jianshu.com/p/7e24180b9669**  1. 着色器对象与程序对象  着色器对象：着色器对象管理一个顶点着色器或一个片元着色器。每一个着色器都有一个着色器对象。  程序对象：程序对象是管理着色器对象的容器。WebGL中，一个程序对象必须包含一个顶点着色器和一个片元着色器。    2. initShaders() 函数解密  作用：    编">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-ef8cf8ac7cd3eb30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-c5e89655ada75604.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-6f403bf2949887b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-2a8109d01e8adbc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-ddceb6630c502873.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b064ff608329da82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-917f13f97a9ddf43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-fcc85c0fd7f9f019.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-5c165cd97d9773a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-eec2af797272afc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-597ca045d143cb6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-b1d951a8beae3b19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-2fed3163467ebc57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-cfaf24b31cfade8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3779867-5af1054d3a482ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-04-29T10:01:36.797Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《WebGL 编程指南》笔记 —— 第九章 层次模型">
+<meta name="twitter:description" content="简书地址: https://www.jianshu.com/p/7e24180b9669**  1. 着色器对象与程序对象  着色器对象：着色器对象管理一个顶点着色器或一个片元着色器。每一个着色器都有一个着色器对象。  程序对象：程序对象是管理着色器对象的容器。WebGL中，一个程序对象必须包含一个顶点着色器和一个片元着色器。    2. initShaders() 函数解密  作用：    编">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3779867-ef8cf8ac7cd3eb30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/9" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">《WebGL 编程指南》笔记 —— 第九章 层次模型</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2017.10.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>简书地址: <a href="https://www.jianshu.com/p/7e24180b9669**" target="_blank" rel="external">https://www.jianshu.com/p/7e24180b9669**</a></p>
+</blockquote>
+<h3 id="1-着色器对象与程序对象"><a href="#1-着色器对象与程序对象" class="headerlink" title="1. 着色器对象与程序对象"></a>1. 着色器对象与程序对象</h3><p>  <code>着色器对象</code>：着色器对象管理一个顶点着色器或一个片元着色器。每一个着色器都有一个着色器对象。<br>  <code>程序对象</code>：程序对象是管理着色器对象的容器。<code>WebGL</code>中，一个程序对象必须包含一个顶点着色器和一个片元着色器。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-ef8cf8ac7cd3eb30.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="2-initShaders-函数解密"><a href="#2-initShaders-函数解密" class="headerlink" title="2. initShaders() 函数解密"></a>2. <code>initShaders()</code> 函数解密</h3><p>  <strong>作用</strong>： </p>
+<p>  编译<code>GLSL ES</code>代码，创建和初始化着色器供<code>WebGL</code>使用。</p>
+<p>  <strong>步骤</strong>：</p>
+<p>  （1）创建着色器对象（<code>gl.createShader()</code>）</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-c5e89655ada75604.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  同理，删除着色器使用<code>gl.deleteShader()</code><br>  <img src="http://upload-images.jianshu.io/upload_images/3779867-6f403bf2949887b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  注意：如果着色器还在使用时执行<code>gl.deleteShader()</code>，并不会立即删除着色器，而是要等到程序对象不再使用该着色器后，才将其删除。</p>
+<p>  （2）向着色器对象中填充着色器程序的源代码（<code>gl.shaderSource()</code>）<br>  在<code>JavaScript</code>中，源代码以字符串形式储存。<br>  <img src="http://upload-images.jianshu.io/upload_images/3779867-2a8109d01e8adbc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （3）编译着色器（<code>gl.compileShader()</code>）<br>  将着色器编译成二进制的可执行格式。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-ddceb6630c502873.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  编译过程中，调用<code>gl.getShaderParameter()</code>函数来检查着色器的状态。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-b064ff608329da82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  如果源代码中存在错误，那么就会出现编译错误，<code>gl.getShaderParameter()</code>就会返回<code>false</code>，同时将编译错误的具体内容写入着色器的信息日志（<code>information log</code>），可以通过<code>gl.getShaderInfoLog()</code>来获取。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-917f13f97a9ddf43.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （4）创建程序对象（<code>gl.createProgram()</code>）<br>  <img src="http://upload-images.jianshu.io/upload_images/3779867-fcc85c0fd7f9f019.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  同理，使用<code>gl.deleteProgram()</code>来删除程序对象</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-5c165cd97d9773a5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （5）为程序对象分配着色器（<code>gl.attachShader()</code>）<br>  一旦程序对象被创建之后，需要向程序附上两个着色器（顶点着色器和片元着色器），可以是空的着色器。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-eec2af797272afc9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  同理，可以使用<code>gl.detachShader()</code>函数来解除分配给程序对象的着色器。</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-597ca045d143cb6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （6）连接程序对象（<code>gl.linkProgram()</code>）</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-b1d951a8beae3b19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  程序对象进行着色器连接操作的目的是：<br>  a. 保证着色器和片元着色器的varying变量同名同类型，且一一对应；<br>  b. 保证顶点着色器对每个<code>varying</code>变量赋了值；<br>  c. 保证顶点着色器和片元着色器中的同名<code>uniform</code>变量也是同类型的（无需一一对应，即某些uniform变量可以出现在一个着色器中而不出现在另一个中）；<br>  d. 保证着色器中的<code>attribute</code>变量、<code>uniform</code>变量和<code>varying</code>变量的个数没有超过着色器的上限。</p>
+<p>  着色器连接后，调用<code>gl.getProgramPara-meter()</code>来检查连接是否成功</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-2fed3163467ebc57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  调用<code>gl.getProgramInfoLog</code>从信息日志中获取连接出错的信息</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-cfaf24b31cfade8f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  （7）使用程序对象（<code>gl.userProgram()</code>）</p>
+<p>  <img src="http://upload-images.jianshu.io/upload_images/3779867-5af1054d3a482ec0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>  <strong>总结</strong>：<code>initShaders()</code>流程：首先调用<code>createProgram()</code>函数创建一个连接好的程序对象，然后告诉<code>WebGL</code>系统来使用这个程序对象，最后将程序对象设为<code>gl</code>对象的<code>program</code>属性。</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2017/10/09/WebGL-Guide/8/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/10/29/the-difference-between-target-and-currentTarget/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">Close</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
