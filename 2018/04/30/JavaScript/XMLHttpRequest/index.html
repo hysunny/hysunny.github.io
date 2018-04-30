@@ -7,26 +7,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>href=&quot;#&quot;,javascript:;与javascript:void(0)的区别 | hysunny&#39;s Blog</title>
+  <title>XMLHttpRequest简单了解一下 | hysunny&#39;s Blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="HTML," />
+    <meta name="keywords" content="JavaScript," />
   
 
-  <meta name="description" content="项目中，我们经常会使用&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;标签来代替&amp;lt;input type=&amp;quot;button&amp;quot; /&amp;gt; 这种情况下,很多时候href并不指定超链接目标的URL，而是使用href=&amp;quot;#&amp;quot;, javascript:;与javascript:void(0)。 那它们有什么区别呢？ 现在就来总结一下~">
-<meta name="keywords" content="HTML">
+  <meta name="description" content="最近的项目开发中遇到这么一个问题：  因为某些历史原因，后端大大需要对线上数据做些修复处理，但是因为不是简单执行个SQL就能解决，所以就需要前端触发哈。但是呢，我们的前端小妹又懒得写个页面写个按钮事件，所以打算就直接写个HTTP GET请求，调用后端的Dubbo接口来进行修复处理。这样就很简单咯~上线后直接在浏览器中调用这个get请求，数据就修复啦~嗯，想象很美好，可是一上线就傻眼了，调用接口直接">
+<meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
-<meta property="og:title" content="href=&quot;#&quot;,javascript:;与javascript:void(0)的区别">
-<meta property="og:url" content="http://hysunny.me/2015/12/05/the-difference-between-empty-link-ways/index.html">
+<meta property="og:title" content="XMLHttpRequest简单了解一下">
+<meta property="og:url" content="http://hysunny.me/2018/04/30/JavaScript/XMLHttpRequest/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
-<meta property="og:description" content="项目中，我们经常会使用&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;标签来代替&amp;lt;input type=&amp;quot;button&amp;quot; /&amp;gt; 这种情况下,很多时候href并不指定超链接目标的URL，而是使用href=&amp;quot;#&amp;quot;, javascript:;与javascript:void(0)。 那它们有什么区别呢？ 现在就来总结一下~">
+<meta property="og:description" content="最近的项目开发中遇到这么一个问题：  因为某些历史原因，后端大大需要对线上数据做些修复处理，但是因为不是简单执行个SQL就能解决，所以就需要前端触发哈。但是呢，我们的前端小妹又懒得写个页面写个按钮事件，所以打算就直接写个HTTP GET请求，调用后端的Dubbo接口来进行修复处理。这样就很简单咯~上线后直接在浏览器中调用这个get请求，数据就修复啦~嗯，想象很美好，可是一上线就傻眼了，调用接口直接">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-29T07:31:07.955Z">
+<meta property="og:updated_time" content="2018-04-30T13:10:48.266Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="href=&quot;#&quot;,javascript:;与javascript:void(0)的区别">
-<meta name="twitter:description" content="项目中，我们经常会使用&amp;lt;a href=&amp;quot;&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;标签来代替&amp;lt;input type=&amp;quot;button&amp;quot; /&amp;gt; 这种情况下,很多时候href并不指定超链接目标的URL，而是使用href=&amp;quot;#&amp;quot;, javascript:;与javascript:void(0)。 那它们有什么区别呢？ 现在就来总结一下~">
+<meta name="twitter:title" content="XMLHttpRequest简单了解一下">
+<meta name="twitter:description" content="最近的项目开发中遇到这么一个问题：  因为某些历史原因，后端大大需要对线上数据做些修复处理，但是因为不是简单执行个SQL就能解决，所以就需要前端触发哈。但是呢，我们的前端小妹又懒得写个页面写个按钮事件，所以打算就直接写个HTTP GET请求，调用后端的Dubbo接口来进行修复处理。这样就很简单咯~上线后直接在浏览器中调用这个get请求，数据就修复啦~嗯，想象很美好，可是一上线就傻眼了，调用接口直接">
 
   
 
@@ -186,14 +186,14 @@
 
 
 <div class="content content-post CENTER">
-   <article id="post-the-difference-between-empty-link-ways" class="article article-type-post" itemprop="blogPost">
+   <article id="post-JavaScript/XMLHttpRequest" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">href=&quot;#&quot;,javascript:;与javascript:void(0)的区别</h1>
+    <h1 class="post-title">XMLHttpRequest简单了解一下</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2015.12.05</span>
+        <span>2018.04.30</span>
       </span>
 
       
@@ -206,7 +206,7 @@
       
   <span class="article-category">
     <i class="icon-list"></i>
-    <a class="article-category-link" href="/categories/HTML/">HTML</a>
+    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
   </span>
 
 
@@ -228,18 +228,25 @@
 
   <div class="article-content">
     
-      <p>项目中，我们经常会使用<code>&lt;a href=&quot;&quot;&gt;&lt;/a&gt;</code>标签来代替<code>&lt;input type=&quot;button&quot; /&gt;</code></p>
-<p>这种情况下,很多时候href并不指定超链接目标的URL，而是使用<code>href=&quot;#&quot;</code>, <code>javascript:;</code>与<code>javascript:void(0)</code>。</p>
-<p>那它们有什么区别呢？</p>
-<p>现在就来总结一下~</p>
-<hr>
-<h2 id="1-href-”-”"><a href="#1-href-”-”" class="headerlink" title="1. href=”#”"></a>1. href=”#”</h2><p>一个#表示锚点，默认为#top，点击之后会自动跳转到页面的顶部。</p>
-<p>缺点：当快速点击此链接时会导致浏览器很慢甚至崩溃。</p>
-<p>使用###（href=”###”）效果和javascript:void(0)一样，不会跳转到页面顶部。</p>
-<h2 id="2-javascript"><a href="#2-javascript" class="headerlink" title="2. javascript:;"></a>2. javascript:;</h2><p>javascript:;”直接返回undefined。</p>
-<h2 id="3-javascript-void-0"><a href="#3-javascript-void-0" class="headerlink" title="3. javascript:void(0)"></a>3. javascript:void(0)</h2><p>void是一个操作符，这个操作符指定要计算一个表达式但是不返回值。如果在void中写入0（void(0)）, 则要去执行一次表达式“0”，然后返回undefined</p>
-<hr>
-<p>注：原文章首发于：<a href="http://www.qdfuns.com/notes/15972/e29158a787f793eedbb00929dd77b2be.html" target="_blank" rel="external">href=”#”,javascript:;与javascript:void(0)的区别</a>，现迁移至此。</p>
+      <p>最近的项目开发中遇到这么一个问题：</p>
+<blockquote>
+<p>因为某些历史原因，后端大大需要对线上数据做些修复处理，但是因为不是简单执行个<code>SQL</code>就能解决，所以就需要前端触发哈。<br>但是呢，我们的前端小妹又懒得写个页面写个按钮事件，所以打算就直接写个<code>HTTP GET</code>请求，调用后端的<code>Dubbo</code>接口来进行修复处理。<br>这样就很简单咯~<br>上线后直接在浏览器中调用这个get请求，数据就修复啦~<br>嗯，想象很美好，可是一上线就傻眼了，调用接口直接 <strong>403 Forbidden</strong>了，<br>查看了一下代码才想起，当初为了避免<a href="https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%AB%99%E8%AF%B7%E6%B1%82%E4%BC%AA%E9%80%A0" target="_blank" rel="external"><code>csrf</code></a>攻击，我们在生产环境的Node端做了<strong>Referer来源校验</strong>, 代码如下：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">app.use(<span class="string">'/api/*'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res, next</span>) </span>&#123;</div><div class="line">  <span class="comment">// 引入 "来源" 判断，避免 CSRF 攻击</span></div><div class="line">  <span class="keyword">const</span> baseUri = <span class="string">'.xxx.com'</span>  <span class="comment">// 合法域名</span></div><div class="line">  <span class="keyword">if</span> (runtime === <span class="string">'product'</span>) &#123;</div><div class="line">    <span class="comment">// 如果 referer 不存在那么返回 403</span></div><div class="line">    <span class="keyword">if</span> (!req.headers.referer) &#123;</div><div class="line">      res.sendStatus(<span class="number">403</span>)</div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 利用 url.parse 获取 hostname</span></div><div class="line">    <span class="keyword">const</span> refererURL = url.parse(req.headers.referer)</div><div class="line">    <span class="comment">// 判断 hostname 是否合法</span></div><div class="line">    <span class="keyword">const</span> isAllowed = refererURL.hostname.endsWith(baseUri)</div><div class="line">    <span class="keyword">if</span> (!isAllowed) &#123;</div><div class="line">      res.sendStatus(<span class="number">403</span>)</div><div class="line">      <span class="keyword">return</span></div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  next()</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>OMG！难不成我们要修改代码重新走上线流程么？！就为了一个按钮？！想想就可怕…</p>
+<p>冷静了一会儿后，我们开始想办法解决。</p>
+<p>这时，我们想到了原生的ajax请求（即使用XMLHttpRequest）。</p>
+<p>首先，打开控制台，创建一个<strong>异步对象</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="keyword">const</span> ajax = <span class="keyword">new</span> XMLHttpRequest();</div></pre></td></tr></table></figure>
+<p>然后，设置请求的<strong>url参数</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">ajax.open(<span class="string">'get'</span>, <span class="string">'/api/hotfix/'</span>);</div><div class="line"><span class="comment">// 参数一是请求的类型, 参数二是请求的url, 可以带参数</span></div></pre></td></tr></table></figure>
+<p>最后， <strong>发送请求</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line">ajax.send();</div></pre></td></tr></table></figure>
+<p>完美 └(^^<em>)┐ ┌(</em>^^)┘</p>
+<p>当然如果需要<strong>查看请求是否发送成功</strong>还可以做如下操作：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 注册事件 onreadystatechange 状态改变就会调用</span></div><div class="line">ajax.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">   <span class="keyword">if</span> (ajax.readyState === <span class="number">4</span> &amp;&amp; ajax.status === <span class="number">200</span>) &#123;</div><div class="line">    <span class="comment">// 如果能够进到这个判断 说明请求成功</span></div><div class="line">　　 <span class="built_in">console</span>.log(<span class="string">'请求成功'</span>);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>记录完毕~(๑¯◡¯๑)</p>
+<p>关于<code>XMLHttpRequest</code>更多了解可移步<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest" target="_blank" rel="external">XMLHttpRequest MDN</a></p>
 
     
   </div>
@@ -270,10 +277,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2015/09/24/div-css-adaptive-layout/">
+    <a class="show pull-left" href="/2018/02/05/JavaScript-DataStructures-and-Algorithms/Algorithm/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2015/12/12/the-solution-of-overflow-auto-or-scroll-not-work-under-ios7/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
@@ -387,19 +394,6 @@
 </div>
 
 
-
-  
-      <div class="fexo-comments comments-post">
-    
-
-    
-
-
-
-
-    
-
-  </div>
 
   
 
