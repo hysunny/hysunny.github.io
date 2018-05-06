@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>在Node端使用Mocha + Chai + SuperTest测试Restful API | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="test," />
+  
+
+  <meta name="description" content="在Node端使用Mocha + Chai + SuperTest测试Restful API1. 为什么要进行接口测试？ 前后端分离开发,无法实时确保接口编写无误 手工测试费时费力，无法确保覆盖率 接口测试不同于传统开发的单元测试，接口测试是站在用户的角度对系统接口进行全面高效持续的检测 接口测试是自动化并且持续集成，低成本、高收益  2. 接口测试方案的选择 如上图，接口测试方案一般由 测试框架">
+<meta name="keywords" content="test">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Node端使用Mocha + Chai + SuperTest测试Restful API">
+<meta property="og:url" content="http://hysunny.me/2016/12/25/tools/mocha-test/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="在Node端使用Mocha + Chai + SuperTest测试Restful API1. 为什么要进行接口测试？ 前后端分离开发,无法实时确保接口编写无误 手工测试费时费力，无法确保覆盖率 接口测试不同于传统开发的单元测试，接口测试是站在用户的角度对系统接口进行全面高效持续的检测 接口测试是自动化并且持续集成，低成本、高收益  2. 接口测试方案的选择 如上图，接口测试方案一般由 测试框架">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/scheme.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/dir.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/tested-1.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/test1.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/test1-result.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/tested-2.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/test2.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/test2-result.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/gouzi.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/tested-3.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/test3.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/test3-result.png">
+<meta property="og:image" content="http://hysunny.me/images/mocha-test/covery.png">
+<meta property="og:updated_time" content="2018-05-06T01:47:12.820Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Node端使用Mocha + Chai + SuperTest测试Restful API">
+<meta name="twitter:description" content="在Node端使用Mocha + Chai + SuperTest测试Restful API1. 为什么要进行接口测试？ 前后端分离开发,无法实时确保接口编写无误 手工测试费时费力，无法确保覆盖率 接口测试不同于传统开发的单元测试，接口测试是站在用户的角度对系统接口进行全面高效持续的检测 接口测试是自动化并且持续集成，低成本、高收益  2. 接口测试方案的选择 如上图，接口测试方案一般由 测试框架">
+<meta name="twitter:image" content="http://hysunny.me/images/mocha-test/scheme.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-tools/mocha-test" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">在Node端使用Mocha + Chai + SuperTest测试Restful API</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.12.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/工具/">工具</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="在Node端使用Mocha-Chai-SuperTest测试Restful-API"><a href="#在Node端使用Mocha-Chai-SuperTest测试Restful-API" class="headerlink" title="在Node端使用Mocha + Chai + SuperTest测试Restful API"></a>在Node端使用Mocha + Chai + SuperTest测试Restful API</h1><h2 id="1-为什么要进行接口测试？"><a href="#1-为什么要进行接口测试？" class="headerlink" title="1. 为什么要进行接口测试？"></a>1. 为什么要进行接口测试？</h2><ol>
+<li>前后端<code>分离开发</code>,无法实时确保接口编写无误</li>
+<li>手工测试<code>费时费力</code>，无法确保覆盖率</li>
+<li>接口测试不同于传统开发的单元测试，接口测试是站在<code>用户的角度</code>对系统接口进行全面高效持续的检测</li>
+<li>接口测试是<code>自动化</code>并且<code>持续集成</code>，低成本、高收益</li>
+</ol>
+<h2 id="2-接口测试方案的选择"><a href="#2-接口测试方案的选择" class="headerlink" title="2. 接口测试方案的选择"></a>2. 接口测试方案的选择</h2><p><img src="/images/mocha-test/scheme.png" alt="scheme"></p>
+<p>如上图，接口测试方案一般由 <strong>测试框架 + 断言库 + HTTP请求库</strong> 组成。</p>
+<p>这里，我们选用Mocha + Chai + SuperTest来进行Node端Restful API测试。选用理由如下：</p>
+<p><code>测试框架</code>选用<strong>Mocha</strong>的理由：Mocha 既可以在 node.js 环境中运行，也可以运行在浏览器中。与其它的 javascript 测试框架比较起来，我们发现 Mocha 对于异步测试的处理是我们选择它的关键因素。</p>
+<p><code>断言库</code>选择<strong>Chai</strong>的理由： 尽管 Mocha 可以与任意的断言库一起使用，Chai 也可以被任意的测试库所使用，但是许多 JavaScript 开发者还是选择将两者搭配使用。</p>
+<p><code>HTTP请求库</code>选择<strong>SuperTest</strong>的理由：SuperTest除了可以测试 JSON 对象的内容外，还可以测验终端响应的其它数据，包括头信息类型和响应状态码。SuperTest 还有一个漂亮直观的接口，只需要简单地将接口终端需要的数据发送过去，就可以检验响应。</p>
+<h2 id="3-测试方案技术栈简介"><a href="#3-测试方案技术栈简介" class="headerlink" title="3. 测试方案技术栈简介"></a>3. 测试方案技术栈简介</h2><h3 id="1-Mocha"><a href="#1-Mocha" class="headerlink" title="1. Mocha"></a>1. Mocha</h3><p>诞生于2011年，是现在最流行的JavaScript测试框架之一，在浏览器和Node环境都可以使用。支持BDD、TDD、QUnit、Exports式的测试。</p>
+<p>优点：</p>
+<ul>
+<li>好用、易上手</li>
+<li>与nodejs结合更自然</li>
+<li>可使用多种风格的DSL，比如should/expect等</li>
+<li>良好的支持javascript异步的单元测试</li>
+<li>支持before,after,beforeEach,afterEach钩子</li>
+</ul>
+<p>使用示例：</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><div class="line">// 安装</div><div class="line">$ npm install mocha</div><div class="line">&nbsp</div><div class="line">// <span class="keyword">add</span>.<span class="bash">js</span></div><div class="line"><span class="bash"><span class="keyword">function</span> add(x, y) &#123;</span></div><div class="line"><span class="bash">    <span class="built_in">return</span> x + y;</span></div><div class="line"><span class="bash">&#125;</span></div><div class="line"><span class="bash"></span></div><div class="line"><span class="bash">module.exports = add;</span></div><div class="line"><span class="bash"></span></div><div class="line"><span class="bash">// add.test.js</span></div><div class="line"><span class="bash">var add = require(<span class="string">'./add.js'</span>);</span></div><div class="line"><span class="bash">var assert = require(<span class="string">'chai'</span>).assert;</span></div><div class="line"><span class="bash"></span></div><div class="line"><span class="bash">describe(<span class="string">'加法函数测试'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span></div><div class="line"><span class="bash">    it(<span class="string">'1 加 1 应该等于 2'</span>), <span class="function"><span class="title">function</span></span> () &#123;</span></div><div class="line"><span class="bash">        assert.equal(add(1,1), 2);</span></div><div class="line"><span class="bash">    &#125;</span></div><div class="line"><span class="bash">&#125;)</span></div><div class="line"><span class="bash"></span></div><div class="line"><span class="bash">// 执行测试命令</span></div><div class="line"><span class="bash">$ mocha add.test.js</span></div><div class="line"><span class="bash"></span></div><div class="line"><span class="bash">  加法函数的测试</span></div><div class="line"><span class="bash">    ✓ 1 加 1 应该等于 2</span></div><div class="line"><span class="bash"></span></div><div class="line"><span class="bash">  1 passing (8ms)</span></div></pre></td></tr></table></figure>
+<p>具体请查看：<a href="https://mochajs.org/" target="_blank" rel="external">https://mochajs.org/</a></p>
+<h3 id="2-Chai"><a href="#2-Chai" class="headerlink" title="2. Chai"></a>2. Chai</h3><p>Chai是一个断言库。</p>
+<p>提供两种类型的断言风格：TDD（测试驱动开发）和BDD（行为驱动）。</p>
+<p>expect/should API 对应BDD风格，Assert API 对应TDD风格。</p>
+<p>优点：</p>
+<ul>
+<li>BDD/TDD 双模 ，同时支持 should / expect / assert 三种风格的断言库</li>
+<li>强大插件机制</li>
+<li>chai-webdriver, 可模拟UI界面测试</li>
+<li>Github上的数据3647 star, 335 fork (截止到2016-12-25)</li>
+</ul>
+<p>使用示例：</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><div class="line">$ npm install chai</div><div class="line">&nbsp</div><div class="line"><span class="keyword">var</span> chai = require(‘chai');</div><div class="line"><span class="keyword">var</span> <span class="keyword">assert</span> = chai.<span class="keyword">assert</span>;</div><div class="line"><span class="keyword">assert</span>.lengthOf(foo, 3)</div></pre></td></tr></table></figure>
+<p>具体请查看：<a href="http://chaijs.com/api/assert/" target="_blank" rel="external">http://chaijs.com/api/assert/</a></p>
+<h3 id="3-SuperTest"><a href="#3-SuperTest" class="headerlink" title="3. SuperTest"></a>3. SuperTest</h3><p>基于SuperAgent，是一个轻量级的HTTP Ajax 请求库。</p>
+<p>提供对HTTP测试的高度抽象。</p>
+<p>所谓高度抽象的意思是：能嵌入各类测试框架，提供语义良好的断言。</p>
+<p>使用示例：</p>
+<figure class="highlight qml"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 安装</span></div><div class="line">$ npm install supertest --save-dev</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 引入依赖库</span></div><div class="line"><span class="keyword">var</span> request = <span class="built_in">require</span>(<span class="string">'supertest'</span>);</div><div class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">'express'</span>);</div><div class="line"><span class="keyword">var</span> app = express();</div><div class="line">&nbsp</div><div class="line"><span class="comment">// HTTP请求代码（被测试）</span></div><div class="line">app.get(<span class="string">'/user'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.status(<span class="number">200</span>).json(&#123; <span class="attribute">name</span>: <span class="string">'tobi'</span> &#125;);</div><div class="line">&#125;);</div><div class="line"> </div><div class="line"><span class="comment">// 	HTTP请求测试代码</span></div><div class="line">request(app)</div><div class="line">  .get(<span class="string">'/user'</span>)</div><div class="line">  .expect(<span class="string">'Content-Type'</span>, <span class="regexp">/json/</span>)</div><div class="line">  .expect(<span class="string">'Content-Length'</span>, <span class="string">'15'</span>)</div><div class="line">  .expect(<span class="number">200</span>)</div><div class="line">  .end(<span class="function"><span class="keyword">function</span>(<span class="params">err, res</span>) </span>&#123;</div><div class="line">    <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+<p>具体请查看：<a href="https://www.npmjs.com/package/supertest" target="_blank" rel="external">https://www.npmjs.com/package/supertest</a></p>
+<h2 id="4-如何进行接口测试"><a href="#4-如何进行接口测试" class="headerlink" title="4. 如何进行接口测试"></a>4. 如何进行接口测试</h2><h3 id="一、-环境安装"><a href="#一、-环境安装" class="headerlink" title="一、 环境安装"></a>一、 环境安装</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">// 使用 npm 安装 Mocha</div><div class="line">$ npm install mocha</div><div class="line">&nbsp</div><div class="line">// 使用npm安装Chai</div><div class="line">$ npm install chai</div><div class="line">&nbsp</div><div class="line">// 使用npm安装SuperTest</div><div class="line">$ npm install supertest</div><div class="line">&nbsp</div><div class="line">// 使用npm安装Express</div><div class="line">$ npm install express</div></pre></td></tr></table></figure>
+<h3 id="二、-设置测试目录"><a href="#二、-设置测试目录" class="headerlink" title="二、 设置测试目录"></a>二、 设置测试目录</h3><p>使用你的终端，进入项目根目录，执行</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> mkdir <span class="built_in">test</span></span></div></pre></td></tr></table></figure>
+<p>新建一个测试目录（注：目录名必须为test）,如下图：</p>
+<p><img src="/images/mocha-test/dir.png" alt=""></p>
+<h3 id="三、-创建测试文件"><a href="#三、-创建测试文件" class="headerlink" title="三、 创建测试文件"></a>三、 创建测试文件</h3><p>如：test.js</p>
+<h3 id="四、-引入依赖库"><a href="#四、-引入依赖库" class="headerlink" title="四、 引入依赖库"></a>四、 引入依赖库</h3><figure class="highlight ebnf"><table><tr><td class="code"><pre><div class="line"><span class="attribute">var express</span> = require(<span class="string">'express'</span>);</div><div class="line"><span class="attribute">var request</span> = require(<span class="string">'supertest'</span>);</div><div class="line"><span class="attribute">var chai</span> = require(<span class="string">'chai'</span>);</div><div class="line"><span class="attribute">var assert</span> = chai.assert;</div></pre></td></tr></table></figure>
+<h3 id="五、编写测试用例"><a href="#五、编写测试用例" class="headerlink" title="五、编写测试用例"></a>五、编写测试用例</h3><h3 id="六、在package-json中添加test-scrpt"><a href="#六、在package-json中添加test-scrpt" class="headerlink" title="六、在package.json中添加test scrpt"></a>六、在package.json中添加test scrpt</h3><figure class="highlight xquery"><table><tr><td class="code"><pre><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">    <span class="string">"test"</span>: <span class="string">"mocha"</span></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<h3 id="七、测试"><a href="#七、测试" class="headerlink" title="七、测试"></a>七、测试</h3><figure class="highlight shell"><table><tr><td class="code"><pre><div class="line"><span class="meta">$</span><span class="bash"> npm <span class="built_in">test</span></span></div></pre></td></tr></table></figure>
+<h2 id="5-举例"><a href="#5-举例" class="headerlink" title="5. 举例"></a>5. 举例</h2><h3 id="（1）-GET-简单断言"><a href="#（1）-GET-简单断言" class="headerlink" title="（1） GET + 简单断言"></a>（1） GET + 简单断言</h3><p>被测代码：</p>
+<p><img src="/images/mocha-test/tested-1.png" alt=""></p>
+<p>测试代码：</p>
+<p><img src="/images/mocha-test/test1.png" alt=""></p>
+<p>测试结果：</p>
+<p><img src="/images/mocha-test/test1-result.png" alt=""></p>
+<h3 id="2-POST-简单断言"><a href="#2-POST-简单断言" class="headerlink" title="(2) POST + 简单断言"></a>(2) POST + 简单断言</h3><p>被测代码：</p>
+<p><img src="/images/mocha-test/tested-2.png" alt=""></p>
+<p>测试代码：</p>
+<p><img src="/images/mocha-test/test2.png" alt=""></p>
+<p>测试结果：</p>
+<p><img src="/images/mocha-test/test2-result.png" alt=""></p>
+<h3 id="3-钩子"><a href="#3-钩子" class="headerlink" title="(3) 钩子"></a>(3) 钩子</h3><p>有时候在集成测试中，你需要先创建一些记录然后再使用这些数据。只需要加入一个 before 方法你就可以很容易地达到这个目的。</p>
+<p>除了 before 这个钩子外，mocha 还提供了 after，afterEach 和 beforeEach 这些钩子。</p>
+<p><img src="/images/mocha-test/gouzi.png" alt=""></p>
+<p>这里以一个delete project的功能为例：</p>
+<p>被测代码：</p>
+<p><img src="/images/mocha-test/tested-3.png" alt=""></p>
+<p>测试代码：</p>
+<p><img src="/images/mocha-test/test3.png" alt=""></p>
+<p>测试结果：</p>
+<p><img src="/images/mocha-test/test3-result.png" alt=""></p>
+<p>经过三个测试小例子，相信你对使用Mocha + Chai + SuperTest进行Node端的Restful API测试一定有所了解了，但是这里只是展示了最基础的HTTP接口测试，像是Mocha还有一些 <strong>Pending Tests （挂起测试</strong>、<strong>Exclusive Tests （排它测试）</strong>、<strong>Inclusive Tests（包含测试）</strong>等测试方法。大家有兴趣的话，可以自己研究下~ ^_^~</p>
+<h2 id="6-代码覆盖率"><a href="#6-代码覆盖率" class="headerlink" title="6. 代码覆盖率"></a>6. 代码覆盖率</h2><p>最后，介绍一个在测试代码质量中一个很重要的指标 —— <strong>代码覆盖率</strong>。</p>
+<ul>
+<li>首先，它是代码质量保障中重要的一环。代码覆盖率的分析能在一定程度上评判代码质量，一般覆盖率高的代码出错的几率会相对低一些;</li>
+<li>其次，代码覆盖率测试可以帮助开发人员定位bug路径;</li>
+<li>然后，高覆盖率的代码让开发人员心里有底，是产品的保护伞;</li>
+<li>最后，通过分析代码覆盖率报告，开发人员可以优化代码质量，比如找到一些dead code，废弃的功能等。</li>
+</ul>
+<p>我们在上面基于Mocha + Chai + SuperTest的测试方案中加入<strong><a href="https://github.com/gotwarlost/istanbul" target="_blank" rel="external">istanbul</a></strong> 来测试代码覆盖率</p>
+<figure class="highlight gams"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 安装</span></div><div class="line"><span class="symbol">$</span> npm install istanbul</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 修改test script</span></div><div class="line"><span class="string">"scripts"</span>: &#123;</div><div class="line">  <span class="string">"test"</span>: <span class="string">"istanbul cover node_modules/mocha/bin/_mocha"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行 $ npm test命令后，我们可以看到前面三个测试代码覆盖率，如下图：</p>
+<p><img src="/images/mocha-test/covery.png" alt=""></p>
+<p>图中的四个指标分别代表：</p>
+<ul>
+<li>Statement ( 语句覆盖率 )：是否每个语句都执行了？</li>
+<li>Branch（分支覆盖率）：是否每个if代码块都执行了？</li>
+<li>Function（函数覆盖率）： 是否每个函数都调用了？</li>
+<li>Lines（行覆盖率） ： 是否每一行都执行了？</li>
+</ul>
+<p>通过代码覆盖率测试，我们可以看到上面3个测试例子的覆盖率还是很低的，很多代码逻辑都没有执行到。</p>
+<h2 id="7-参考链接"><a href="#7-参考链接" class="headerlink" title="7. 参考链接"></a>7. 参考链接</h2><ul>
+<li><a href="https://mochajs.org/" target="_blank" rel="external">Mocha官网</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html" target="_blank" rel="external">Mocha简单教程</a></li>
+<li><a href="http://chaijs.com/api/assert/" target="_blank" rel="external">Chai官网</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html" target="_blank" rel="external">前端测试断言库选型</a></li>
+<li><a href="http://www.cnblogs.com/ustbwuyi/archive/2012/10/26/2741223.html" target="_blank" rel="external">TDD和BDD风格区别</a></li>
+<li><a href="https://www.npmjs.com/package/supertest" target="_blank" rel="external">Supertest</a></li>
+<li><a href="https://github.com/mhevery/jasmine-node" target="_blank" rel="external">Jasmine-node</a></li>
+<li><a href="https://testerhome.com/topics/5219" target="_blank" rel="external">动化测试工具 测试开发之路—-代码覆盖率 (EMMA)</a></li>
+</ul>
+<p>到这里，Node端基于Mocha + Chai + SuperTest的测试方案介绍就结束了，希望大家看了能有所收获~</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/12/12/the-solution-of-overflow-auto-or-scroll-not-work-under-ios7/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/07/02/Vue/two-way-data-binding-in-vuejs/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

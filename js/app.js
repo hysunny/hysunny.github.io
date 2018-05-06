@@ -15,6 +15,7 @@
 
   (function init() {
     if ($backTop) {
+      console.log('scrollTop:')
       $body.scrollTop > 10 ? Util.addClass($backTop, 'show') : Util.removeClass($backTop, 'show');
     }
 
