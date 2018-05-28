@@ -7,26 +7,25 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Chrome 浏览器 模拟 微信浏览器 | hysunny&#39;s Blog</title>
+  <title>前端开发中对安全问题的一点思考 | hysunny&#39;s Blog</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="前端," />
+    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
   
 
-  <meta name="description" content="最近wap项目开发中遇到这么一个问题：  我们的一个功能需要调第三方的接口，但是这个接口必须要在微信浏览器中才能调用，这就给调试工作带来了麻烦。原想使用微信开发者工具进行调试，但是却提示“没有绑定开发者账号”。后面灵机一动，可以用Chrome来仿真微信浏览器呀~(˘▾˘~)  解决方法： 增加一个自定义设备，将其User Agent设置为微信的UA 主要步骤为： 打开控制台 -&amp;gt; setti">
-<meta name="keywords" content="前端">
+  <meta name="description" content="最近的项目开发中写出了一个高危安全问题：  项目的许多功能（比如留言@人、指定任务负责人）后需要发送企业微信通知给相应的目标用户。因为通知内容的许多字段Node端很难获取到，所以我就在前端页面拼接好内容后调用推送接口发送通知。但是由于我的疏忽，并没有对跳转链接和目标用户做校验，所以就被安全部门抓包了T^T  一开始我很不以为然，觉得不是什么大问题，不晓得为什么会判定为高危漏洞。 因为我觉得首先这是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Chrome 浏览器 模拟 微信浏览器">
-<meta property="og:url" content="http://hysunny.me/2018/05/06/notes/chrome-simulate-weixin/index.html">
+<meta property="og:title" content="前端开发中对安全问题的一点思考">
+<meta property="og:url" content="http://hysunny.me/2018/05/28/others/the-thinking-of-safety-problem/index.html">
 <meta property="og:site_name" content="hysunny&#39;s Blog">
-<meta property="og:description" content="最近wap项目开发中遇到这么一个问题：  我们的一个功能需要调第三方的接口，但是这个接口必须要在微信浏览器中才能调用，这就给调试工作带来了麻烦。原想使用微信开发者工具进行调试，但是却提示“没有绑定开发者账号”。后面灵机一动，可以用Chrome来仿真微信浏览器呀~(˘▾˘~)  解决方法： 增加一个自定义设备，将其User Agent设置为微信的UA 主要步骤为： 打开控制台 -&amp;gt; setti">
+<meta property="og:description" content="最近的项目开发中写出了一个高危安全问题：  项目的许多功能（比如留言@人、指定任务负责人）后需要发送企业微信通知给相应的目标用户。因为通知内容的许多字段Node端很难获取到，所以我就在前端页面拼接好内容后调用推送接口发送通知。但是由于我的疏忽，并没有对跳转链接和目标用户做校验，所以就被安全部门抓包了T^T  一开始我很不以为然，觉得不是什么大问题，不晓得为什么会判定为高危漏洞。 因为我觉得首先这是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-06T01:31:20.275Z">
+<meta property="og:updated_time" content="2018-05-28T15:45:56.172Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Chrome 浏览器 模拟 微信浏览器">
-<meta name="twitter:description" content="最近wap项目开发中遇到这么一个问题：  我们的一个功能需要调第三方的接口，但是这个接口必须要在微信浏览器中才能调用，这就给调试工作带来了麻烦。原想使用微信开发者工具进行调试，但是却提示“没有绑定开发者账号”。后面灵机一动，可以用Chrome来仿真微信浏览器呀~(˘▾˘~)  解决方法： 增加一个自定义设备，将其User Agent设置为微信的UA 主要步骤为： 打开控制台 -&amp;gt; setti">
+<meta name="twitter:title" content="前端开发中对安全问题的一点思考">
+<meta name="twitter:description" content="最近的项目开发中写出了一个高危安全问题：  项目的许多功能（比如留言@人、指定任务负责人）后需要发送企业微信通知给相应的目标用户。因为通知内容的许多字段Node端很难获取到，所以我就在前端页面拼接好内容后调用推送接口发送通知。但是由于我的疏忽，并没有对跳转链接和目标用户做校验，所以就被安全部门抓包了T^T  一开始我很不以为然，觉得不是什么大问题，不晓得为什么会判定为高危漏洞。 因为我觉得首先这是">
 
   
 
@@ -186,14 +185,14 @@
 
 
 <div class="content content-post CENTER">
-   <article id="post-notes/chrome-simulate-weixin" class="article article-type-post" itemprop="blogPost">
+   <article id="post-others/the-thinking-of-safety-problem" class="article article-type-post" itemprop="blogPost">
   <header class="article-header">
-    <h1 class="post-title">Chrome 浏览器 模拟 微信浏览器</h1>
+    <h1 class="post-title">前端开发中对安全问题的一点思考</h1>
 
     <div class="article-meta">
       <span>
         <i class="icon-calendar"></i>
-        <span>2018.05.06</span>
+        <span>2018.05.28</span>
       </span>
 
       
@@ -228,18 +227,22 @@
 
   <div class="article-content">
     
-      <p>最近wap项目开发中遇到这么一个问题：</p>
+      <p>最近的项目开发中写出了一个高危安全问题：</p>
 <blockquote>
-<p>我们的一个功能需要调第三方的接口，但是这个接口必须要在微信浏览器中才能调用，这就给调试工作带来了麻烦。<br>原想使用微信开发者工具进行调试，但是却提示“没有绑定开发者账号”。<br>后面灵机一动，可以用Chrome来仿真微信浏览器呀~(˘▾˘~)</p>
+<p>项目的许多功能（比如留言@人、指定任务负责人）后需要发送企业微信通知给相应的目标用户。因为通知内容的许多字段Node端很难获取到，所以我就在前端页面拼接好内容后调用推送接口发送通知。但是由于我的疏忽，并没有对<strong>跳转链接</strong>和<strong>目标用户</strong>做校验，所以就被安全部门抓包了T^T</p>
 </blockquote>
-<p>解决方法： <strong>增加一个自定义设备，将其User Agent设置为微信的UA</strong></p>
-<p>主要步骤为：</p>
-<p>打开<code>控制台</code> -&gt; <code>settings</code> -&gt; <code>Devices</code> -&gt; <code>Add custom device</code></p>
-<p>设备名称和大小可以随便自定义，但是UA要改成微信浏览器的，比如，我改成了：</p>
-<figure class="highlight lsl"><table><tr><td class="code"><pre><div class="line">Mozilla/<span class="number">5.0</span> (Linux; Android <span class="number">7.0</span>; MI <span class="number">5</span>s Build/NRD90M; wv) AppleWebKit/<span class="number">537.36</span> (KHTML, like Gecko) Version/<span class="number">4.0</span> Chrome/<span class="number">64.0</span><span class="number">.3282</span><span class="number">.137</span> Mobile Safari/<span class="number">537.36</span> wxwork/<span class="number">2.4</span><span class="number">.16</span> MicroMessenger/<span class="number">6.3</span><span class="number">.22</span> NetType/WIFI Language/zh</div></pre></td></tr></table></figure>
-<p>成功调用第三方接口！✌️✌️✌️</p>
-<p>其他模拟方法可参考： <a href="https://segmentfault.com/q/1010000002553506" target="_blank" rel="external">如何用chrome在电脑上模拟微信内置浏览器</a></p>
-<p>记录完毕~</p>
+<p>一开始我很不以为然，觉得不是什么大问题，不晓得为什么会判定为高危漏洞。</p>
+<p>因为我觉得首先这是一个公司内部用的产品，不涉及到外部，遭到攻击的可能性很小。然后发送的通知一般也不是什么敏感信息，不至于是高危漏洞呀(*ﾟﾛﾟ)!!</p>
+<p>后来和后端大哥讨论了下，才明白是我的安全意识太薄弱啦</p>
+<p>首先，没对<strong>跳转链接</strong>最校验，就很可能遭遇“钓鱼攻击”。</p>
+<p>因为我们的项目是需要登录的，一旦非法者篡改为一个恶意链接，用户点击后，输入用户名和密码，就把自己的账号信息暴露了。</p>
+<p>其次，没对<strong>目标用户</strong>做校验，就很可能遭遇“消息泄露”。</p>
+<p>非法者拦截到请求后，把目标用户改为其他人，那么这个其他人就会收到原本不该他收到的消息，就造成了消息泄露。一旦有什么敏感信息，这就是很大的安全问题了。</p>
+<p>这些问题虽然出现的概率很低，但是一旦有非法者有心搞事情，那么很可能会带来严重的后果。</p>
+<p>充分了解了事情的严重性后，我立刻对这个问题进行了修复：</p>
+<figure class="highlight crmsh"><table><tr><td class="code"><pre><div class="line">在<span class="keyword">Node</span><span class="title">端：</span></div><div class="line"><span class="title"></span></div><div class="line"><span class="title">1</span>. 对跳转链接增加域名校验，只有在配置的合法域名中的链接才调用接口。</div><div class="line">&nbsp</div><div class="line"><span class="number">2</span>. 增加消息类型字段，根据不同的消息类型，对目标用户进行校验。比如：项目层级的消息，就校验目标用户是不是项目成员</div></pre></td></tr></table></figure>
+<p>经过这个安全事件，尤其是和后端大哥讨论后，我才真正意识到前端开发中也是要多关注安全问题的。很多时候，一些对数据源的校验都会丢给后端去做，以至于养成了自己不严谨的毛病。安全问题不是发生的概率低就不去关注，而是首先要考虑它的严重性，它会带来哪些危害，要在开发阶段就充分考虑然后去避免安全问题。</p>
+<p>以后自己要多注意啦~(≧▽≦)/~</p>
 
     
   </div>
@@ -270,10 +273,10 @@
 
    
   <div class="box-prev-next clearfix">
-    <a class="show pull-left" href="/2018/04/30/JavaScript/XMLHttpRequest/">
+    <a class="show pull-left" href="/2018/05/06/notes/chrome-simulate-weixin/">
         <i class="icon icon-angle-left"></i>
     </a>
-    <a class="show pull-right" href="/2018/05/28/others/the-thinking-of-safety-problem/">
+    <a class="hide pull-right" href="/">
         <i class="icon icon-angle-right"></i>
     </a>
   </div>
