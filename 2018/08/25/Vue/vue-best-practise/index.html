@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  
+  <title>Vue.js 2.0 最佳实践 &amp; 踩坑记录 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="Vue.js," />
+  
+
+  <meta name="description" content="最近在团队的小组里做了一次关于Vue.js 2.0的一些 最佳实践 和常见的 采坑记录 的小分享，这里总结了一下分享给大家~ 如果哪里有问题欢迎大家diss ~^_^~  代码规范关于代码规范，我的理解是不一定非要用什么特别严苛的标准或是特别权威的规范，只要项目团队遵循一套统一的约定就可以。当然，参考他人的经验沉淀从而制定自己的代码规范还是很有必要的。 1. 对齐 静态属性 (static bi">
+<meta name="keywords" content="Vue.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue.js 2.0 最佳实践 &amp; 踩坑记录">
+<meta property="og:url" content="http://hysunny.me/2018/08/25/Vue/vue-best-practise/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="最近在团队的小组里做了一次关于Vue.js 2.0的一些 最佳实践 和常见的 采坑记录 的小分享，这里总结了一下分享给大家~ 如果哪里有问题欢迎大家diss ~^_^~  代码规范关于代码规范，我的理解是不一定非要用什么特别严苛的标准或是特别权威的规范，只要项目团队遵循一套统一的约定就可以。当然，参考他人的经验沉淀从而制定自己的代码规范还是很有必要的。 1. 对齐 静态属性 (static bi">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-26T15:51:31.976Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue.js 2.0 最佳实践 &amp; 踩坑记录">
+<meta name="twitter:description" content="最近在团队的小组里做了一次关于Vue.js 2.0的一些 最佳实践 和常见的 采坑记录 的小分享，这里总结了一下分享给大家~ 如果哪里有问题欢迎大家diss ~^_^~  代码规范关于代码规范，我的理解是不一定非要用什么特别严苛的标准或是特别权威的规范，只要项目团队遵循一套统一的约定就可以。当然，参考他人的经验沉淀从而制定自己的代码规范还是很有必要的。 1. 对齐 静态属性 (static bi">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Vue/vue-best-practise" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Vue.js 2.0 最佳实践 &amp; 踩坑记录</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.08.25</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/Vue-js/">Vue.js</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>最近在团队的小组里做了一次关于<code>Vue.js 2.0</code>的一些 <strong>最佳实践</strong> 和常见的 <strong>采坑记录</strong> 的小分享，这里总结了一下分享给大家~ 如果哪里有问题欢迎大家<code>diss</code> ~^_^~</p>
+</blockquote>
+<h2 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h2><p>关于代码规范，我的理解是不一定非要用什么特别严苛的标准或是特别权威的规范，只要项目团队遵循一套统一的约定就可以。当然，参考他人的经验沉淀从而制定自己的代码规范还是很有必要的。</p>
+<h3 id="1-对齐"><a href="#1-对齐" class="headerlink" title="1. 对齐"></a>1. 对齐</h3><ul>
+<li>静态属性 (static binding) 在前， 动态属性 (dynamic binding) 在后</li>
+<li>属性绑定 (:属性)在前， 事件绑定 (@事件) 在后</li>
+<li>如果有使用指令，则指令语句写在最前面</li>
+</ul>
+<p>e.g:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- bad --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span></span></div><div class="line"><span class="tag">    <span class="attr">:name</span>=<span class="string">"n.name"</span></span></div><div class="line"><span class="tag">    @<span class="attr">click</span>=<span class="string">"check"</span></span></div><div class="line"><span class="tag">    <span class="attr">v-for</span>=<span class="string">"n in list"</span></span></div><div class="line"><span class="tag">    <span class="attr">:key</span>=<span class="string">"n.id"</span></span></div><div class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"list-item"</span></span></div><div class="line"><span class="tag">    <span class="attr">:tag</span>=<span class="string">"n.tag"</span></span></div><div class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">"product"</span></span></div><div class="line"><span class="tag">&gt;</span>&#123;&#123; n.name &#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- good --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">li</span></span></div><div class="line"><span class="tag">    <span class="attr">v-for</span>=<span class="string">"n in list"</span></span></div><div class="line"><span class="tag">    <span class="attr">class</span>=<span class="string">"list-item"</span></span></div><div class="line"><span class="tag">    <span class="attr">type</span>=<span class="string">"product"</span></span></div><div class="line"><span class="tag">    <span class="attr">:key</span>=<span class="string">"n.id"</span></span></div><div class="line"><span class="tag">    <span class="attr">:name</span>=<span class="string">"n.name"</span></span></div><div class="line"><span class="tag">    <span class="attr">:tag</span>=<span class="string">"n.tag"</span></span></div><div class="line"><span class="tag">    @<span class="attr">click</span>=<span class="string">"check"</span></span></div><div class="line"><span class="tag">&gt;</span>&#123;&#123; n.name &#125;&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2-简化的表达式（不要在模版里使用复杂的表达式）"><a href="#2-简化的表达式（不要在模版里使用复杂的表达式）" class="headerlink" title="2. 简化的表达式（不要在模版里使用复杂的表达式）"></a>2. 简化的表达式（不要在模版里使用复杂的表达式）</h3><ul>
+<li>对于列表里的数据表达式，可以用 <code>filter</code> 来处理</li>
+<li>其他情况下，可以使用 <code>computed property</code></li>
+</ul>
+<p>e.g:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- bad --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">h1</span>&gt;</span></div><div class="line">          &#123;&#123; `$&#123;(new Date()).getUTCFullYear()&#125;-$&#123;('0' + ((new Date()).getUTCMonth()+1)).slice(-2)&#125;` &#125;&#125;</div><div class="line">      <span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- good --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span></div><div class="line">        &#123;&#123; `$&#123;year&#125;-$&#123;month&#125;` &#125;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></div><div class="line"><span class="undefined">        computed: &#123;</span></div><div class="line"><span class="undefined">            month() &#123;</span></div><div class="line"><span class="javascript">                <span class="keyword">return</span> <span class="keyword">this</span>.twoDigits((<span class="keyword">new</span> <span class="built_in">Date</span>()).getUTCMonth() + <span class="number">1</span>);</span></div><div class="line"><span class="undefined">            &#125;,</span></div><div class="line"><span class="undefined">            year() &#123;</span></div><div class="line"><span class="javascript">                <span class="keyword">return</span> (<span class="keyword">new</span> <span class="built_in">Date</span>()).getUTCFullYear();</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        &#125;,</span></div><div class="line"><span class="undefined">        methods: &#123;</span></div><div class="line"><span class="undefined">            twoDigits(num) &#123;</span></div><div class="line"><span class="actionscript">                <span class="keyword">return</span> (<span class="string">'0'</span> + num).slice(<span class="number">-2</span>);</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        &#125;,</span></div><div class="line"><span class="undefined">    &#125;;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="3-组件编码规范"><a href="#3-组件编码规范" class="headerlink" title="3. 组件编码规范"></a>3. 组件编码规范</h3><ul>
+<li>导出一个清晰、组织有序的组件，使得代码易于阅读和理解。同时也便于标准化。</li>
+<li>能避免操作 <code>dom</code> 就尽量避免，实在要用的话最好使用 <code>ref</code> 来代替 <code>querySelector</code> 等选择器方法</li>
+<li>一个 <code>.vue</code> 的文件行数最好控制在 <strong>200</strong> 行左右</li>
+<li>善用 <code>v-if</code> 和 <code>v-show</code>。比如，涉及到权限的必须用 <code>v-if</code> 而非 <code>v-show</code>。例如，用户必须登录后才能查看的，请用 <code>v-if</code></li>
+<li>请尽量保证数据流的可追踪性。尽量不要使用 <code>$parent</code>，而是通过 <code>props</code> 属性接收父组件的传入</li>
+</ul>
+<p>参考：<a href="https://pablohpsilva.github.io/vuejs-component-style-guide/#/chinese" target="_blank" rel="external">Vue组件设计规范</a></p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="1-属性绑定"><a href="#1-属性绑定" class="headerlink" title="1. 属性绑定"></a>1. 属性绑定</h3><h4 id="1-1-绑定字符串不需要加冒号"><a href="#1-1-绑定字符串不需要加冒号" class="headerlink" title="1.1 绑定字符串不需要加冒号"></a>1.1 绑定字符串不需要加冒号</h4><p>e.g: </p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- bad --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">component</span> <span class="attr">:message</span>=<span class="string">"hello"</span> /&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- good --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">component</span> <span class="attr">message</span>=<span class="string">"hello"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="1-2-布尔属性省略值时默认为-true"><a href="#1-2-布尔属性省略值时默认为-true" class="headerlink" title="1.2 布尔属性省略值时默认为 true"></a>1.2 布尔属性省略值时默认为 true</h4><p>e.g :</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">my-modal</span> <span class="attr">visible</span> /&gt;</span></div><div class="line"><span class="comment">&lt;!--等价于--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">my-modal</span> <span class="attr">:visible</span>=<span class="string">"true"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="1-3-HTML原生属性可以不用-props-绑定-或者-组件特有的特性也不用-props-绑定"><a href="#1-3-HTML原生属性可以不用-props-绑定-或者-组件特有的特性也不用-props-绑定" class="headerlink" title="1.3 HTML原生属性可以不用 props 绑定 或者 组件特有的特性也不用 props 绑定"></a>1.3 HTML原生属性可以不用 <code>props</code> 绑定 或者 组件特有的特性也不用 <code>props</code> 绑定</h4><p>e.g: </p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">component</span> <span class="attr">class</span>=<span class="string">"className"</span> /&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="tag">&lt;<span class="name">bootstrap-date-input</span> <span class="attr">data-date-picker</span>=<span class="string">"activated"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="2-事件绑定"><a href="#2-事件绑定" class="headerlink" title="2. 事件绑定"></a>2. 事件绑定</h3><h4 id="2-绑定无参函数不需要加"><a href="#2-绑定无参函数不需要加" class="headerlink" title="2. 绑定无参函数不需要加 ()"></a>2. 绑定无参函数不需要加 <strong>()</strong></h4><p>e.g:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- bad，括号多余 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"onClick()"</span>&gt;</span>按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- good，隐式传递了 event 对象 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"onClick"</span>&gt;</span>按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="2-2-只有一行代码的事件函数，可以直接写在标签上"><a href="#2-2-只有一行代码的事件函数，可以直接写在标签上" class="headerlink" title="2.2 只有一行代码的事件函数，可以直接写在标签上"></a>2.2 只有一行代码的事件函数，可以直接写在标签上</h4><p>e.g:</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"visible = !visible"</span>&gt;</span>显示/隐藏<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<h4 id="2-3-在监听原生DOM事件时，方法以-事件-为唯一的参数。如果使用内联语句，语句可以访问一个-event-属性："><a href="#2-3-在监听原生DOM事件时，方法以-事件-为唯一的参数。如果使用内联语句，语句可以访问一个-event-属性：" class="headerlink" title="2.3 在监听原生DOM事件时，方法以 事件 为唯一的参数。如果使用内联语句，语句可以访问一个 $event 属性："></a>2.3 在监听原生DOM事件时，方法以 <strong>事件</strong> 为唯一的参数。如果使用内联语句，语句可以访问一个 <code>$event</code> 属性：</h4><p>e.g:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"handle($event, 1)"</span>&gt;</span>click me<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>如果在父组件中想要给子组件抛出的事件添加自定义参数，可利用此属性：</p>
+<p>e.g: <a href="https://jsfiddle.net/hysunny/eywraw8t/228187/" target="_blank" rel="external">https://jsfiddle.net/hysunny/eywraw8t/228187/</a></p>
+<h3 id="3-修饰符"><a href="#3-修饰符" class="headerlink" title="3. 修饰符"></a>3. 修饰符</h3><p>Vue 内置了许多常用的 <a href="https://cn.vuejs.org/v2/guide/events.html#%E4%BA%8B%E4%BB%B6%E4%BF%AE%E9%A5%B0%E7%AC%A6" target="_blank" rel="external">修饰符</a> ，可以让你少写几行代码，提高开发效率。</p>
+<p>e.g:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 阻止单击事件继续传播 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click.stop</span>=<span class="string">"doThis"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- 提交事件不再重载页面 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">v-on:submit.prevent</span>=<span class="string">"onSubmit"</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- 修饰符可以串联 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click.stop.prevent</span>=<span class="string">"doThat"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- 只有修饰符 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">v-on:submit.prevent</span>&gt;</span><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- 添加事件监听器时使用事件捕获模式 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-on:click.capture</span>=<span class="string">"doThis"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="comment">&lt;!-- 只当在 event.target 是当前元素自身时触发处理函数 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 即事件不是从内部元素触发的 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">v-on:click.self</span>=<span class="string">"doThat"</span>&gt;</span>...<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="4-按需加载组件"><a href="#4-按需加载组件" class="headerlink" title="4. 按需加载组件"></a>4. 按需加载组件</h3><p>一般配合 <code>Vue-Router</code> 使用，适用于大型应用，将应用分割成小的代码块，只在需要的时候才从服务器加载。</p>
+<p>实现方式: </p>
+<ul>
+<li>异步组件实现</li>
+<li>es6 import</li>
+</ul>
+<p>好处: </p>
+<ul>
+<li>按需加载，节省首次加载实践，提高速度，也算是一个性能优化；</li>
+<li>组件只会加载一次，加载完成后会缓存下来，使用一个组件多次使用的场景。</li>
+</ul>
+<p>e.g: </p>
+<figure class="highlight js"><table><tr><td class="code"><pre><div class="line"><span class="comment">// 异步组件实现</span></div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</div><div class="line">    routes: [</div><div class="line">        &#123;</div><div class="line">            path: <span class="string">'/test'</span>,</div><div class="line">            name: <span class="string">'test'</span>,</div><div class="line">            component: <span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">require</span>([<span class="string">'../components/Test'</span>], resolve)</div><div class="line">        &#125;,</div><div class="line">    ]</div><div class="line">&#125;)</div><div class="line">&nbsp</div><div class="line"><span class="comment">// ES6 import</span></div><div class="line"><span class="keyword">const</span> Test1 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'../components/Test1'</span>)</div><div class="line"><span class="keyword">const</span> Test2 = <span class="function"><span class="params">()</span> =&gt;</span> <span class="keyword">import</span>(<span class="string">'../components/Test2'</span>)</div><div class="line">&nbsp</div><div class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">new</span> Router(&#123;</div><div class="line">    routes: [</div><div class="line">        &#123;</div><div class="line">            path: <span class="string">'/test1'</span>,</div><div class="line">            name: <span class="string">'test1'</span>,</div><div class="line">            component: Test1</div><div class="line">        &#125;,</div><div class="line">        &#123;</div><div class="line">            path: <span class="string">'/test2'</span>,</div><div class="line">            name: <span class="string">'test2'</span>,</div><div class="line">            component: Test2</div><div class="line">        &#125;</div><div class="line">    ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="5-过滤器"><a href="#5-过滤器" class="headerlink" title="5. 过滤器"></a>5. 过滤器</h3><p>用于一些常见的文本格式化，如展示发布时间。</p>
+<p>e.g:</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 在双花括号中 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123; message | capitalize &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 在 `v-bind` 中 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">:message</span>=<span class="string">"message | capitalize"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line">&nbsp</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></div><div class="line"><span class="undefined">        data() &#123;</span></div><div class="line"><span class="actionscript">            <span class="keyword">return</span> &#123;</span></div><div class="line"><span class="undefined">                message:1</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        &#125;,</span></div><div class="line"><span class="undefined">        filters: &#123;</span></div><div class="line"><span class="actionscript">            capitalize: <span class="function"><span class="keyword">function</span> <span class="params">(value)</span> </span>&#123;</span></div><div class="line"><span class="actionscript">                <span class="keyword">if</span> (!value) <span class="keyword">return</span> <span class="string">''</span></span></div><div class="line"><span class="undefined">                value = value.toString()</span></div><div class="line"><span class="actionscript">                <span class="keyword">return</span> value.charAt(<span class="number">0</span>).toUpperCase() + value.slice(<span class="number">1</span>)</span></div><div class="line"><span class="undefined">            &#125;</span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="undefined">    &#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="6-多个元素块可以用template包裹"><a href="#6-多个元素块可以用template包裹" class="headerlink" title="6. 多个元素块可以用template包裹"></a>6. 多个元素块可以用template包裹</h3><p>参考: <a href="https://cn.vuejs.org/v2/guide/conditional.html#%E5%9C%A8-lt-template-gt-%E5%85%83%E7%B4%A0%E4%B8%8A%E4%BD%BF%E7%94%A8-v-if-%E6%9D%A1%E4%BB%B6%E6%B8%B2%E6%9F%93%E5%88%86%E7%BB%84" target="_blank" rel="external">Vue.js 在-lt-template-gt-元素上使用-v-if-条件渲染分组</a></p>
+<p>e.g: </p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">v-if</span>=<span class="string">"list.length"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>header<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>list<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>footer<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">template</span> <span class="attr">v-else</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>no list<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="7-v-for-循环加-key"><a href="#7-v-for-循环加-key" class="headerlink" title="7. v-for 循环加 key"></a>7. v-for 循环加 key</h3><p>当 <code>Vue.js</code> 用 <code>v-for</code> 正在更新已渲染过的元素列表时，它默认用 <strong>就地复用</strong> 策略。如果数据项的顺序被改变，<code>Vue</code> 将不会移动 <code>DOM</code> 元素来匹配数据项的顺序，而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。</p>
+<p>稍微深入一点，加 <code>key</code> 的原因是为了给 <code>virtualDom中</code> 的 <code>diff</code> 做优化，结果就是提高 <code>virtualDom</code> 更新效率。</p>
+<p>patch参考： <a href="https://github.com/aooy/blog/issues/2" target="_blank" rel="external">https://github.com/aooy/blog/issues/2</a></p>
+<h3 id="8-使用频率较高的方法挂载到Vue实例上"><a href="#8-使用频率较高的方法挂载到Vue实例上" class="headerlink" title="8. 使用频率较高的方法挂载到Vue实例上"></a>8. 使用频率较高的方法挂载到Vue实例上</h3><p>这样做的好处是不需要每次使用都要 <code>import</code>，提高开发效率。</p>
+<p>e.g: </p>
+<figure class="highlight lasso"><table><tr><td class="code"><pre><div class="line">Vue.prototype.$utils = &#123;</div><div class="line">    cookie,</div><div class="line">    formatDate,</div><div class="line">    <span class="params">...</span>vdom,</div><div class="line">    getQueryString</div><div class="line">&#125;</div><div class="line">&nbsp</div><div class="line"><span class="literal">new</span> Vue();</div><div class="line">&nbsp</div><div class="line"><span class="comment">// 使用</span></div><div class="line">this.$utils.getQueryString(<span class="string">'from_url'</span>);</div></pre></td></tr></table></figure>
+<h3 id="9-多级组件传递数据使用-attrs-和-listeners"><a href="#9-多级组件传递数据使用-attrs-和-listeners" class="headerlink" title="9. 多级组件传递数据使用 $attrs 和 $listeners"></a>9. 多级组件传递数据使用 <code>$attrs</code> 和 <code>$listeners</code></h3><p>在 <code>Vue 2.4</code> 版本，配合 <code>interitAttrs</code> 选项，<strong>父组件中未被 props(v-on) 绑定的属性(事件) 可以在子组件中，通过 $attrs， $listeners 获取</strong>。个人认为好处是不用再每个组件都显式绑定 <code>props</code> 或 事件，坏处是传递的属性或事件不够明确。一般情况下不需要使用，但是在创建更高层次的组件时非常有用。</p>
+<p>参考：</p>
+<p>$attrs: <a href="https://cn.vuejs.org/v2/api/#vm-attrs" target="_blank" rel="external">https://cn.vuejs.org/v2/api/#vm-attrs</a></p>
+<p>$listeners: <a href="https://cn.vuejs.org/v2/api/#vm-listeners" target="_blank" rel="external">https://cn.vuejs.org/v2/api/#vm-listeners</a></p>
+<h2 id="常见的坑"><a href="#常见的坑" class="headerlink" title="常见的坑"></a>常见的坑</h2><h3 id="1-对象和数组的更新检测"><a href="#1-对象和数组的更新检测" class="headerlink" title="1. 对象和数组的更新检测"></a>1. 对象和数组的更新检测</h3><p>由于 <code>JavaScript</code> 的限制，<strong>Vue 不能检测以下变动的数组</strong>：</p>
+<ul>
+<li>当你利用索引直接设置一个项时，例如：<code>vm.items[indexOfItem] = newValue</code></li>
+<li>当你修改数组的长度时，例如：<code>vm.items.length = newLength</code></li>
+</ul>
+<p>还是由于 <code>JavaScript</code> 的限制，<strong>Vue 不能检测对象属性的添加或删除</strong></p>
+<p>解决方法： <strong>对于数组来说可以使用vm.$set或改用可观察数组的变异方法，对于对象来说可以使用vm.$set或Object.assign</strong></p>
+<p>e.g. <a href="https://jsfiddle.net/hysunny/eywraw8t/228152/" target="_blank" rel="external">https://jsfiddle.net/hysunny/eywraw8t/228152/</a></p>
+<h3 id="2-mixins同名选项混合问题"><a href="#2-mixins同名选项混合问题" class="headerlink" title="2. mixins同名选项混合问题"></a>2. mixins同名选项混合问题</h3><p>当我们想覆盖一个组件的一些东西或想扩展某个组件时，可以用 <code>Vue</code> 的 <code>mixins</code></p>
+<p><strong>不过要注意</strong>:</p>
+<blockquote>
+<p>当组件和混合对象含有同名选项时，同名钩子函数将混合为一个数组， 都会被调用;混合对象的钩子将在组件自身钩子之前调用。<br>值为对象的选项，例如 methods, components 和 directives，将被混合为同一个对象。两个对象键名冲突时，取组件对象的键值对。</p>
+</blockquote>
+<p>e.g: <a href="https://jsfiddle.net/hysunny/eywraw8t/228225/" target="_blank" rel="external">https://jsfiddle.net/hysunny/eywraw8t/228225/</a></p>
+<h3 id="3-v-if-与-v-for-的优先级问题"><a href="#3-v-if-与-v-for-的优先级问题" class="headerlink" title="3. v-if 与 v-for 的优先级问题"></a>3. v-if 与 v-for 的优先级问题</h3><p><code>v-if</code> 与 <code>v-for</code> 一起使用时，<strong>v-for 具有比 v-if 更高的优先级</strong>，因此如果想有条件的跳过循环的执行，则需将 <code>v-if</code> 置于外层元素（或 <code>template</code>）上。如：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">v-if</span>=<span class="string">"todos.length"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span> </span></div><div class="line"><span class="tag">        <span class="attr">v-for</span>=<span class="string">"todo in todos"</span> </span></div><div class="line"><span class="tag">        <span class="attr">:key</span>=<span class="string">"todo.id"</span></span></div><div class="line"><span class="tag">    &gt;</span></div><div class="line">       &#123;&#123; todo.name &#125;&#125;</div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">v-else</span>&gt;</span>No todos left!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="4-遍历对象顺序不一致"><a href="#4-遍历对象顺序不一致" class="headerlink" title="4. 遍历对象顺序不一致"></a>4. 遍历对象顺序不一致</h3><p>使用 <code>v-for</code> 遍历对象时，是按 <code>Object.keys()</code> 的结果遍历，但是不能保证它的结果在不同的 <code>JavaScript 引擎</code> 下是一致的。</p>
+<p>比如： 在 ios 下当对象的key为字母时，排序为降序，其他机型为升序。</p>
+<p>解决方法： 如果要保证顺序，可以加个排序的 <code>filter</code> 或者 改用数组。</p>
+<p>参考： <a href="https://github.com/vuejs/vue/issues/1827" target="_blank" rel="external">https://github.com/vuejs/vue/issues/1827</a></p>
+<h3 id="5-event-bus-多次触发"><a href="#5-event-bus-多次触发" class="headerlink" title="5. event bus 多次触发"></a>5. event bus 多次触发</h3><p><code>$on</code> 的事件可在 <code>created</code> 或 <code>mounted</code> 注册</p>
+<p>需在 <code>beforeDestroy</code> 或 <code>destoryed</code> 的时候使用用 <code>$off</code> 销毁</p>
+<p>否则在某些情况下会被被多次触发</p>
+<p>e.g. <a href="https://jsfiddle.net/hysunny/eywraw8t/232163/" target="_blank" rel="external">https://jsfiddle.net/hysunny/eywraw8t/232163/</a></p>
+<h3 id="6-变量命名"><a href="#6-变量命名" class="headerlink" title="6. 变量命名"></a>6. 变量命名</h3><p>变量名不要以<code>_</code>、<code>$</code>开头，因为名字以 <code>_</code> 或 <code>$</code> 开始的属性不会被 <code>Vue</code> 实例代理，</p>
+<p>因为它们可能与 <code>Vue</code> 的内置属性与 <code>API</code> 方法冲突。</p>
+<p>需要用 <code>vm.$data._property</code> 访问它们。</p>
+<p>e.g: <a href="https://jsfiddle.net/hysunny/eywraw8t/224835/" target="_blank" rel="external">https://jsfiddle.net/hysunny/eywraw8t/224835/</a></p>
+<h3 id="7-vue-2-0-给组件绑定事件无效"><a href="#7-vue-2-0-给组件绑定事件无效" class="headerlink" title="7. vue 2.0 给组件绑定事件无效"></a>7. vue 2.0 给组件绑定事件无效</h3><p>对于一般的 <code>html</code> 元素，绑定自定义事件使用 <code>v-on</code>即可，但是在某个组件的 <strong>根元素</strong> 上监听一个 <strong>原生事件</strong> ，比如：</p>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">&lt;<span class="keyword">my</span>-component v-<span class="keyword">on</span>:click=<span class="string">"handleClick"</span> /&gt;</div></pre></td></tr></table></figure>
+<p>我们会发现这样是不起作用的，可以使用 <code>.native</code> 修饰符(某些情况) 或是 <a href="https://cn.vuejs.org/v2/guide/components-custom-events.html#%E5%B0%86%E5%8E%9F%E7%94%9F%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E7%BB%84%E4%BB%B6" target="_blank" rel="external">$listeners</a></p>
+<figure class="highlight applescript"><table><tr><td class="code"><pre><div class="line">&lt;<span class="keyword">my</span>-component v-<span class="keyword">on</span>:click.native=<span class="string">"handleClick"</span> /&gt;</div></pre></td></tr></table></figure>
+<p>e.g. <a href="https://jsfiddle.net/hysunny/eywraw8t/224950/" target="_blank" rel="external">用.native给自定义组件绑定事件</a></p>
+<p>哦啦~</p>
+<p>以上部分内容参考了: <a href="https://imys.net/20180320/vue-best-practices.html" target="_blank" rel="external">Vue最佳实践</a>，非常感谢!O(∩_∩)O~</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/05/28/others/the-thinking-of-safety-problem/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
