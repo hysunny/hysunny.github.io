@@ -15,8 +15,7 @@
 
   (function init() {
     if ($backTop) {
-      console.log('scrollTop:')
-      $body.scrollTop > 10 ? Util.addClass($backTop, 'show') : Util.removeClass($backTop, 'show');
+      $body.scrollHeight > window.innerHeight ? Util.addClass($backTop, 'show') : Util.removeClass($backTop, 'show');
     }
 
     if ($toc) {
@@ -56,7 +55,7 @@
     }
 
     if ($backTop) {
-      scrollTop > 10 ? Util.addClass($backTop, 'show') : Util.removeClass($backTop, 'show');
+      $body.scrollHeight > window.innerHeight ? Util.addClass($backTop, 'show') : Util.removeClass($backTop, 'show');
     }
   });
 
