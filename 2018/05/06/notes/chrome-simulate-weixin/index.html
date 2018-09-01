@@ -82,9 +82,9 @@
   
 
   <!--Leancloud 操作库:-->
-  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
   <!--Valine 的核心代码库:-->
-  <script src="./dist/Valine.min.js"></script>
+  <script src="https://unpkg.com/valine@1.3.0/dist/Valine.min.js"></script>
 </head>
 
 <body>
@@ -228,7 +228,9 @@
 
       
         <i class="icon-comment"></i> 
-        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
+        <span class="ds-thread-count">
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
       
       
     </div>
@@ -252,6 +254,16 @@
     
   </div>
 </article>
+
+<script>
+  setTimeout(() => {
+    const el = document.querySelector('.ds-thread-count');
+    const commentCount = document.querySelector('.fexo-comments .vnum') && document.querySelector('.fexo-comments .vnum').innerText || 0;
+    if (el) {
+      el.innerHTML = commentCount;
+    }
+  }, 500)
+</script>
 
 
    
@@ -399,14 +411,8 @@
   
       <div class="fexo-comments comments-post">
     
-
-    
-  <section class="duoshuo-comments">
-    <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="post-notes/chrome-simulate-weixin" 
-      data-title="Chrome 浏览器 模拟 微信浏览器" data-url="http://hysunny.me/2018/05/06/notes/chrome-simulate-weixin/index.html"></div>
-    <!-- 多说评论框 end -->
-  </section>
+<section class="valine-comments">
+</section>
 
 
 
@@ -415,12 +421,20 @@
   new Valine({
     // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
     av: AV,
-    el: '.comment', //
-    app_id: 'Your APP ID', // 这里填写上面得到的APP ID
-    app_key: 'Your APP KEY', // 这里填写上面得到的APP KEY
-    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!' // [v1.0.7 new]留言框占位提示文字
+    el: '.valine-comments', //
+    app_id: '6qkGI8DMf6m6XCvYpM0O4Gsm-gzGzoHsz',
+    app_key: 'RMLUIHEtz5JYs7dC3GStS9O7',
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!',
+    visitor: true
   });
 </script>
+
+
+    
+
+    
+
+
 
 
     
