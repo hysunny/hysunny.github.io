@@ -79,6 +79,11 @@
   
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
+
+  <!--Leancloud 操作库:-->
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <!--Valine 的核心代码库:-->
+  <script src="./dist/Valine.min.js"></script>
 </head>
 
 <body>
@@ -220,6 +225,9 @@
         </span>
       
 
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
       
       
     </div>
@@ -396,8 +404,26 @@
     
 
     
+  <section class="duoshuo-comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-others/the-thinking-of-safety-problem" 
+      data-title="前端开发中对安全问题的一点思考" data-url="http://hysunny.me/2018/05/28/others/the-thinking-of-safety-problem/index.html"></div>
+    <!-- 多说评论框 end -->
+  </section>
 
 
+
+
+<script>
+  new Valine({
+    // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+    av: AV,
+    el: '.comment', //
+    app_id: 'Your APP ID', // 这里填写上面得到的APP ID
+    app_key: 'Your APP KEY', // 这里填写上面得到的APP KEY
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!' // [v1.0.7 new]留言框占位提示文字
+  });
+</script>
 
 
     

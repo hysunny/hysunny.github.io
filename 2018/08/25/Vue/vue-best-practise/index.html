@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="hysunny&#39;s Blog">
 <meta property="og:description" content="最近在团队的小组里做了一次关于Vue.js 2.0的一些 最佳实践 和常见的 采坑记录 的小分享，这里总结了一下分享给大家~ 如果哪里有问题欢迎大家diss ~^_^~  代码规范关于代码规范，我的理解是不一定非要用什么特别严苛的标准或是特别权威的规范，只要项目团队遵循一套统一的约定就可以。当然，参考他人的经验沉淀从而制定自己的代码规范还是很有必要的。 1. 对齐 静态属性 (static bi">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-26T15:51:31.976Z">
+<meta property="og:updated_time" content="2018-09-01T08:41:41.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue.js 2.0 最佳实践 &amp; 踩坑记录">
 <meta name="twitter:description" content="最近在团队的小组里做了一次关于Vue.js 2.0的一些 最佳实践 和常见的 采坑记录 的小分享，这里总结了一下分享给大家~ 如果哪里有问题欢迎大家diss ~^_^~  代码规范关于代码规范，我的理解是不一定非要用什么特别严苛的标准或是特别权威的规范，只要项目团队遵循一套统一的约定就可以。当然，参考他人的经验沉淀从而制定自己的代码规范还是很有必要的。 1. 对齐 静态属性 (static bi">
@@ -80,6 +80,11 @@
   
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
   
+
+  <!--Leancloud 操作库:-->
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <!--Valine 的核心代码库:-->
+  <script src="./dist/Valine.min.js"></script>
 </head>
 
 <body>
@@ -221,6 +226,9 @@
         </span>
       
 
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count" data-thread-key="post-0"><i class="fa fa-spinner fa-spin"></i></span>
       
       
     </div>
@@ -481,6 +489,37 @@
 </div>
 
 
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+    
+  <section class="duoshuo-comments">
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="post-Vue/vue-best-practise" 
+      data-title="Vue.js 2.0 最佳实践 &amp; 踩坑记录" data-url="http://hysunny.me/2018/08/25/Vue/vue-best-practise/index.html"></div>
+    <!-- 多说评论框 end -->
+  </section>
+
+
+
+
+<script>
+  new Valine({
+    // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+    av: AV,
+    el: '.comment', //
+    app_id: 'Your APP ID', // 这里填写上面得到的APP ID
+    app_key: 'Your APP KEY', // 这里填写上面得到的APP KEY
+    placeholder: 'ヾﾉ≧∀≦)o来啊，快活啊!' // [v1.0.7 new]留言框占位提示文字
+  });
+</script>
+
+
+    
+
+  </div>
 
   
 
