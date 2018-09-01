@@ -53,10 +53,6 @@
       
       scrollTop > 180 ? Util.addClass($toc, 'fixed') : Util.removeClass($toc, 'fixed');
     }
-
-    if ($backTop) {
-      $body.scrollHeight > window.innerHeight ? Util.addClass($backTop, 'show') : Util.removeClass($backTop, 'show');
-    }
   });
 
   if ($backTop) {
