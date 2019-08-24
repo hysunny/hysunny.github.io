@@ -4,7 +4,7 @@
   <html class="light page-post">
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="utf-8">
   
   <title>前端开发中对安全问题的一点思考 | hysunny&#39;s Blog</title>
@@ -12,7 +12,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
   
-    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript" />
+    <meta name="keywords" content="hysunny,前端,用户体验,frontend,nodejs,JavaScript">
   
 
   <meta name="description" content="最近的项目开发中写出了一个高危安全问题：  项目的许多功能（比如留言@人、指定任务负责人）后需要发送企业微信通知给相应的目标用户。因为通知内容的许多字段Node端很难获取到，所以我就在前端页面拼接好内容后调用推送接口发送通知。但是由于我的疏忽，并没有对跳转链接和目标用户做校验，所以就被安全部门抓包了T^T  一开始我很不以为然，觉得不是什么大问题，不晓得为什么会判定为高危漏洞。 因为我觉得首先这是">
@@ -85,7 +85,7 @@
   <!--Valine 的核心代码库:-->
   <script src="https://unpkg.com/valine@1.3.0/dist/Valine.min.js"></script>
 </head>
-
+</html>
 <body>
 
   

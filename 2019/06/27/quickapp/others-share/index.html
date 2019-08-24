@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>快应用接入第三方分享 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="quickapp,">
+  
+
+  <meta name="description" content="快应用官方提供了第三方分享的功能，但是文档写的不够清晰，在使用时难免有坑，这里总结了一下以接入微信分享功能为例的详细步骤，其他平台类似~ 首先，接入第三方分享的前提：生成证书。  方法一：（1）打开快应用IDE（2）点击「Hap」菜单（3）点击「生成证书」（4）填写签名信息（5）工程的 sign 目录下会自动生成 release 目录，里面包含两个文件：private.pem 和 certific">
+<meta name="keywords" content="quickapp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快应用接入第三方分享">
+<meta property="og:url" content="http://hysunny.me/2019/06/27/quickapp/others-share/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="快应用官方提供了第三方分享的功能，但是文档写的不够清晰，在使用时难免有坑，这里总结了一下以接入微信分享功能为例的详细步骤，其他平台类似~ 首先，接入第三方分享的前提：生成证书。  方法一：（1）打开快应用IDE（2）点击「Hap」菜单（3）点击「生成证书」（4）填写签名信息（5）工程的 sign 目录下会自动生成 release 目录，里面包含两个文件：private.pem 和 certific">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/generate-certificate.jpg">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/generate-md5.png">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/apply-wx-application.jpg">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/share-huawei-api.png">
+<meta property="og:updated_time" content="2019-08-24T03:16:01.809Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快应用接入第三方分享">
+<meta name="twitter:description" content="快应用官方提供了第三方分享的功能，但是文档写的不够清晰，在使用时难免有坑，这里总结了一下以接入微信分享功能为例的详细步骤，其他平台类似~ 首先，接入第三方分享的前提：生成证书。  方法一：（1）打开快应用IDE（2）点击「Hap」菜单（3）点击「生成证书」（4）填写签名信息（5）工程的 sign 目录下会自动生成 release 目录，里面包含两个文件：private.pem 和 certific">
+<meta name="twitter:image" content="http://hysunny.me/images/quickapp/generate-certificate.jpg">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+  <!--Leancloud 操作库:-->
+  <script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <!--Valine 的核心代码库:-->
+  <script src="https://unpkg.com/valine@1.3.0/dist/Valine.min.js"></script>
+</head>
+</html>
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quickapp/others-share" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">快应用接入第三方分享</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.06.27</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/quickapp/">quickapp</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count">
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>快应用官方提供了第三方分享的功能，但是文档写的不够清晰，在使用时难免有坑，这里总结了一下以接入微信分享功能为例的详细步骤，其他平台类似~</p>
+<p>首先，接入第三方分享的前提：<strong>生成证书</strong>。</p>
+<ol>
+<li><p>方法一：<br>（1）打开快应用IDE<br>（2）点击「Hap」菜单<br>（3）点击「生成证书」<br>（4）填写签名信息<br>（5）工程的 sign 目录下会自动生成 release 目录，里面包含两个文件：private.pem 和 certificate.pem</p>
+<p><img src="/images/quickapp/generate-certificate.jpg" alt="generate-certificate"></p>
+</li>
+<li><p>方法二：<br>(1) 在工程的 sign 目录下创建 release 目录<br>(2) 打开控制台<br>(3) 执行命令： </p>
+<pre><code>openssl req -newkey rsa:2048 -nodes -keyout private.pem -x509 -days 3650 -out certificate.pem
+</code></pre><p>(4) 在命令行中输入对应的签名信息<br>(5) release下会生成两个文件：private.pem 和 certificate.pem</p>
+<p>有了证书后，才进入我们真正的接入流程~</p>
+<h2 id="第一步-生成用于注册第三方平台的MD5签名"><a href="#第一步-生成用于注册第三方平台的MD5签名" class="headerlink" title="第一步 生成用于注册第三方平台的MD5签名"></a>第一步 生成用于注册第三方平台的MD5签名</h2><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>（1）打开快应用IDE<br>（2）点击「Hap」菜单<br>（3）点击「由证书生成MD5」<br>（4）得到MD5签名</p>
+<p><img src="/images/quickapp/generate-md5.png" alt="generate-md5"></p>
+<h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>（1）进入工程的 sign/release 目录<br>（2）打开控制台<br>（3）执行命令： </p>
+<pre><code>openssl x509 -noout -fingerprint -md5 -inform pem -in certificate.pem
+</code></pre><p>（4）得到类似MD5 Fingerprint=99:6A:2A:11:2D:67:05:58:25:E7:5B:7F:91:22:66:B5的结果<br>（5）将结果中等号后的字符串取出来，并把:去掉，返回的996A2A112D67055825E75B7F912266B5即为所需的MD5签名</p>
+<h3 id="2-注册微信开放平台账号，新建移动应用"><a href="#2-注册微信开放平台账号，新建移动应用" class="headerlink" title="2. 注册微信开放平台账号，新建移动应用"></a>2. 注册微信开放平台账号，新建移动应用</h3><p><img src="/images/quickapp/apply-wx-application.jpg" alt="apply-wx-application"></p>
+<p>审核通过后，即可得到应用的 <code>AppID</code> 和 <code>AppSecret</code></p>
+<h3 id="3-项目的-manifest-json-文件中声明分享接口"><a href="#3-项目的-manifest-json-文件中声明分享接口" class="headerlink" title="3. 项目的 manifest.json 文件中声明分享接口"></a>3. 项目的 manifest.json 文件中声明分享接口</h3><p><code>appSign</code> 为 <strong>证书签名</strong>，即 sign/release/certificate.pem 文件中的内容<br><code>wxKey</code> 为 微信开放平台应用的 <code>AppID</code></p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"package"</span>: <span class="string">"com.application.demo"</span>,</span><br><span class="line">   <span class="attr">"name"</span>: <span class="string">"quickapp_demo"</span>,</span><br><span class="line">   <span class="attr">"versionName"</span>: <span class="string">"1.0.0"</span>,</span><br><span class="line">   <span class="attr">"versionCode"</span>: <span class="string">"1"</span>,</span><br><span class="line">   <span class="attr">"minPlatformVersion"</span>: <span class="string">"1020"</span>,</span><br><span class="line">   <span class="attr">"icon"</span>: <span class="string">"/Common/logo.png"</span>,</span><br><span class="line">   <span class="attr">"features"</span>: [</span><br><span class="line">       &#123; <span class="attr">"name"</span>: <span class="string">"system.prompt"</span> &#125;,</span><br><span class="line">       &#123;</span><br><span class="line">       	<span class="attr">"name"</span>: <span class="string">"service.share"</span>,</span><br><span class="line">     		<span class="attr">"params"</span>: &#123;</span><br><span class="line">               <span class="attr">"appSign"</span>: <span class="string">"xxxx"</span>,</span><br><span class="line">               <span class="attr">"wxKey"</span>: <span class="string">"xxxxxxx"</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   ]</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="4-在业务代码中调用分享API"><a href="#4-在业务代码中调用分享API" class="headerlink" title="4. 在业务代码中调用分享API"></a>4. 在业务代码中调用分享API</h3>  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> share <span class="keyword">from</span> <span class="string">'@service.share'</span>;</span><br><span class="line">handleShare() &#123;</span><br><span class="line">    share.share(&#123;</span><br><span class="line">        shareType: <span class="number">0</span>,</span><br><span class="line">        title: <span class="string">''</span>,</span><br><span class="line">        summary: <span class="string">''</span>,</span><br><span class="line">        targetUrl: <span class="string">''</span>,</span><br><span class="line">        imagePath: <span class="string">'/Common/images/logo.png'</span>,</span><br><span class="line">        platforms: [<span class="string">'WEIXIN'</span>, <span class="string">'WEIXIN_CIRCLE'</span>],</span><br><span class="line">        success() &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'share success'</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        fail(e) &#123;</span><br><span class="line">            <span class="built_in">console</span>.error(e);</span><br><span class="line">        &#125;,</span><br><span class="line">        cancel() &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">'share cancel'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  注： <strong>华为分享接口，没有 success 回调</strong>，需特殊处理。<br>  <img src="/images/quickapp/share-huawei-api.png" alt="share-huawei-api"></p>
+<p>  我们业务采取的处理方式是，在分享时，设置一个标志 —— shareSuccess 来标示是否分享成功，默认值为 null，然后在 share API 的各种回调中更新这个标志，如在 <code>fail</code> 和 <code>cancel</code> 回调中将此值置为 false ，在 <code>success</code> 的回调中将此值置为 true ，然后设置一个 2s 的定时器，如果 2s 后，shareSuccess 的值还为 null ，则手动将 shareSuccess 置为 true，表明分享成功，然后执行分享成功后的逻辑。</p>
+<p>  这样能解决华为没有 <code>success</code> 回调的问题~</p>
+<p>  完结~(<em>^▽^</em>)~</p>
+
+    
+  </div>
+</article>
+
+<script>
+  setTimeout(() => {
+    const el = document.querySelector('.ds-thread-count');
+    const commentCount = document.querySelector('.fexo-comments .vnum') && document.querySelector('.fexo-comments .vnum').innerText || 0;
+    if (el) {
+      el.innerHTML = commentCount;
+    }
+  }, 500)
+</script>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2019/03/07/quickapp/guide/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="hide pull-right" href="/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+
+
+<script>
+  new Valine({
+    // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+    av: AV,
+    el: '.valine-comments', //
+    app_id: '6qkGI8DMf6m6XCvYpM0O4Gsm-gzGzoHsz',
+    app_key: 'RMLUIHEtz5JYs7dC3GStS9O7',
+    placeholder: '说点什么再走吧ヾﾉ≧∀≦)o~',
+    visitor: true
+  });
+</script>
+
+
+    
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

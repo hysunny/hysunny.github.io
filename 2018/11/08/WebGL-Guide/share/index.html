@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>WebGL 入门 分享 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="WebGL,">
+  
+
+  <meta name="description" content="最近在团队做了一次关于WebGL入门的分享，这里将主要内容总结一下~  Web 3D 发展史 1993年，诞生了首个VR语言——VRML 2002年，发布X3D，是VRML标准的升级版本 2006年，Firefox 发布了 Canvas3D，这是WebGL的原型 2008年，Adobe Flash 3D（pv3D,  away3D） 开始盛行，他们都基于flash，但是那会儿的flash是基于C">
+<meta name="keywords" content="WebGL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebGL 入门 分享">
+<meta property="og:url" content="http://hysunny.me/2018/11/08/WebGL-Guide/share/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="最近在团队做了一次关于WebGL入门的分享，这里将主要内容总结一下~  Web 3D 发展史 1993年，诞生了首个VR语言——VRML 2002年，发布X3D，是VRML标准的升级版本 2006年，Firefox 发布了 Canvas3D，这是WebGL的原型 2008年，Adobe Flash 3D（pv3D,  away3D） 开始盛行，他们都基于flash，但是那会儿的flash是基于C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/compare-architecture.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-execution-process.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-concept.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-camera.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-projection.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-texture.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-light.png">
+<meta property="og:image" content="http://hysunny.me/images/webgl-share/webgl-compatibility.png">
+<meta property="og:updated_time" content="2019-08-21T17:18:10.573Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebGL 入门 分享">
+<meta name="twitter:description" content="最近在团队做了一次关于WebGL入门的分享，这里将主要内容总结一下~  Web 3D 发展史 1993年，诞生了首个VR语言——VRML 2002年，发布X3D，是VRML标准的升级版本 2006年，Firefox 发布了 Canvas3D，这是WebGL的原型 2008年，Adobe Flash 3D（pv3D,  away3D） 开始盛行，他们都基于flash，但是那会儿的flash是基于C">
+<meta name="twitter:image" content="http://hysunny.me/images/webgl-share/compare-architecture.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+  <!--Leancloud 操作库:-->
+  <script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <!--Valine 的核心代码库:-->
+  <script src="https://unpkg.com/valine@1.3.0/dist/Valine.min.js"></script>
+</head>
+</html>
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-WebGL-Guide/share" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">WebGL 入门 分享</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2018.11.08</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/WebGL/">WebGL</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count">
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <blockquote>
+<p>最近在团队做了一次关于WebGL入门的分享，这里将主要内容总结一下~</p>
+</blockquote>
+<h2 id="Web-3D-发展史"><a href="#Web-3D-发展史" class="headerlink" title="Web 3D 发展史"></a>Web 3D 发展史</h2><ol>
+<li>1993年，诞生了首个VR语言——VRML</li>
+<li>2002年，发布X3D，是VRML标准的升级版本</li>
+<li>2006年，Firefox 发布了 Canvas3D，这是WebGL的原型</li>
+<li>2008年，Adobe Flash 3D（pv3D,  away3D） 开始盛行，他们都基于flash，但是那会儿的flash是基于CPU的，如果要展示的图像比较复杂的话，性能就会很差，而且away3D的接口很不友好，新老版本接口不兼容</li>
+<li>2009年，Google 发布O3D，这个起初是一个Web浏览器插件，现在是运行在WebGL之上的JavaScript库，它使用javascript对本地d3d和openGL接口进行封装，底层用C++实现，效率高</li>
+<li>2011年，Adobe Flash 发布了Stage3D，Stage3D基于GPU，和WebGL一样基于OpenGL ES2.0 标准，但是要安装插件，并且在windows和macOS上的接口实现不一致 。macOS不支持flash，所以很难成为标准</li>
+<li>2011年，WebGL 1.0发布，一个跨平台、不需要安装插件的的3D绘图标准诞生。</li>
+<li>2016年，WebVR /AR 技术 开始盛行</li>
+</ol>
+<p>整个发展史看下来，我们看出Web 3D技术是越来越易用、越来越强大。</p>
+<h2 id="WebGL是什么？"><a href="#WebGL是什么？" class="headerlink" title="WebGL是什么？"></a>WebGL是什么？</h2><blockquote>
+<p>WebGL是基于<strong>OpenGL ES 2.0</strong>的Web标准，可以通过HTML5 Canvas元素作为DOM接口访问。</p>
+</blockquote>
+<p>通俗一点，WebGL其实是一项用来在网页上绘制和渲染三维图形（3D图形），并允许用户与之进行交互的技术。</p>
+<p>这里简单介绍下，OpenGL （Open Graphics Library），是用于渲染2D、3D矢量图形的跨语言、跨平台的应用程序编程接口（API）。OpenGL是个专业的图形程序接口，是一个功能强大，调用方便的底层图形库。OpenGL ES Embedded Systems，是OpenGL的一个子集，针对手机、PDA和游戏主机等嵌入式设备而设计，而WebGL就是基于Open GL ES2.0。</p>
+<h2 id="WebGL的优势"><a href="#WebGL的优势" class="headerlink" title="WebGL的优势"></a>WebGL的优势</h2><ol>
+<li>因为WebGL内嵌在浏览器中，所以无需安装第三方插件和库</li>
+<li>因为它是基于浏览器（而不是操作系统）的，所以可以在多种平台上运行WebGL程序</li>
+<li>开发成本低，只需一个文本编辑器和一个浏览器，就可以开始编写WebGL程序，不需要搭建复杂的开发环境</li>
+<li>底层硬件加速，在浏览器中展示更加流畅</li>
+</ol>
+<h2 id="WebGL的主要应用场景"><a href="#WebGL的主要应用场景" class="headerlink" title="WebGL的主要应用场景"></a>WebGL的主要应用场景</h2><ol>
+<li>游戏   <a href="http://hexgl.bkcore.com/play/" target="_blank" rel="noopener">http://hexgl.bkcore.com/play/</a></li>
+<li>数据可视化  <a href="http://globe.chromeexperiments.com/" target="_blank" rel="noopener">http://globe.chromeexperiments.com/</a></li>
+<li>增强网页体验   <a href="http://bookcase.chromeexperiments.com/" target="_blank" rel="noopener">http://bookcase.chromeexperiments.com/</a></li>
+<li>3D建模  <a href="https://clara.io/library" target="_blank" rel="noopener">https://clara.io/library</a></li>
+<li>数学绘图</li>
+<li>物理仿真</li>
+</ol>
+<h2 id="WebGL和传统网页的区别"><a href="#WebGL和传统网页的区别" class="headerlink" title="WebGL和传统网页的区别"></a>WebGL和传统网页的区别</h2><p><img src="/images/webgl-share/compare-architecture.png" alt="compare-architecture"><br>和传统网页相比，WebGL程序使用三种语言开发：HTML、JavaScript、 GLSL ES，然而，由于着色器语言GLSL ES内嵌在JavaScript中，所以WebGL网页的文件结构和传统网页一样</p>
+<h2 id="WebGL-程序执行流程"><a href="#WebGL-程序执行流程" class="headerlink" title="WebGL 程序执行流程"></a>WebGL 程序执行流程</h2><p><img src="/images/webgl-share/webgl-execution-process.png" alt="webgl-execution-process"><br>几乎所有的WebGL程序执行流程都如图上所示，首先获取<canvas>元素，然后获取WebGL上下文，然后初始化着色器，设置<canvas>背景色，清除<canvas>，最后绘图。<br>看着非常简单，就6个步骤。但是真的写起来，就非常多了。</canvas></canvas></canvas></p>
+<p>参考示例：</p>
+<p>原生JS: <a href="https://github.com/hysunny/WebGL/blob/master/webgl-demo.html" target="_blank" rel="noopener">https://github.com/hysunny/WebGL/blob/master/webgl-demo.html</a> </p>
+<p>使用Three.js: <a href="https://jsfiddle.net/hysunny/6c9qLepv/12/" target="_blank" rel="noopener">https://jsfiddle.net/hysunny/6c9qLepv/12/</a></p>
+<h2 id="WebGL-第三方库"><a href="#WebGL-第三方库" class="headerlink" title="WebGL 第三方库"></a>WebGL 第三方库</h2><ol>
+<li><a href="https://threejs.org/" target="_blank" rel="noopener">Three.js</a></li>
+<li><a href="http://scenejs.org/index.html" target="_blank" rel="noopener">SceneJS</a></li>
+<li><a href="https://www.babylonjs.com/" target="_blank" rel="noopener">BabylonJS</a></li>
+<li><a href="http://www.glge.org/" target="_blank" rel="noopener">GLGE</a></li>
+<li><a href="http://www.senchalabs.org/philogl/" target="_blank" rel="noopener">PhiloGL</a></li>
+</ol>
+<p>WebGL不止Three.js这一个库，还有SceneJS、BabylonJS等。这些库大多都做了API层面的封装，相比直接写JS会更加好用，利用这些库，可以更加容易的开发更多酷炫的东西。</p>
+<p>介于ThreeJS比较主流，下面还是结合ThreeJs来介绍下WebGL中的一些基本概念</p>
+<h2 id="WebGL相关概念"><a href="#WebGL相关概念" class="headerlink" title="WebGL相关概念"></a>WebGL相关概念</h2><p><img src="/images/webgl-share/webgl-concept.png" alt="webgl-concept"><br>在Three.js中，几个比较基础的概念：场景、照相机、3D对象、光照、材质、纹理、动画和交互<br>举个比较形象的例子：<br>开发WebGL程序可以理解为我们在导演一部电影或舞台剧<br>场景就是片场或舞台<br>照相机就是摄像机<br>3D对象就是演员<br>光照就是打光组<br>材质和纹理可以理解为服装、道具或是妆容<br>动画和交互可以理解为演戏或是特效</p>
+<p>拍电影时，就把摄像机、演员、道具、打光、特效全都放到舞台上<br>同样<br>编写WebGL程序时，就是把照相机、3D对象、光照、材质、纹理、动画和交互等一一放到场景中</p>
+<h3 id="1-照相机"><a href="#1-照相机" class="headerlink" title="1. 照相机"></a>1. 照相机</h3><p><img src="/images/webgl-share/webgl-camera.png" alt="webgl-camera"><br>照相机定义了三维空间到二维屏幕的投影方式。<br>在WebGL中，坐标系是三维的，有x,y,z三个轴，但是我们最终看到的画面是呈现在电脑屏幕上的。屏幕是个二维的空间。我们就需要把三维空间的坐标点做一个转换映射到二维坐标系上面，所以就有了照相机这个抽象的概念。<br>常见的照相机有两种，分别是透视投影照相机和正交投影照相机。<br><img src="/images/webgl-share/webgl-projection.png" alt="webgl-projection"><br>透视投影照相机相当于人眼角度观察，近大远小，使用率较高。<br>正交投影照相机相当于平行投影，物体比例不会因为投影而改变大小，通常用在制图、建模等场景。</p>
+<h3 id="2-3D对象"><a href="#2-3D对象" class="headerlink" title="2. 3D对象"></a>2. 3D对象</h3><ul>
+<li>几何 &amp; 自定义形状（比如正方体、四棱柱）</li>
+<li>文字形状<pre><code>- 文字对象
+- 文字纹理
+</code></pre></li>
+<li>粒子系统（很多粒子组成的运动，比如雪、雨）</li>
+<li>外部模型  支持的格式很多，<em>.obj，</em>.json，*.mtl等。</li>
+</ul>
+<h3 id="3-材质"><a href="#3-材质" class="headerlink" title="3. 材质"></a>3. 材质</h3><p>主要有三种，基本材质、lamber材质和phong材质。</p>
+<ul>
+<li>基本材质不受光照的影响，就是既没有漫反射也没有镜面反射</li>
+<li>lamber材质只考虑漫反射，不考虑镜面反射</li>
+<li>phong材质既考虑漫反射也镜面反射</li>
+</ul>
+<p>Demo: <a href="https://stemkoski.github.io/Three.js/Color-Explorer.html" target="_blank" rel="noopener">https://stemkoski.github.io/Three.js/Color-Explorer.html</a></p>
+<h3 id="4-纹理"><a href="#4-纹理" class="headerlink" title="4. 纹理"></a>4. 纹理</h3><p>纹理主要分为：法线贴图、高光贴图和漫反射贴图</p>
+<p>法线贴图主要用来描述物体的凹凸程度<br>高光贴图描述材质的反光效果<br>漫反射贴图就是颜色贴图，<br>如下面这个图示，三张图画的都是地球表面，但是从左到右分别描述了地球的凹凸程度，地球的反光效果以及地图的颜色<br><img src="/images/webgl-share/webgl-texture.png" alt="webgl-texture"></p>
+<h3 id="5-光源"><a href="#5-光源" class="headerlink" title="5. 光源"></a>5. 光源</h3><p><img src="/images/webgl-share/webgl-light.png" alt="webgl-light"><br>光源的话其实和之前的材质可以结合起来看，<br>主要是四种类型：平行光、点光源光、环境光和聚光灯光<br>（1）平行光（directional light），类似于自然中的太阳光。平行光线相互平行，具有方向，可以用一个方向和一个颜色来定义。<br>（2）点光源光（point light），类似于人造灯泡的光。点光源光是从一个点向周围的所有方向发出的光，需要指定点光源的位置和颜色。光线的方向将根据点光源的位置和被照射之处的位置计算出来。<br>（3）环境光（ambient light），模拟非直射光，也就是由光源发出后经过墙壁或其他物体反射后的光。环境光（间接光）是指那些经光源（点光源或平行光源）发出后，被墙壁等物体多次反射，然后照到物体表面上的光。环境光从各个角度照射物体，其强度都是一致的。环境光不用指定位置和方向，只需指定颜色即可。<br>（4）聚光灯光（spot light），模拟电筒、车前灯等。</p>
+<h3 id="6-动画"><a href="#6-动画" class="headerlink" title="6. 动画"></a>6. 动画</h3><ul>
+<li><a href="https://threejs.org/examples/#webgl_animation_keyframes" target="_blank" rel="noopener">逐帧动画</a></li>
+<li><a href="http://tweenjs.github.io/tween.js/examples/11_stop_all_chained_tweens.html" target="_blank" rel="noopener">补间动画</a> 使用tween.js</li>
+<li><a href="https://threejs.org/examples/#webgl_animation_skinning_morph" target="_blank" rel="noopener">关节动画</a> 通过构建层级让各自独立的局部分别运动最终组成整体运动的动画技术</li>
+<li><a href="https://threejs.org/examples/?q=ani#misc_animation_groups" target="_blank" rel="noopener">材质、光源动画</a></li>
+<li><a href="https://stemkoski.github.io/Three.js/Texture-Animation.html" target="_blank" rel="noopener">纹理动画</a></li>
+<li><a href="https://www.wjceo.com/blog/threejs/2018-04-19/147.html" target="_blank" rel="noopener">蒙皮动画</a> 注于网格顶点的变形，把模型绑定到骨骼上的技术</li>
+</ul>
+<h3 id="7-狡猾"><a href="#7-狡猾" class="headerlink" title="7, 狡猾"></a>7, 狡猾</h3><ul>
+<li><a href="https://stemkoski.github.io/Three.js/Mouse-Click.html" target="_blank" rel="noopener">点击检测、拾取</a></li>
+<li><a href="https://stemkoski.github.io/Three.js/Mouse-Over.html" target="_blank" rel="noopener">鼠标移入、点击</a></li>
+<li><a href="https://threejs.org/examples/#webgl_geometry_convex" target="_blank" rel="noopener">处理拖拽</a></li>
+<li><a href="https://stemkoski.github.io/Three.js/Keyboard.html" target="_blank" rel="noopener">键盘事件</a></li>
+<li><a href="https://stemkoski.github.io/Three.js/Chase-Camera.html" target="_blank" rel="noopener">基于相机的交互</a></li>
+</ul>
+<h2 id="WebGL的兼容性"><a href="#WebGL的兼容性" class="headerlink" title="WebGL的兼容性"></a>WebGL的兼容性</h2><p><img src="/images/webgl-share/webgl-compatibility.png" alt="webgl-compatibility"><br>除了IE外，PC其他浏览器支持的都比较好。但在移动端安卓上基本支持都不太好，所以开发WebGL程序时，在带给用户更好的体验的同时，可能也要兼顾优雅降级。</p>
+<p>最后，附上PPT的地址：<a href="https://docs.google.com/presentation/d/1AsqODh9ef7rujHZr0nBW0qsRUV78NzVRqnKJB2mhy9U/edit#slide=id.p" target="_blank" rel="noopener">https://docs.google.com/presentation/d/1AsqODh9ef7rujHZr0nBW0qsRUV78NzVRqnKJB2mhy9U/edit#slide=id.p</a></p>
+
+    
+  </div>
+</article>
+
+<script>
+  setTimeout(() => {
+    const el = document.querySelector('.ds-thread-count');
+    const commentCount = document.querySelector('.fexo-comments .vnum') && document.querySelector('.fexo-comments .vnum').innerText || 0;
+    if (el) {
+      el.innerHTML = commentCount;
+    }
+  }, 500)
+</script>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/08/25/Vue/vue-best-practise/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/03/07/quickapp/guide/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+
+
+<script>
+  new Valine({
+    // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+    av: AV,
+    el: '.valine-comments', //
+    app_id: '6qkGI8DMf6m6XCvYpM0O4Gsm-gzGzoHsz',
+    app_key: 'RMLUIHEtz5JYs7dC3GStS9O7',
+    placeholder: '说点什么再走吧ヾﾉ≧∀≦)o~',
+    visitor: true
+  });
+</script>
+
+
+    
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

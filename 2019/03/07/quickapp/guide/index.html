@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>快应用简介 &amp; 快速上手指南 | hysunny&#39;s Blog</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="quickapp,">
+  
+
+  <meta name="description" content="快应用简介快应用是基于手机硬件平台的新型应用形态，由主流手机厂商组成的快应用联盟共同制定标准并实现。使用前端技术栈开发，原生渲染，同时具备HTML5页面和原生应用的双重优点，其无需安装，即点即用。 快应用优势  流量目前有十大厂商支持：华为、小米、oppo、vivo、中兴、金立、联想、魅族、努比亚,一加，覆盖超过10亿设备； 无需安装，即点即用快应用初始大小限定为1M，采用分包下载，优先下载需要的">
+<meta name="keywords" content="quickapp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快应用简介 &amp; 快速上手指南">
+<meta property="og:url" content="http://hysunny.me/2019/03/07/quickapp/guide/index.html">
+<meta property="og:site_name" content="hysunny&#39;s Blog">
+<meta property="og:description" content="快应用简介快应用是基于手机硬件平台的新型应用形态，由主流手机厂商组成的快应用联盟共同制定标准并实现。使用前端技术栈开发，原生渲染，同时具备HTML5页面和原生应用的双重优点，其无需安装，即点即用。 快应用优势  流量目前有十大厂商支持：华为、小米、oppo、vivo、中兴、金立、联想、魅族、努比亚,一加，覆盖超过10亿设备； 无需安装，即点即用快应用初始大小限定为1M，采用分包下载，优先下载需要的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/quickapp-advantage.png">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/quickapp-dev-process.png">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/quickapp-dir.png">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/quickapp-demo.png">
+<meta property="og:image" content="http://hysunny.me/images/quickapp/quickapp-debugger.png">
+<meta property="og:updated_time" content="2019-08-23T14:04:21.391Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="快应用简介 &amp; 快速上手指南">
+<meta name="twitter:description" content="快应用简介快应用是基于手机硬件平台的新型应用形态，由主流手机厂商组成的快应用联盟共同制定标准并实现。使用前端技术栈开发，原生渲染，同时具备HTML5页面和原生应用的双重优点，其无需安装，即点即用。 快应用优势  流量目前有十大厂商支持：华为、小米、oppo、vivo、中兴、金立、联想、魅族、努比亚,一加，覆盖超过10亿设备； 无需安装，即点即用快应用初始大小限定为1M，采用分包下载，优先下载需要的">
+<meta name="twitter:image" content="http://hysunny.me/images/quickapp/quickapp-advantage.png">
+
+  
+
+  
+    <link rel="icon" href="/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/personal-style.css">
+  
+
+  
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?b32779a40d476cb733d8bb6c180f3928";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+
+  <!--Leancloud 操作库:-->
+  <script src="http://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <!--Valine 的核心代码库:-->
+  <script src="https://unpkg.com/valine@1.3.0/dist/Valine.min.js"></script>
+</head>
+</html>
+<body>
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">盒子</span>
+  
+
+  
+<div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">盒子</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/project/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            项目
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-quickapp/guide" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">快应用简介 &amp; 快速上手指南</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2019.03.07</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>hysunny</span>
+        </span>
+      
+
+      
+  <span class="article-category">
+    <i class="icon-list"></i>
+    <a class="article-category-link" href="/categories/quickapp/">quickapp</a>
+  </span>
+
+
+
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+        <i class="icon-comment"></i> 
+        <span class="ds-thread-count">
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h2 id="快应用简介"><a href="#快应用简介" class="headerlink" title="快应用简介"></a>快应用简介</h2><p>快应用是基于手机硬件平台的新型应用形态，由主流手机厂商组成的快应用联盟共同制定标准并实现。使用前端技术栈开发，原生渲染，同时具备HTML5页面和原生应用的双重优点，其<strong>无需安装</strong>，<strong>即点即用</strong>。</p>
+<h2 id="快应用优势"><a href="#快应用优势" class="headerlink" title="快应用优势"></a>快应用优势</h2><p><img src="/images/quickapp/quickapp-advantage.png" alt="quickapp-advantage"></p>
+<ol>
+<li><strong>流量</strong><br>目前有十大厂商支持：华为、小米、oppo、vivo、中兴、金立、联想、魅族、努比亚,一加，覆盖超过10亿设备；</li>
+<li><strong>无需安装，即点即用</strong><br>快应用初始大小限定为1M，采用分包下载，优先下载需要的部分，同时使用应用缓存，离线可用/异步更新；</li>
+<li><strong>多入口</strong><br>在系统搜索，智能助手，智能推荐，应用市场，浏览器、短信等位置都有入口，易于推广。</li>
+<li><strong>原生UI渲染</strong>，可享受原生应用的体验</li>
+<li><strong>提供桌面icon和push服务，留存高</strong></li>
+<li><strong>提供更多底层可供调用的接口</strong><br>包括但不限于推送，统计、发送短信，可实现更多纯h5无法实现的功能</li>
+<li><strong>反垄断</strong><br>小程序腾讯有绝对控制权，对开发者有诸多限制；</li>
+<li><strong>与操作系统深度集成</strong>，能探索新型应用场景</li>
+</ol>
+<h2 id="快应用劣势"><a href="#快应用劣势" class="headerlink" title="快应用劣势"></a>快应用劣势</h2><ol>
+<li>对包有大小限制，目前为<strong>1M</strong>，暂不支持复杂应用;</li>
+<li><strong>仅联合了10大厂商</strong>，其他如iphone，无法使用，损失了一波用户;</li>
+<li>各大厂商联盟对快应用的支持程度也不一样，目前仅仅只有小米、华为、OPPO、VIVO入口支持较好;</li>
+<li>社交：快应用缺乏微信的社交场景能力和传播手段，<strong>推广拉新成本仍不低</strong>。</li>
+</ol>
+<h2 id="快应用开发上线流程"><a href="#快应用开发上线流程" class="headerlink" title="快应用开发上线流程"></a>快应用开发上线流程</h2><p><img src="/images/quickapp/quickapp-dev-process.png" alt="quickapp-dev-process"></p>
+<p>Tips:</p>
+<ol>
+<li>更新机制：<strong>快应用上架后，每次版本更新用户无感知</strong><br>新版本上架后，一般退出快应用后再次打开，应该就可以更新到新版本。<br>当前快应用更新策略为：首次进入只是检测升级，下次再进入升级到版本；升级之后，桌面图标不会自动更新，即已经有的桌面图标不会更新，需删除图标之后，重新添加桌面之后打开。但是对于新用户，则会创建新的桌面图标。</li>
+<li><a href="https://bbs.quickapp.cn/forum.php?mod=viewthread&amp;tid=1435" target="_blank" rel="noopener">小米快应用上线注意事项</a></li>
+<li><a href="https://club.huawei.com/thread-16795315-1-1.html" target="_blank" rel="noopener">华为快应用上架问题</a></li>
+<li><a href="https://bbs.quickapp.cn/forum.php?mod=viewthread&amp;tid=596&amp;extra=page=1" target="_blank" rel="noopener">各大厂商快应用数据查询汇总</a></li>
+</ol>
+<h2 id="快速上手"><a href="#快速上手" class="headerlink" title="快速上手"></a>快速上手</h2><h3 id="1-环境搭建"><a href="#1-环境搭建" class="headerlink" title="1. 环境搭建"></a>1. <a href="https://www.quickapp.cn/docCenter/post/69" target="_blank" rel="noopener">环境搭建</a></h3><p>(1) 安装脚手架 hap-toolkit<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install -g hap-toolkit</span><br></pre></td></tr></table></figure></p>
+<p>注：需安装8.0以上版本的 NodeJS (建议使用 10.0+ 以上)<br>(2) 手机安装调试器 下载地址： <a href="https://www.quickapp.cn/docCenter/post/69" target="_blank" rel="noopener">https://www.quickapp.cn/docCenter/post/69</a><br>(3) 手机安装平台预览版    下载地址：<a href="https://www.quickapp.cn/docCenter/post/69" target="_blank" rel="noopener">https://www.quickapp.cn/docCenter/post/69</a><br>(4) 安装开发者工具     文档：<a href="https://www.quickapp.cn/docCenter/post/95" target="_blank" rel="noopener">https://www.quickapp.cn/docCenter/post/95</a></p>
+<p>注：华为手机需安装华为官方提供的加载器运行调试，下载地址：<a href="https://developer.huawei.com/consumer/cn/service/hms/catalog/fastapp.html?page=fastapp_fastapp_devprepare_install_tool" target="_blank" rel="noopener">https://developer.huawei.com/consumer/cn/service/hms/catalog/fastapp.html?page=fastapp_fastapp_devprepare_install_tool</a></p>
+<h3 id="2-创建项目"><a href="#2-创建项目" class="headerlink" title="2. 创建项目"></a>2. 创建项目</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hap init &lt;ProjectName&gt;</span><br></pre></td></tr></table></figure>
+<p>创建后项目的目录结构如下图：</p>
+<p><img src="/images/quickapp/quickapp-dir.png" alt="quickapp-dir"></p>
+<h3 id="3-安装依赖"><a href="#3-安装依赖" class="headerlink" title="3. 安装依赖"></a>3. 安装依赖</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
+<h3 id="4-编译项目（手动编译或自动编译）"><a href="#4-编译项目（手动编译或自动编译）" class="headerlink" title="4. 编译项目（手动编译或自动编译）"></a>4. 编译项目（手动编译或自动编译）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">// 手动编译   </span><br><span class="line">npm run build</span><br><span class="line"></span><br><span class="line">// 自动编译</span><br><span class="line">npm run watch</span><br></pre></td></tr></table></figure>
+<h3 id="5-启动HTTP服务器"><a href="#5-启动HTTP服务器" class="headerlink" title="5. 启动HTTP服务器"></a>5. 启动HTTP服务器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run server</span><br></pre></td></tr></table></figure>
+<h3 id="6-预览"><a href="#6-预览" class="headerlink" title="6. 预览"></a>6. 预览</h3><p>(1) 请确保手机与App Server处于相同网段<br>(2) 手机 <code>打开快应用调试器</code> –&gt;  <code>点击&quot;扫码安装&quot;</code>  –&gt; <code>扫描二维码</code> –&gt; <code>打开调试页面</code></p>
+<p>安装成功后，展示效果如下：</p>
+<p><img src="/images/quickapp/quickapp-demo.png" alt="quickapp-demo"></p>
+<h3 id="7-调试"><a href="#7-调试" class="headerlink" title="7. 调试"></a>7. 调试</h3><p>打开快应用调试器界面如下图：<br><img src="/images/quickapp/quickapp-debugger.png" alt="quickapp-debugger"></p>
+<p>调试方法参考： <a href="https://doc.quickapp.cn/tutorial/overview/debug.html" target="_blank" rel="noopener">https://doc.quickapp.cn/tutorial/overview/debug.html</a></p>
+<p>注：<br>(1) <strong>可以进行运行平台的切换</strong>，已小米为例，默认选择「快应用预览版」，切换到「快应用服务框架」会以线上平台运行本地快应用，如预览版不能测试的PUSH等功能可以切换到服务框架来测试。<br>(2) 将rpk包上传至CDN，<strong>不用每次都下载后再本地安装</strong>，可以在下载地址的URL好后拼接 <strong>?raw=true</strong>， 然后使用二维码生成器生成二维码，再用调试器的扫码安装就可以。（当然，这里写个脚本或实现个工具更方便）。</p>
+<h3 id="8-生成证书"><a href="#8-生成证书" class="headerlink" title="8. 生成证书"></a>8. 生成证书</h3><p><code>快应用IDE</code> -&gt; <code>Hap</code> -&gt; <code>生成证书</code> -&gt; <code>填写签名信息</code> -&gt; <code>工程的 sign 目录下会自动生成 release 目录，里面包含两个文件：private.pem 和 certificate.pem</code></p>
+<h3 id="9-发布程序包"><a href="#9-发布程序包" class="headerlink" title="9. 发布程序包"></a>9. 发布程序包</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm run release</span><br></pre></td></tr></table></figure>
+<p>会在项目的 dist 目录下生成一个 <code>${package}.release.rpk</code> 文件，这就是最后的包产物。</p>
+<h3 id="10-提审"><a href="#10-提审" class="headerlink" title="10. 提审"></a>10. 提审</h3><p>提审工作就参考官方文档就好啦~  <a href="https://www.quickapp.cn/docCenter/post/71" target="_blank" rel="noopener">快应用帮助文档</a></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://bbs.quickapp.cn/forum.php?mod=viewthread&amp;tid=757&amp;highlight=%E6%9C%BA%E5%9E%8B%E8%A6%86%E7%9B%96" target="_blank" rel="noopener">快应用的机型覆盖、场景覆盖、框架版本</a></li>
+<li><a href="https://bbs.quickapp.cn/forum.php?mod=viewthread&amp;tid=838&amp;extra=page%3D1" target="_blank" rel="noopener">快应用开发常见问题和技术帖子汇总</a></li>
+<li><a href="https://bbs.quickapp.cn/forum.php?mod=viewthread&amp;tid=1351&amp;extra=page%3D1%26filter%3Dtypeid%26typeid%3D5" target="_blank" rel="noopener">快应用开发资源、教程汇聚</a></li>
+</ol>
+
+    
+  </div>
+</article>
+
+<script>
+  setTimeout(() => {
+    const el = document.querySelector('.ds-thread-count');
+    const commentCount = document.querySelector('.fexo-comments .vnum') && document.querySelector('.fexo-comments .vnum').innerText || 0;
+    if (el) {
+      el.innerHTML = commentCount;
+    }
+  }, 500)
+</script>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持hysunny</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="/images/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="/images/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2018/11/08/WebGL-Guide/share/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2019/06/27/quickapp/others-share/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/project/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              项目
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+
+
+
+<script>
+  new Valine({
+    // AV 对象来自上面引入av-min.js(老司机们不要开车➳♡゛扎心了老铁)
+    av: AV,
+    el: '.valine-comments', //
+    app_id: '6qkGI8DMf6m6XCvYpM0O4Gsm-gzGzoHsz',
+    app_key: 'RMLUIHEtz5JYs7dC3GStS9O7',
+    placeholder: '说点什么再走吧ヾﾉ≧∀≦)o~',
+    visitor: true
+  });
+</script>
+
+
+    
+
+    
+
+
+
+
+    
+
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
